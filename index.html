@@ -2,74 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/src/main.css">
+    <link rel="stylesheet" href="/src/assets/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartThing control page</title>
   </head>
   <body>
-    <div class="main-panel">
-        <div id="info" class="content-block">
-            <div class="loading-info"><p>Loading</p></div>
-            <h1>Device info</h1>
-            <div id="device-info" class="grid-view"></div>
-            <button title="Restart device" class="btn-restart" onclick="restart()">Restart</button>
-        </div>
-        <div id="wifi" class="content-block">
-            <div class="loading-info">Loading</div>
-            <h1>WiFi settings</h1>
-            <div class="grid-view">
-                <p>WiFi network name</p>
-                <input type="text" id="ssid" title="SSID"/>
-                <p>WiFi password</p>
-                <input type="password" id="password" title="password">
-                <p>WiFi mode</p>
-                <select id="wifi-mode" title="mode"></select>
-            </div>
-            <div class="btn-group">
-                <button onclick="saveWifiSettings()">Save and reconnect</button>
-            </div>
-        </div>
-        <div id="actions" class="content-block btn-group hidable">
-            <div class="loading-info">Loading</div>
-            <h1>Actions</h1>
-            <div id="control-buttons-block"></div>
-        </div>
-        <div id="config" class="content-block hidable">
-            <div class="loading-info">Loading</div>
-            <h1>Config</h1>
-            <div id="config-fields-block" class="grid-view"></div>
-            <div class="btn-group" >
-                <button title="Save config values" onclick="saveConfig()">save</button>
-                <button title="Save config values" style="background-color: red;" onclick="deleteConfig()">delete all</button>
-            </div>
-            <button class="update-button" onclick="loadConfigValues()">Update</button>
-        </div>
-        <div id="state" class="content-block hidable">
-            <div class="loading-info">Loading</div>
-            <h1>State</h1>
-            <button class="update-button" onclick="loadState()">Update</button>
-            <div id="state-fields-block" class="grid-view"></div>
-        </div>
-        <div id="sensors" class="content-block hidable">
-            <div class="loading-info">Loading</div>
-            <h1>Sensors values</h1>
-            <button class="update-button" onclick="loadSensors()">Update</button>
-            <div id="sensors-fields-block" class="grid-view"></div>
-        </div>
-        <div id="callbacks" class="content-block hidable">
-            <div class="loading-info">Loading</div>
-            <h1 id="callbacks-title"></h1>
-            <div class="grid-view">
-                <select id="callback-types"></select>
-                <div class="btn-group">
-                    <button id="add-new-callback">Add new</button>
-                </div>
-            </div>
-            <button class="update-button" onclick="updateCallbacks()">Update</button>
-            <div id="callbacks-block" style="text-align: start;"></div>
-        </div>
+    <h1 class="title">Control panel</h1>
+    <div id="control-panel" class="control-panel bordered">
     </div>
   </body>
-
-  <script src="/src/main.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </html>

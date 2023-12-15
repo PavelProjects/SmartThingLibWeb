@@ -1,7 +1,11 @@
 @import './base.css';
 
-#app {
-  font-weight: normal;
+.control-panel {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--default-gap);
+  margin: 0 auto;
+  width: 1000px;
 }
 
 a,
@@ -26,11 +30,18 @@ button {
   background-color: hsla(160, 100%, 37%, 0.2);
   border-color: transparent;
   border-radius: var(--border-radius);
+  min-width: 90px;
+  min-height: 40px;
 }
 
 button:hover {
   opacity: 0.50;
   cursor: pointer;
+}
+
+input {
+  min-height: 40px;
+  font-size: 18px;
 }
 
 .bordered {
@@ -47,7 +58,7 @@ button:hover {
   }
 }
 
-.tabs-view-label, .tab-label {
+.tabs-items-label, .tab-label {
   text-align: center;
 }
 
@@ -95,4 +106,43 @@ input, select {
 }
 .loading-spinner {
   text-align: center;
+}
+.tabs-panel {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.tabs-items {
+  width: 250px;
+}
+.tabs-items h2 {
+  transition: 0.5s;
+  cursor: pointer;
+  border: solid;
+  border-color: var(--color-border);
+  border-radius: var(--border-radius);;
+  padding: 5px;
+  text-align: center;
+}
+
+.tabs-content {
+  position: relative;
+  width: calc(100% - 250px);
+  margin-left: 5px;
+}
+
+.selected-tab {
+  background-color: var(--vt-c-black-mute);
+}
+
+.controls-holder {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--default-gap);
+}
+.controls-holder button {
+  width: 50%;
 }
