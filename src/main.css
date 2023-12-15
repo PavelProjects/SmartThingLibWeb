@@ -1,0 +1,137 @@
+:root {
+    --vt-c-black: #181818;
+    --vt-c-black-soft: #222222;
+    --vt-c-black-mute: #282828;
+    --vt-c-text-light-1: var(--vt-c-indigo);
+    --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+    --vt-c-text-dark-1: var(--vt-c-white);
+    --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+
+    --color-button: hsla(160, 100%, 37%, 1);
+    --color-button-border: rgb(6, 144, 98);
+}
+* {
+    border-radius: 20px;
+}
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+p, input, button, select, li, label, .loading-info {
+    font-size: 50px;
+}
+h1 {
+    font-size: 60px;
+}
+button {
+    background-color: var(--color-button); 
+    border: 0px solid var(--color-button-border);
+}
+input, select {
+    border:2px solid var(--color-border);
+    background-color: var(--vt-c-black-mute);
+    color: var(--color-text);
+}
+.header {
+    font-size: 50px;
+}
+.loading-info {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+    background-color: #04AA6D;
+    color: black;
+    text-align: center;
+    display: none;
+}
+.main-panel {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1rem;
+}
+@media only screen and (min-width: 1000px) {
+    * {
+        border-radius: 10px;
+    }
+    p, input, button, select, li, label, .loading-info {
+        font-size: 20px;
+    }
+    h1 {
+        font-size: 30px;
+    }
+    .main-panel {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 1rem;
+    }
+}
+.content-block {
+    background-color: var(--vt-c-black-soft);
+    flex-basis: 500px;
+    height: fit-content;
+    padding: 10px;
+    border: 2px solid var(--color-border);
+    text-align: center;
+    position: relative;
+}
+.hidable {
+    display: none;
+}
+.update-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.btn-group button {
+    padding: 10px 24px;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+}
+.btn-group button:not(:last-child) {
+    border-bottom: none;
+}
+.btn-restart {
+    background-color: rgb(175, 53, 53); 
+    border: 1px solid rgb(175, 53, 53);
+    margin-top: 10px;
+    width: 100%;
+}
+.config-block {
+    display:flex;
+    flex-direction:row;
+    border:2px solid var(--color-border);
+}
+.config-block input {
+    flex-grow:2;
+    border: none;
+}
+.config-block input:focus {
+    outline: none;
+}
+.grid-view {
+    display: grid;
+    align-items: center;
+}
+.grid-view p {
+    grid-column: 1;
+}
+.grid-view input, div {
+    grid-column: 2;
+    margin: 5px;
+}

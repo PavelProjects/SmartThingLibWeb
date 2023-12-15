@@ -1,0 +1,19 @@
+{
+  "name": "smart_thing_web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.1",
+    "eslint": "^8.46.0",
+    "eslint-plugin-vue": "^9.16.1",
+    "prettier": "^3.0.0",
+    "vite": "^4.4.9"
+  }
+}

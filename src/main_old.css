@@ -1,0 +1,98 @@
+@import './base.css';
+
+#app {
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: var(--color-positive);
+  transition: 0.4s;
+}
+.red {
+  text-decoration: none;
+  color: var(--color-danger);
+  transition: 0.4s;
+}
+
+.title {
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-positive);
+}
+
+button {
+  background-color: hsla(160, 100%, 37%, 0.2);
+  border-color: transparent;
+  border-radius: var(--border-radius);
+}
+
+button:hover {
+  opacity: 0.50;
+  cursor: pointer;
+}
+
+.bordered {
+  border: solid;
+  border-color: var(--color-border);
+  border-radius: var(--border-radius);;
+  padding: 5px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+    cursor: pointer;
+  }
+}
+
+.tabs-view-label, .tab-label {
+  text-align: center;
+}
+
+/* animations */
+.slide-left-enter-active {
+  transition: all 0.5s ease;
+}
+.slide-left-enter-from{
+  transform: translateX(-200px);
+  opacity: 0;
+}
+.field-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--border-radius);
+}
+input, select {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  outline: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+.field-container .input-with-slot {
+  display:flex;
+  flex-direction:row;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+.input-with-slot input {
+  width: 100%;
+  border: none;
+}
+.field-label {
+  text-align: center;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--default-gap);
+}
+.required {
+  background-color: hsla(3, 100%, 37%, 0.2);
+  color: black;
+}
+.loading-spinner {
+  text-align: center;
+}
