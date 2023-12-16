@@ -6,6 +6,28 @@ export const DeviceApi = {
     const { data } = await restRequest({ path: "/info/system" });
     return data || {};
   },
+  getActions: async () => {
+    const { data } = await restRequest({ path: "/info/actions" });
+    return data || [];
+  },
+  getConfigInfo: async () => {
+    const { data } = await restRequest({ path: "/info/config" });
+    return data || {};
+  },
+  getWifiSettings: async () => {
+    const { data } = await restRequest({ path: "/wifi" });
+    return data;
+  },
+  saveWifiSettings: async ({ ssid, password, mode }) => {
+    const { data } = await restRequest({ 
+      path: "/wifi",
+      method: "POST",
+      payload: {
+        ssid, password
+      }
+    });
+    return data;
+  },
   saveName: async (name) => {
     const { status } = await restRequest({
       path: "/info/system",
@@ -15,10 +37,6 @@ export const DeviceApi = {
       }
     })
     return status !== 200;
-  },
-  getActions: async () => {
-    const { data } = await restRequest({ path: "/info/actions" });
-    return data || [];
   },
   performAction: async (action) => {
     const { status } = await restRequest({
@@ -34,10 +52,6 @@ export const DeviceApi = {
   },
   getStates: async () => {
     const { data } = await restRequest({ path: "/states" });
-    return data || {};
-  },
-  getConfigInfo: async () => {
-    const { data } = await restRequest({ path: "/info/config" });
     return data || {};
   },
   getConfigValues: async () => {
@@ -56,6 +70,49 @@ export const DeviceApi = {
       method: "POST",
       path: "/config",
       payload: values
+    });
+    return status === 200;
+  },
+  getCallbacks: async ({ observable:{name, type} }) => {
+    const { data } = await restRequest({
+      path: "/callback/by/observable",
+      params: { name, type }
+    })
+    return data || [];
+  },
+  getCallbacksTemplates: async () => {
+    const { data } = await restRequest({
+      path: "/callback/template",
+    })
+    return data || [];
+  },
+  createCallback: async ({ observable: {name, type}, callback }) => {
+    const { status } = await restRequest({
+      path: "/callback",
+      method: "POST",
+      payload: {
+        observable: { name, type },
+        callback
+      }
+    });
+    return status === 201;
+  },
+  updateCallback: async ({ observable: {name, type}, callback }) => {
+    const { status } = await restRequest({
+      path: "/callback",
+      method: "PUT",
+      payload: {
+        observable: { name, type },
+        callback
+      }
+    });
+    return status === 200;
+  },
+  deleteCallback: async ({ observable: {name, type}, id }) => {
+    const { status } = await restRequest({
+      path: "/callback",
+      method: "DELETE",
+      params: { name, type, id }
     });
     return status === 200;
   },

@@ -39,9 +39,14 @@ button:hover {
   cursor: pointer;
 }
 
-input {
+input, select {
   min-height: 40px;
   font-size: 18px;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  outline: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
 }
 
 .bordered {
@@ -144,5 +149,31 @@ input, select {
   gap: var(--default-gap);
 }
 .controls-holder button {
-  width: 50%;
+  width: 100%;
+}
+
+.callback-title {
+  flex: 1 1 auto;
+  text-align: start;
+}
+.callback-header {
+    display: flex;
+    flex-direction: row;
+    gap: var(--default-gap);
+    position: relative;
+}
+.callbacks-list-view {
+    max-height: 80vh;
+    overflow-y: auto;
+    margin-top: var(--default-gap);
+}
+.callback-view-controls {
+    display: flex;
+    flex-direction: row-reverse;
+    column-gap: var(--default-gap);
+    margin-bottom: 5px;
+}
+.icon {
+  user-select: none;
+  cursor: pointer;
 }

@@ -1,5 +1,5 @@
 import { DeviceApi } from "./api";
-import { createCallbackView } from "./callbacks";
+import { CallbackView, CallbacksView } from "./callbacks";
 import { Components } from "./components";
 
 export class TabView {
@@ -127,6 +127,44 @@ export const TABS_MAIN = {
       return div;
     }
   },
+  "wifi": {
+    name: "WiFi",
+    title: "WiFi settings",
+    content: async () => {
+      const { settings, modes } = await DeviceApi.getWifiSettings();
+      const list = Components.list();
+      list.append(
+        Components.input({
+          id: "ssid",
+          label: "SSID",
+          value: settings.ss || "",
+        }),
+        Components.input({
+          id: "password",
+          label: "password",
+          value: settings.ps || "",
+        }),
+        Components.combobox({
+          id: "mode",
+          label: "mode",
+          values: modes,
+          value: settings.mode,
+        })
+      );
+      const controls = Components.controlsHolder();
+      controls.appendChild(Components.button({
+        label: "Save and reconnect",
+        onClick: async () => await DeviceApi.saveWifiSettings({
+          ssid: document.getElementById("ssid").value || "",
+          password: document.getElementById("password").value || "",
+          mode: document.getElementById("mode").value || "",
+        })
+      }));
+      const container = document.createElement("div");
+      container.append(list, controls);
+      return container;
+    }
+  },
   "actions": {
     name: "Actions",
     title: "Device actions",
@@ -150,13 +188,18 @@ export const TABS_MAIN = {
     content: async () => {
       const sensors = await DeviceApi.getSensors();
       const tabs = Object.entries(sensors).reduce((acc, [sensor, { value, type }]) => {
-        acc[sensor] = {
+        acc["sensors_tab_" + sensor] = {
           name: `${sensor} (${type}): ${value}`,
           title: "Callbacks",
-          content: () => createCallbackView({
-            name: sensor,
-            type: "sensor",
-          })
+          content: async () => {
+            return new CallbacksView({
+              id: "cb_view_" + sensor,
+              observable: {
+                type: "sensor",
+                name: sensor,
+              }
+            }).create();
+          }
         };
         return acc;
       }, {});
@@ -170,17 +213,21 @@ export const TABS_MAIN = {
     content: async () => {
       const states = await DeviceApi.getStates();
       const tabs = Object.entries(states).reduce((acc, [state, value]) => {
-        acc[state] = {
+        acc["state_tab_" + state] = {
           name: `${state}: ${value}`,
           title: "Callbacks",
-          content: () => createCallbackView({
-            name: state,
-            type: "state",
-          })
+          content: async () => {
+            return new CallbacksView({
+              id: "cb_view_" + state,
+              observable: {
+                type: "state",
+                name: state,
+              }
+            }).create();
+          }
         };
         return acc;
       }, {});
-      console.log(tabs);
       const view = new TabView("states", tabs);
       return view.create();
     }
@@ -200,8 +247,7 @@ export const TABS_MAIN = {
           value: values[name] || ""
         }));
       });
-      const controls = document.createElement("div");
-      controls.classList.add("controls-holder");
+      const controls = Components.controlsHolder();
       controls.append(
         Components.button({
           label: "Delete all values",
