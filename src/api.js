@@ -12,12 +12,11 @@ export const DeviceApi = {
   },
   getActions: async () => {
     try {
-
+      const { data } = await restRequest({ path: "/info/actions" });
+      return data || {};
     } catch (error) {
       console.error(error);
     }
-    const { data } = await restRequest({ path: "/info/actions" });
-    return data || {};
   },
   getConfigInfo: async () => {
     try {
@@ -214,7 +213,7 @@ function restRequest({method="GET", path, payload, params}) {
   const promise = new Promise((resolve) => resolver = resolve);
 
   xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 ){
+      if (xhr.readyState === 4){
         resolver({
             data: xhr.response ? JSON.parse(xhr.response) : null,
             status: xhr.status

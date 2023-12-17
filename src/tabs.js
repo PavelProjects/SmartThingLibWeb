@@ -188,7 +188,7 @@ export const TABS_MAIN = {
           id: "mode",
           label: "mode",
           values: modes,
-          value: settings.mode,
+          value: settings.md,
         })
       );
       const controls = Components.controlsHolder();
@@ -240,12 +240,12 @@ export const TABS_MAIN = {
             if (result) {
               toast.success({
                 caption: "Done",
-                description: `Action "${action} performed successfully"`
+                description: `Action "${caption}" performed successfully"`
               })
             } else {
               toast.error({
                 caption: "Action failed",
-                description: `Failed to perform action "${action}"`
+                description: `Failed to perform action "${caption}"`
               })
             }
           }
