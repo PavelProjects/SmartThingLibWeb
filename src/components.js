@@ -12,14 +12,21 @@ export const Components = {
     div.classList.add("list");
     return div;
   },
-  button: ({ id, label, labelElement="h3", onClick=() => {}, danger=false, visible=true }) => {
+  button: ({ id, label, labelElement="h3", onClick, danger=false, visible=true }) => {
     const btn = document.createElement("button");
     if (id) {
       btn.id = id;
     }
     btn.classList.add("btn");
-    btn.innerHTML = `<${labelElement}>${label}</${labelElement}>`;
-    btn.onclick = onClick;
+    const btnLbl = `<${labelElement}>${label}</${labelElement}>`;
+    btn.innerHTML = btnLbl;
+    if (onClick) {
+      btn.onclick = async () => {
+        btn.innerHTML = "Loading...";
+        await onClick();
+        btn.innerHTML = btnLbl;
+      };
+    }
     if (danger) {
       btn.style.backgroundColor = "var(--color-danger)";
     }

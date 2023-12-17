@@ -35,6 +35,12 @@ export class TabView {
     this.contentDiv.classList.add("tabs-content");
     this.contentDiv.id = this.id + "_content";
 
+    this.loadingTitle = document.createElement("h2");
+    this.loadingTitle.classList.add("title");
+    this.loadingTitle.style.display = "None";
+    this.loadingTitle.innerHTML = "Loading...";
+    this.contentDiv.appendChild(this.loadingTitle);
+
     const updateIcon = Components.icon({
       id: "update_icon",
       icon: Icons.update,
@@ -45,14 +51,6 @@ export class TabView {
 
     panel.append(this.viewDiv, this.contentDiv);
     return panel;
-  }
-  updateContent() {
-    if (!this.selectedTab) {
-      return;
-    }
-    this.selectedTab.content.remove();
-    this.selectedTab.content = this.createTabContent(this.selectedTab.name, true);
-    this.contentDiv.appendChild(this.selectedTab.content);
   }
   open(tabName) {
     const tab = document.getElementById(tabName);
@@ -78,11 +76,18 @@ export class TabView {
     this.selectedTab.tab = tab;
     this.selectedTab.content = content;
   }
+  updateContent() {
+    if (!this.selectedTab) {
+      return;
+    }
+    this.selectedTab.content.remove();
+    this.selectedTab.content = this.createTabContent(this.selectedTab.name, true);
+    this.contentDiv.appendChild(this.selectedTab.content);
+  }
   createTabContent(tabName, visible=false) {
     const id = tabName + "_content";
     const div = document.createElement("div");
     div.id = id;
-    div.classList.add("tab-content");
     if (!visible) {
       div.style.display = "None";
     }
@@ -100,11 +105,16 @@ export class TabView {
   }
   async loadContent(div, tabName) {
     try {
-      // todo add loading
+      this.loading(true);
       div.appendChild(await this.tabs[tabName].content())
     } catch (error) {
       console.error(error);
+    } finally {
+      this.loading(false);
     }
+  }
+  loading(value) {
+    this.loadingTitle.style.display = value ? "" : "None";
   }
 }
 
@@ -239,7 +249,7 @@ export const TABS_MAIN = {
   },
   "actions": {
     name: "Actions",
-    title: "Device actions",
+    title: "Actions list",
     content: async () => {
       const actions = await DeviceApi.getActions();
       if (!actions) {
@@ -308,7 +318,7 @@ export const TABS_MAIN = {
   },
   "states": {
     name: "States",
-    title: "Device states",
+    title: "Device states values",
     content: async () => {
       const states = await DeviceApi.getStates();
       if (!states) {
@@ -340,7 +350,7 @@ export const TABS_MAIN = {
   },
   "configuration": {
     name: "Configuration",
-    title: "Configuration",
+    title: "Configuration values",
     content: async () => {
       const info = await DeviceApi.getConfigInfo();
       if (!info) {
