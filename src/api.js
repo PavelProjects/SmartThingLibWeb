@@ -3,122 +3,195 @@ const host = "192.168.2.2";
 
 export const DeviceApi = {
   getSystemInfo: async () => {
-    const { data } = await restRequest({ path: "/info/system" });
-    return data || {};
+    try {
+      const { data } = await restRequest({ path: "/info/system" });
+      return data || {};
+    } catch (error) {
+      console.error(error);
+    }
   },
   getActions: async () => {
+    try {
+
+    } catch (error) {
+      console.error(error);
+    }
     const { data } = await restRequest({ path: "/info/actions" });
-    return data || [];
+    return data || {};
   },
   getConfigInfo: async () => {
-    const { data } = await restRequest({ path: "/info/config" });
-    return data || {};
+    try {
+      const { data } = await restRequest({ path: "/info/config" });
+      return data || {};
+    } catch (error) {
+      console.error(error);
+    }
   },
   getWifiSettings: async () => {
-    const { data } = await restRequest({ path: "/wifi" });
-    return data;
+    try {
+      const { data } = await restRequest({ path: "/wifi" });
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
   },
   saveWifiSettings: async ({ ssid, password, mode }) => {
-    const { data } = await restRequest({ 
-      path: "/wifi",
-      method: "POST",
-      payload: {
-        ssid, password
-      }
-    });
-    return data;
+    try {
+      const { status } = await restRequest({ 
+        path: "/wifi",
+        method: "POST",
+        payload: {
+          ssid, password, mode
+        }
+      });
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   saveName: async (name) => {
-    const { status } = await restRequest({
-      path: "/info/system",
-      method: "PUT",
-      payload: {
-        name
-      }
-    })
-    return status !== 200;
+    try {
+      const { status } = await restRequest({
+        path: "/info/system",
+        method: "PUT",
+        payload: {
+          name
+        }
+      })
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   performAction: async (action) => {
-    const { status } = await restRequest({
-      method: "PUT",
-      path: "/actions",
-      params: { action }
-    });
-    return status === 200;
+    try {
+      const { status } = await restRequest({
+        method: "PUT",
+        path: "/actions",
+        params: { action }
+      });
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   getSensors: async () => {
-    const { data } = await restRequest({ path: "/sensors" });
-    return data || {};
+    try {
+      const { data } = await restRequest({ path: "/sensors" });
+      return data || {};
+    } catch (error) {
+      console.error(error);
+    }
   },
   getStates: async () => {
-    const { data } = await restRequest({ path: "/states" });
-    return data || {};
+    try {
+      const { data } = await restRequest({ path: "/states" });
+      return data || {};
+    } catch (error) {
+      console.error(error);
+    }
   },
   getConfigValues: async () => {
-    const { data } = await restRequest({ path: "/config" });
-    return data || {};
+    try {
+      const { data } = await restRequest({ path: "/config" });
+      return data || {};
+    } catch (error) {
+      console.error(error);
+    }
   },
   deleteAllConfigValues: async () => {
-    const { status } = await restRequest({ 
-      method: "DELETE",
-      path: "/config/delete/all"
-    })
-    return status === 200;
+    try {
+      const { status } = await restRequest({ 
+        method: "DELETE",
+        path: "/config/delete/all"
+      })
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   saveConfigValues: async (values) => {
-    const { status } = await restRequest({
-      method: "POST",
-      path: "/config",
-      payload: values
-    });
-    return status === 200;
+    try {
+      const { status } = await restRequest({
+        method: "POST",
+        path: "/config",
+        payload: values
+      });
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   getCallbacks: async ({ observable:{name, type} }) => {
-    const { data } = await restRequest({
-      path: "/callback/by/observable",
-      params: { name, type }
-    })
-    return data || [];
+    try {
+      const { data } = await restRequest({
+        path: "/callback/by/observable",
+        params: { name, type }
+      })
+      return data || [];
+    } catch (error) {
+      console.error(error);
+    }
   },
   getCallbacksTemplates: async () => {
-    const { data } = await restRequest({
-      path: "/callback/template",
-    })
-    return data || [];
+    try {
+      const { data } = await restRequest({
+        path: "/callback/template",
+      })
+      return data || [];
+    } catch (error) {
+      console.error(error);
+    }
   },
   createCallback: async ({ observable: {name, type}, callback }) => {
-    const { status } = await restRequest({
-      path: "/callback",
-      method: "POST",
-      payload: {
-        observable: { name, type },
-        callback
-      }
-    });
-    return status === 201;
+    try {
+      const { status } = await restRequest({
+        path: "/callback",
+        method: "POST",
+        payload: {
+          observable: { name, type },
+          callback
+        }
+      });
+      return status === 201;
+    } catch (error) {
+      console.error(error);
+    }
   },
   updateCallback: async ({ observable: {name, type}, callback }) => {
-    const { status } = await restRequest({
-      path: "/callback",
-      method: "PUT",
-      payload: {
-        observable: { name, type },
-        callback
-      }
-    });
-    return status === 200;
+    try {
+      const { status } = await restRequest({
+        path: "/callback",
+        method: "PUT",
+        payload: {
+          observable: { name, type },
+          callback
+        }
+      });
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   deleteCallback: async ({ observable: {name, type}, id }) => {
-    const { status } = await restRequest({
-      path: "/callback",
-      method: "DELETE",
-      params: { name, type, id }
-    });
-    return status === 200;
+    try {
+      const { status } = await restRequest({
+        path: "/callback",
+        method: "DELETE",
+        params: { name, type, id }
+      });
+      return status === 200;
+    } catch (error) {
+      console.error(error);
+    }
   },
   getMetrics: async () => {
-    const { data } = await restRequest({ path: "/metrics" });
-    return data || {};
+    try {
+      const { data } = await restRequest({ path: "/metrics" });
+      return data || {};
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 

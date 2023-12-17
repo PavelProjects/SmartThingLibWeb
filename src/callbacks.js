@@ -1,5 +1,6 @@
 import { DeviceApi } from "./api";
 import { Components, Icons, fillCombobox } from "./components";
+import { toast } from "./toast";
 
 function normalizeSystemName(value) {
   if (typeof value != "string" || value.length == 0) {
@@ -154,8 +155,16 @@ export class CallbackView {
       });
     }
     if (result) {
+      toast.success({
+        caption: `Callback ${this.callback.id === "New" ? "created" : "updated"}!`
+      });
       document.getElementById(this.id).remove();
       this.parent.update();
+    } else {
+      toast.error({
+        caption: "Failed to save toast",
+        description: "Check device logs for additional information",
+      });
     }
   }
   async delete() {
@@ -165,7 +174,15 @@ export class CallbackView {
         id: this.callback.id,
       });
       if (result) {
+        toast.success({
+          caption: "Callback deleted"
+        });
         this.parent.update();
+      } else {
+        toast.error({
+          caption: "Failed to delete callback",
+          description: "Check device logs for additional information",
+        })
       }
     }
   }
@@ -219,6 +236,13 @@ export class CallbacksView {
   }
   async loadTemplates() {
     this.templates = await DeviceApi.getCallbacksTemplates();
+    if (!this.templates) {
+      toast.error({
+        caption: "Something gone wrong",
+        description: "Failed to fetch callbacks templates",
+      });
+      return;
+    }
     fillCombobox(
       this.comboboxTemplates, 
       Object.keys(this.templates)
@@ -230,12 +254,22 @@ export class CallbacksView {
     );
   }
   async loadCallbacks() {
+    if (!this.templates) {
+      return;
+    }
     this.list.innerHTML = "";
     this.callbacks = undefined;
     this.callbacks = await DeviceApi.getCallbacks({ observable: this.observable });
+    if (!this.callbacks) {
+      toast.error({
+        caption: "Something gone wrong",
+        description: `Failed to fetch callbacks for [${this.observable.type}]${this.observable.name}`,
+      });
+      return;
+    }
 
     if (!this.callbacks || this.callbacks.length === 0) {
-      this.list.innerHTML = "<h3 class='title'>No callbacks yet added</h3>";
+      this.list.innerHTML = "<h3 class='title'>No callbacks added yet</h3>";
       return;
     }
 

@@ -1,6 +1,9 @@
 import { DeviceApi } from "./api";
 import { CallbackView, CallbacksView } from "./callbacks";
 import { Components } from "./components";
+import { toast } from "./toast";
+
+const FETCH_FAILED_CATION = "Something gone wrong";
 
 export class TabView {
   selectedTab = {}
@@ -91,6 +94,13 @@ export const TABS_MAIN = {
     title: "Device information",
     content: async () => {
       const info = await DeviceApi.getSystemInfo();
+      if (!info) {
+        toast.error({ 
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch system information",
+        });
+        return;
+      }
       const div = Components.list();
       div.append(
         Components.input({
@@ -99,7 +109,30 @@ export const TABS_MAIN = {
           value: info.name || "",
           slot: Components.button({
             label: "save",
-            onClick: () => DeviceApi.saveName(document.getElementById("name").value)
+            onClick: async () => {
+              const element =  document.getElementById("name");
+              const name =element.value;
+              if (!name || name.length === 0) {
+                element.classList.add("required");
+                toast.error({
+                  caption: "Device name can't be empty!",
+                })
+                return;
+              }
+              const result = await DeviceApi.saveName(name);
+              element.classList.remove("required");
+              if (result) {
+                toast.success({
+                  caption: "Name updated",
+                  description: "New device name: " + name,
+                });
+              } else {
+                toast.error({
+                  caption: "Name update failed",
+                  description: "Failed to update device name",
+                });
+              }
+            }
           })
         }),
         Components.input({
@@ -132,6 +165,13 @@ export const TABS_MAIN = {
     title: "WiFi settings",
     content: async () => {
       const { settings, modes } = await DeviceApi.getWifiSettings();
+      if (!settings) {
+        toast.error({ 
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch WiFi settings",
+        });
+        return;
+      }
       const list = Components.list();
       list.append(
         Components.input({
@@ -154,11 +194,23 @@ export const TABS_MAIN = {
       const controls = Components.controlsHolder();
       controls.appendChild(Components.button({
         label: "Save and reconnect",
-        onClick: async () => await DeviceApi.saveWifiSettings({
-          ssid: document.getElementById("ssid").value || "",
-          password: document.getElementById("password").value || "",
-          mode: document.getElementById("mode").value || "",
-        })
+        onClick: async () => {
+            const result = await DeviceApi.saveWifiSettings({
+            ssid: document.getElementById("ssid").value || "",
+            password: document.getElementById("password").value || "",
+            mode: document.getElementById("mode").value || "",
+          });
+          if (result) {
+            toast.success({
+              caption: "WiFi settings updated"
+            });
+          } else {
+            toast.error({
+              caption: "Failed to update WiFi settings",
+              description: "Check device logs for additional information",
+            });
+          }
+        }
       }));
       const container = document.createElement("div");
       container.append(list, controls);
@@ -170,13 +222,33 @@ export const TABS_MAIN = {
     title: "Device actions",
     content: async () => {
       const actions = await DeviceApi.getActions();
+      if (!actions) {
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch device actions"
+        });
+        return;
+      }
       const div = Components.list();
       Object.entries(actions).forEach(([action, caption]) => {
         div.appendChild(Components.button({
           id: "action_" + action,
           label: caption,
           labelElement: "h1",
-          onClick: () => DeviceApi.performAction(action)
+          onClick: async () => {
+            const result = await DeviceApi.performAction(action);
+            if (result) {
+              toast.success({
+                caption: "Done",
+                description: `Action "${action} performed successfully"`
+              })
+            } else {
+              toast.error({
+                caption: "Action failed",
+                description: `Failed to perform action "${action}"`
+              })
+            }
+          }
         }));
       });
       return div;
@@ -187,6 +259,13 @@ export const TABS_MAIN = {
     title: "Sensors values",
     content: async () => {
       const sensors = await DeviceApi.getSensors();
+      if (!sensors) {
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch sensors"
+        })
+        return;
+      }
       const tabs = Object.entries(sensors).reduce((acc, [sensor, { value, type }]) => {
         acc["sensors_tab_" + sensor] = {
           name: `${sensor} (${type}): ${value}`,
@@ -212,6 +291,13 @@ export const TABS_MAIN = {
     title: "Device states",
     content: async () => {
       const states = await DeviceApi.getStates();
+      if (!states) {
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch device states"
+        })
+        return;
+      }
       const tabs = Object.entries(states).reduce((acc, [state, value]) => {
         acc["state_tab_" + state] = {
           name: `${state}: ${value}`,
@@ -237,7 +323,21 @@ export const TABS_MAIN = {
     title: "Configuration",
     content: async () => {
       const info = await DeviceApi.getConfigInfo();
+      if (!info) {
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch configuration information",
+        });
+        return;
+      }
       const values = await DeviceApi.getConfigValues();
+      if (!values) {
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch configuration values",
+        });
+        return;
+      }
       const inputsList = Components.list();
       Object.entries(info).forEach(([name, { caption, type}]) => {
         inputsList.appendChild(Components.input({
@@ -275,6 +375,13 @@ export const TABS_MAIN = {
     title: "Device metrics",
     content: async () => {
       const metrics = await DeviceApi.getMetrics();
+      if (!metrics) {
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch device metrics",
+        });
+        return;
+      }
       return Components.tree(metrics);
     }
   },

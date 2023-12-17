@@ -17,6 +17,7 @@ export const Components = {
     if (id) {
       btn.id = id;
     }
+    btn.classList.add("btn");
     btn.innerHTML = `<${labelElement}>${label}</${labelElement}>`;
     btn.onclick = onClick;
     if (danger) {
@@ -30,15 +31,15 @@ export const Components = {
   icon: ({ id, icon, onClick=() => {}, visible=true }) => {
     const span = document.createElement("span");
     if (id) {
-      span = id;
+      span.id = id;
     }
-    span.classList.add("icon");
     span.ariaHidden = true;
     span.role = "img";
     span.innerHTML = icon;
     if (!visible) {
       span.style.display = "None";
     }
+    span.style.cursor = "pointer";
     span.onclick = onClick;
     return span;
   },
