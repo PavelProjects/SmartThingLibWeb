@@ -1,6 +1,6 @@
 import { DeviceApi } from "./api";
 import { CallbackView, CallbacksView } from "./callbacks";
-import { Components } from "./components";
+import { Components, Icons } from "./components";
 import { toast } from "./toast";
 
 const FETCH_FAILED_CATION = "Something gone wrong";
@@ -35,8 +35,24 @@ export class TabView {
     this.contentDiv.classList.add("tabs-content");
     this.contentDiv.id = this.id + "_content";
 
+    const updateIcon = Components.icon({
+      id: "update_icon",
+      icon: Icons.update,
+      onClick: () => this.updateContent()
+    });
+    updateIcon.classList.add("update-button");
+    this.contentDiv.appendChild(updateIcon);
+
     panel.append(this.viewDiv, this.contentDiv);
     return panel;
+  }
+  updateContent() {
+    if (!this.selectedTab) {
+      return;
+    }
+    this.selectedTab.content.remove();
+    this.selectedTab.content = this.createTabContent(this.selectedTab.name, true);
+    this.contentDiv.appendChild(this.selectedTab.content);
   }
   open(tabName) {
     const tab = document.getElementById(tabName);
@@ -50,22 +66,26 @@ export class TabView {
     }
     let content = document.getElementById(tabName + "_content");
     if (!content) {
-      content = this.createTabContent(tabName);
+      content = this.createTabContent(tabName, true);
       this.contentDiv.appendChild(content);
+    } else {
+      content.style.display = "";
     }
   
     tab.classList.add("selected-tab");
-    content.style.display = "";
     
+    this.selectedTab.name = tabName;
     this.selectedTab.tab = tab;
     this.selectedTab.content = content;
   }
-  createTabContent(tabName) {
+  createTabContent(tabName, visible=false) {
     const id = tabName + "_content";
     const div = document.createElement("div");
     div.id = id;
     div.classList.add("tab-content");
-    div.style.display = "None";
+    if (!visible) {
+      div.style.display = "None";
+    }
   
     if (this.tabs[tabName].title) {
       const titleH = document.createElement("h1");
