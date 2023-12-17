@@ -1,5 +1,4 @@
-// const { host } = window.location;
-const host = "192.168.2.2";
+const { host } = window.location;
 
 export const DeviceApi = {
   getSystemInfo: async () => {
