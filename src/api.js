@@ -1,5 +1,7 @@
-// const { host } = window.location;
-const host = "192.168.2.2";
+let { host } = window.location;
+if (host === "localhost:5173") {
+  host = "192.168.2.2";
+}
 
 export const DeviceApi = {
   getSystemInfo: async () => {

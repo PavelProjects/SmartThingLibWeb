@@ -22,9 +22,16 @@ export const Components = {
     btn.innerHTML = btnLbl;
     if (onClick) {
       btn.onclick = async () => {
+        btn.disabled = true;
         btn.innerHTML = "Loading...";
-        await onClick();
-        btn.innerHTML = btnLbl;
+        try {
+          await onClick();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          btn.innerHTML = btnLbl;
+          btn.disabled = false;
+        }
       };
     }
     if (danger) {
@@ -52,7 +59,7 @@ export const Components = {
   },
   input: ({ id, label, value, disabled=false, type="text", slot, props={} }) => {
     const div = document.createElement("div");
-    div.classList.add("legit", "field-container");
+    div.classList.add("field-container");
 
     const labelH = document.createElement("h2");
     labelH.classList.add("field-label");

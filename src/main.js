@@ -1,6 +1,6 @@
-import { TabView, TABS_MAIN } from "./tabs";
+import { Menu, MENU_MAIN } from "./menu";
 
-const mainTabs = new TabView("tabs-main", TABS_MAIN)
+const mainTabs = new Menu("menu-main", MENU_MAIN)
 
 window.onload = () => {
   document.getElementById("control-panel").appendChild(mainTabs.create());

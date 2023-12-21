@@ -5,35 +5,35 @@ import { toast } from "./toast";
 
 const FETCH_FAILED_CATION = "Something gone wrong";
 
-export class TabView {
-  selectedTab = {}
+export class Menu {
+  selected = {}
 
-  constructor(id, tabs) {
+  constructor(id, menuItems) {
     this.id = id;
-    this.tabs = tabs;
+    this.menuItems = menuItems;
   }
 
   create() {
     const panel = document.createElement("div");
-    panel.classList.add("tabs-panel");
+    panel.classList.add("menu-panel");
 
     this.viewDiv = document.createElement("div");
-    this.viewDiv.classList.add("tabs-items", "list");
+    this.viewDiv.classList.add("menu-items", "list");
     this.viewDiv.id = this.id;
 
-    Object.entries(this.tabs).forEach(
-      ([tab, {name}]) => {
+    Object.entries(this.menuItems).forEach(
+      ([menuItem, {name}]) => {
         const h2 = document.createElement("h2");
-        h2.id = tab;
+        h2.id = menuItem;
         h2.innerHTML = name;
-        h2.onclick = () => this.open(tab);
+        h2.onclick = () => this.open(menuItem);
         this.viewDiv.appendChild(h2);
       }
     );
     
     this.contentDiv = document.createElement("div");
-    this.contentDiv.classList.add("tabs-content");
-    this.contentDiv.id = this.id + "_content";
+    this.contentDiv.classList.add("menu-item-content");
+    this.contentDiv.id = this.id + "-content";
 
     this.loadingTitle = document.createElement("h2");
     this.loadingTitle.classList.add("title");
@@ -42,7 +42,7 @@ export class TabView {
     this.contentDiv.appendChild(this.loadingTitle);
 
     const updateIcon = Components.icon({
-      id: "update_icon",
+      id: this.id + "-update",
       icon: Icons.update,
       onClick: () => this.updateContent()
     });
@@ -52,61 +52,61 @@ export class TabView {
     panel.append(this.viewDiv, this.contentDiv);
     return panel;
   }
-  open(tabName) {
-    const tab = document.getElementById(tabName);
-    if (!tab) {
-      console.error("Failed to open tab id=" + tabName + ": element not found");
+  open(menuItemName) {
+    const menuItem = document.getElementById(menuItemName);
+    if (!menuItem) {
+      console.error("Failed to open menuItem id=" + menuItemName + ": element not found");
       return;
     }
-    if (this.selectedTab.tab) {
-      this.selectedTab.tab.classList.remove("selected-tab");
-      this.selectedTab.content.style.display = "None";
+    if (this.selected.item) {
+      this.selected.item.classList.remove("menu-selected");
+      this.selected.content.style.display = "None";
     }
-    let content = document.getElementById(tabName + "_content");
+    let content = document.getElementById(menuItemName + "-content");
     if (!content) {
-      content = this.createTabContent(tabName, true);
+      content = this.createContent(menuItemName, true);
       this.contentDiv.appendChild(content);
     } else {
       content.style.display = "";
     }
   
-    tab.classList.add("selected-tab");
+    menuItem.classList.add("menu-selected");
     
-    this.selectedTab.name = tabName;
-    this.selectedTab.tab = tab;
-    this.selectedTab.content = content;
+    this.selected.name = menuItemName;
+    this.selected.item = menuItem;
+    this.selected.content = content;
   }
   updateContent() {
-    if (!this.selectedTab) {
+    if (!this.selected) {
       return;
     }
-    this.selectedTab.content.remove();
-    this.selectedTab.content = this.createTabContent(this.selectedTab.name, true);
-    this.contentDiv.appendChild(this.selectedTab.content);
+    this.selected.content.remove();
+    this.selected.content = this.createContent(this.selected.name, true);
+    this.contentDiv.appendChild(this.selected.content);
   }
-  createTabContent(tabName, visible=false) {
-    const id = tabName + "_content";
+  createContent(menuItemName, visible=false) {
+    const id = menuItemName + "-content";
     const div = document.createElement("div");
     div.id = id;
     if (!visible) {
       div.style.display = "None";
     }
   
-    if (this.tabs[tabName].title) {
+    if (this.menuItems[menuItemName].title) {
       const titleH = document.createElement("h1");
       titleH.classList.add("title");
-      titleH.innerHTML = this.tabs[tabName].title;
+      titleH.innerHTML = this.menuItems[menuItemName].title;
       div.appendChild(titleH);
     }
 
-    this.loadContent(div, tabName);
+    this.loadContent(div, menuItemName);
 
     return div;
   }
-  async loadContent(div, tabName) {
+  async loadContent(div, menuItemName) {
     try {
       this.loading(true);
-      div.appendChild(await this.tabs[tabName].content())
+      div.appendChild(await this.menuItems[menuItemName].content())
     } catch (error) {
       console.error(error);
     } finally {
@@ -118,7 +118,7 @@ export class TabView {
   }
 }
 
-export const TABS_MAIN = {
+export const MENU_MAIN = {
   "info": {
     name: "Information",
     title: "Device information",
@@ -134,13 +134,14 @@ export const TABS_MAIN = {
       const div = Components.list();
       div.append(
         Components.input({
-          id: "name",
+          id: "device-name",
           label: "Device name",
           value: info.name || "",
           slot: Components.button({
+            id: "save-device-name",
             label: "save",
             onClick: async () => {
-              const element =  document.getElementById("name");
+              const element = document.getElementById("device-name");
               const name =element.value;
               if (!name || name.length === 0) {
                 element.classList.add("required");
@@ -270,7 +271,7 @@ export const TABS_MAIN = {
             if (result) {
               toast.success({
                 caption: "Done",
-                description: `Action "${caption}" performed successfully"`
+                description: `Action "${caption}" performed successfully`
               })
             } else {
               toast.error({
@@ -296,8 +297,8 @@ export const TABS_MAIN = {
         })
         return;
       }
-      const tabs = Object.entries(sensors).reduce((acc, [sensor, { value, type }]) => {
-        acc["sensors_tab_" + sensor] = {
+      const menuItems = Object.entries(sensors).reduce((acc, [sensor, { value, type }]) => {
+        acc["sensors-menu-" + sensor] = {
           name: `${sensor} (${type}): ${value}`,
           title: "Callbacks",
           content: async () => {
@@ -312,7 +313,7 @@ export const TABS_MAIN = {
         };
         return acc;
       }, {});
-      const view = new TabView("sensors", tabs);
+      const view = new Menu("sensors-menu", menuItems);
       return view.create();
     }
   },
@@ -328,8 +329,8 @@ export const TABS_MAIN = {
         })
         return;
       }
-      const tabs = Object.entries(states).reduce((acc, [state, value]) => {
-        acc["state_tab_" + state] = {
+      const menuItems = Object.entries(states).reduce((acc, [state, value]) => {
+        acc["state-menu-" + state] = {
           name: `${state}: ${value}`,
           title: "Callbacks",
           content: async () => {
@@ -344,7 +345,7 @@ export const TABS_MAIN = {
         };
         return acc;
       }, {});
-      const view = new TabView("states", tabs);
+      const view = new Menu("states-menu", menuItems);
       return view.create();
     }
   },
@@ -380,19 +381,39 @@ export const TABS_MAIN = {
       const controls = Components.controlsHolder();
       controls.append(
         Components.button({
+          id: "config-delete",
           label: "Delete all values",
           danger: true,
           labelElement: "h2",
-          onClick: () => {
+          onClick: async () => {
             if (confirm("Are you sure you want to delete all configuration values?")) {
-              DeviceApi.deleteAllConfigValues();
+              const result = await DeviceApi.deleteAllConfigValues();
+              if (result) {
+                toast.success({ caption: "All values removed" });
+              } else {
+                toast.error({
+                  caption: "Failed to delete configuration values"
+                });
+              }
             }
           }
         }),
         Components.button({
+          id: "config-save",
           label: "Save",
           labelElement: "h2",
-          onClick: () => DeviceApi.saveConfigValues()
+          onClick: async () => {
+            const values = {};
+            Object.keys(info).forEach((key) => values[key] = document.getElementById(key).value);
+            const results = await DeviceApi.saveConfigValues(values);
+            if (results) {
+              toast.success({ caption: "Configuration updated" });
+            } else {
+              toast.error({
+                caption: "Failed to save configuration values"
+              });
+            }
+          }
         })
       );
       const container = document.createElement("div");

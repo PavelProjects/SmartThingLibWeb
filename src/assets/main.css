@@ -9,7 +9,7 @@
 }
 #toasts-list {
   position: absolute;
-  top: 5px;
+  bottom: 5px;
   right: 5px;
   z-index: 999;
 }
@@ -20,6 +20,7 @@ a,
   color: var(--color-positive);
   transition: 0.4s;
 }
+
 .red {
   text-decoration: none;
   color: var(--color-danger);
@@ -38,6 +39,7 @@ a,
   border-radius: var(--border-radius);
   min-width: 90px;
   min-height: 40px;
+  color: black;
 }
 
 .btn:hover {
@@ -114,15 +116,15 @@ input, select {
 .loading-spinner {
   text-align: center;
 }
-.tabs-panel {
+.menu-panel {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
-.tabs-items {
+.menu-items {
   width: 250px;
 }
-.tabs-items h2 {
+.menu-items h2 {
   transition: 0.5s;
   cursor: pointer;
   border: solid;
@@ -132,18 +134,14 @@ input, select {
   text-align: center;
 }
 
-.tabs-content {
+.menu-item-content {
   position: relative;
   width: calc(100% - 250px);
   margin-left: 5px;
 }
 
-.selected-tab {
+.menu-selected {
   background-color: var(--vt-c-black-mute);
-}
-
-.tabs-items-label, .tab-label {
-  text-align: center;
 }
 
 .update-button {

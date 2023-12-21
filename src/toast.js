@@ -7,13 +7,6 @@ const TOAST_TYPE = {
   WARNING: "warning",
   ERROR: "error",
 }
-/**
- * 
-        <div v-if="from">From: {{ from }}</div>
-        <h2>{{ toast.caption }}</h2>
-        <div style="word-wrap: break-word;">{{ toast.description }}</div>
-        <button @click="close">X</button>} param0 
- */
 
 function removeToast(id) {
   const toast = document.getElementById(id);
@@ -38,21 +31,23 @@ function getColor(type) {
 function addToast({ type=TOAST_TYPE.INFO, caption, description="" }) {
   const container = document.createElement("div");
   container.classList.add("toast");
-  const id = idSequence++;
+  const id = "toast-" + idSequence++;
   container.id = id;
   container.style.backgroundColor = getColor(type);
 
   const captionDiv = document.createElement("h2");
+  captionDiv.id = id + "-caption";
   captionDiv.innerHTML = caption;
   const descriptionDiv = document.createElement("div");
+  descriptionDiv.id = id + "-description";
   descriptionDiv.style.overflowWrap = "break-word";
   descriptionDiv.innerHTML = description;
   const closeBtn = document.createElement("button");
+  closeBtn.id = id + "-close";
   closeBtn.innerHTML = "X";
   closeBtn.onclick = () => removeToast(id);
 
   container.append(captionDiv, descriptionDiv, closeBtn);
-  console.log(container);
   document.getElementById("toasts-list").appendChild(container);
 
   setTimeout(() => removeToast(id), LIFE_TIME);
