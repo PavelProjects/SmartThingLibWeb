@@ -144,6 +144,7 @@ export class CallbackView {
     });
     let result;
     if (this.callback.id === "New") {
+      delete this.callback.id
       result = await DeviceApi.createCallback({ 
         observable: this.observable,
         callback: this.callback,
@@ -277,7 +278,7 @@ export class CallbacksView {
       new CallbackView({
         id: "cb_" + callback.id,
         callback,
-        template: this.templates[callback.type],
+        template: {...this.templates[callback.type], ...this.templates["default"] },
         observable: this.observable,
         parent: this,
       }).create()
@@ -308,11 +309,3 @@ export class CallbacksView {
     view.edit();
   }
 }
-
-/**
- * Todo:
- * -- add Callback view
- * -- add update button (recreate content?)
- * -- add Loading
- * -- add Toasts
- */
