@@ -126,7 +126,7 @@ export const DeviceApi = {
   getCallbacks: async ({ observable:{name, type} }) => {
     try {
       const { data } = await restRequest({
-        path: "/callback/by/observable",
+        path: "/callbacks/by/observable",
         params: { name, type }
       })
       return data || [];
@@ -137,7 +137,7 @@ export const DeviceApi = {
   getCallbacksTemplates: async () => {
     try {
       const { data } = await restRequest({
-        path: "/callback/template",
+        path: "/callbacks/templates",
       })
       return data || [];
     } catch (error) {
@@ -147,7 +147,7 @@ export const DeviceApi = {
   createCallback: async ({ observable: {name, type}, callback }) => {
     try {
       const { status } = await restRequest({
-        path: "/callback",
+        path: "/callbacks",
         method: "POST",
         payload: {
           observable: { name, type },
@@ -162,7 +162,7 @@ export const DeviceApi = {
   updateCallback: async ({ observable: {name, type}, callback }) => {
     try {
       const { status } = await restRequest({
-        path: "/callback",
+        path: "/callbacks",
         method: "PUT",
         payload: {
           observable: { name, type },
@@ -177,7 +177,7 @@ export const DeviceApi = {
   deleteCallback: async ({ observable: {name, type}, id }) => {
     try {
       const { status } = await restRequest({
-        path: "/callback",
+        path: "/callbacks",
         method: "DELETE",
         params: { name, type, id }
       });
