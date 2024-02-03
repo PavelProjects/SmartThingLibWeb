@@ -18,7 +18,7 @@ export class Menu {
     panel.classList.add("menu-panel");
 
     this.viewDiv = document.createElement("div");
-    this.viewDiv.classList.add("menu-items", "list");
+    this.viewDiv.classList.add("menu-items", "list", "bordered");
     this.viewDiv.id = this.id;
 
     Object.entries(this.menuItems).forEach(

@@ -58,10 +58,9 @@ input, select {
 }
 
 .bordered {
-  border: solid;
-  border-color: var(--color-border);
+  border: solid 2px var(--color-border);
   border-radius: var(--border-radius);;
-  padding: 5px;
+  padding: 2px;
 }
 
 @media (hover: hover) {
@@ -122,21 +121,22 @@ input, select {
   width: 100%;
 }
 .menu-items {
-  width: 250px;
+  width: var(--menu-item-width);
+  height: fit-content;
+  padding: 2px;
 }
 .menu-items h2 {
   transition: 0.5s;
   cursor: pointer;
-  border: solid;
-  border-color: var(--color-border);
-  border-radius: var(--border-radius);;
+  border-radius: var(--border-radius);
   padding: 5px;
   text-align: center;
+  word-wrap: break-word;
 }
 
 .menu-item-content {
   position: relative;
-  width: calc(100% - 250px);
+  width: calc(100% - var(--menu-item-width));
   margin-left: 5px;
 }
 
