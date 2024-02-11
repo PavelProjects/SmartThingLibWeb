@@ -123,10 +123,10 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getCallbacks: async ({ observable:{name, type} }) => {
+  getHooks: async ({ observable:{name, type} }) => {
     try {
       const { data } = await restRequest({
-        path: "/callbacks/by/observable",
+        path: "/hooks/by/observable",
         params: { name, type }
       })
       return data || [];
@@ -134,24 +134,24 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getCallbacksTemplates: async () => {
+  getHooksTemplates: async () => {
     try {
       const { data } = await restRequest({
-        path: "/callbacks/templates",
+        path: "/hooks/templates",
       })
       return data || [];
     } catch (error) {
       console.error(error);
     }
   },
-  createCallback: async ({ observable: {name, type}, callback }) => {
+  createHook: async ({ observable: {name, type}, hook }) => {
     try {
       const { status } = await restRequest({
-        path: "/callbacks",
+        path: "/hooks",
         method: "POST",
         payload: {
           observable: { name, type },
-          callback
+          hook
         }
       });
       return status === 201;
@@ -159,14 +159,14 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  updateCallback: async ({ observable: {name, type}, callback }) => {
+  updateHook: async ({ observable: {name, type}, hook }) => {
     try {
       const { status } = await restRequest({
-        path: "/callbacks",
+        path: "/hooks",
         method: "PUT",
         payload: {
           observable: { name, type },
-          callback
+          hook
         }
       });
       return status === 200;
@@ -174,10 +174,10 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  deleteCallback: async ({ observable: {name, type}, id }) => {
+  deleteHook: async ({ observable: {name, type}, id }) => {
     try {
       const { status } = await restRequest({
-        path: "/callbacks",
+        path: "/hooks",
         method: "DELETE",
         params: { name, type, id }
       });

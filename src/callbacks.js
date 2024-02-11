@@ -24,15 +24,15 @@ function isDefaultField(key) {
   return SYSTEM_FIELDS.includes(key);
 }
 
-export class CallbackView {
-  constructor({id="", callback, template, observable, parent}) {
+export class HookView {
+  constructor({id="", hook, template, observable, parent}) {
     this.id = id;
-    this.callback = callback;
+    this.hook = hook;
     this.template = template;
     this.observable = observable;
     this.parent = parent;
 
-    this.fields = Object.entries(this.callback)
+    this.fields = Object.entries(this.hook)
       .filter(([key, _]) => !isDefaultField(key))
       .reverse();
 
@@ -66,15 +66,15 @@ export class CallbackView {
     container.id = this.id;
 
     const header = document.createElement("div");
-    header.classList.add("callback-header");
+    header.classList.add("hook-header");
 
     const title = document.createElement("h3");
-    const { id, caption, type } = this.callback;
+    const { id, caption, type } = this.hook;
     title.innerHTML = `[${id}] ${caption || normalizeSystemName(type)}`
-    title.classList.add("title", "callback-title");
+    title.classList.add("title", "hook-title");
 
     const controls = document.createElement("div");
-    controls.classList.add("callback-view-controls");
+    controls.classList.add("hook-view-controls");
     Object.values(this.controls).forEach((v) => controls.appendChild(v));
 
     header.append(title, controls);
@@ -109,7 +109,7 @@ export class CallbackView {
   }
   edit(value=true) {
     this.fields.forEach(([field, _]) => {
-      document.getElementById(`cb_${this.callback.id}_${field}`).disabled = !value;
+      document.getElementById(`cb_${this.hook.id}_${field}`).disabled = !value;
     });
     if (value) {
       this.controls["cancel"].style.display = "";
@@ -126,7 +126,7 @@ export class CallbackView {
   validate() {
     let result = true;
     this.fields.forEach(([field, _]) => {
-      const element = document.getElementById(`cb_${this.callback.id}_${field}`);
+      const element = document.getElementById(`cb_${this.hook.id}_${field}`);
       if (element.getAttribute("required") == "true" && !element.value) {
         result = false;
         element.classList.add("required");
@@ -140,24 +140,24 @@ export class CallbackView {
     }
     
     this.fields.forEach(([field, _]) => {
-      this.callback[field] = document.getElementById(`cb_${this.callback.id}_${field}`).value;
+      this.hook[field] = document.getElementById(`cb_${this.hook.id}_${field}`).value;
     });
     let result;
-    if (this.callback.id === "New") {
-      delete this.callback.id
-      result = await DeviceApi.createCallback({ 
+    if (this.hook.id === "New") {
+      delete this.hook.id
+      result = await DeviceApi.createHook({ 
         observable: this.observable,
-        callback: this.callback,
+        hook: this.hook,
       });
     } else {
-      result = await DeviceApi.updateCallback({ 
+      result = await DeviceApi.updateHook({ 
         observable: this.observable,
-        callback: this.callback,
+        hook: this.hook,
       });
     }
     if (result) {
       toast.success({
-        caption: `Callback ${this.callback.id === "New" ? "created" : "updated"}!`
+        caption: `Hook ${this.hook.id === "New" ? "created" : "updated"}!`
       });
       document.getElementById(this.id).remove();
       this.parent.update();
@@ -169,26 +169,26 @@ export class CallbackView {
     }
   }
   async delete() {
-    if (confirm("Are you sure you wan to delete callback " + this.callback.id + "?")) {
-      const result = await DeviceApi.deleteCallback({ 
+    if (confirm("Are you sure you wan to delete hook " + this.hook.id + "?")) {
+      const result = await DeviceApi.deleteHook({ 
         observable: this.observable,
-        id: this.callback.id,
+        id: this.hook.id,
       });
       if (result) {
         toast.success({
-          caption: "Callback deleted"
+          caption: "Hook deleted"
         });
         this.parent.update();
       } else {
         toast.error({
-          caption: "Failed to delete callback",
+          caption: "Failed to delete hook",
           description: "Check device logs for additional information",
         })
       }
     }
   }
   cancel() {
-    if(this.callback.id === "New") {
+    if(this.hook.id === "New") {
       document.getElementById(this.id).remove();
       this.parent.update();
     } else {
@@ -197,7 +197,7 @@ export class CallbackView {
   }
 }
 
-export class CallbacksView {
+export class HooksView {
   constructor({ id="", observable }) {
     this.id = id;
     this.observable = observable;
@@ -212,15 +212,15 @@ export class CallbacksView {
 
     this.comboboxTemplates = Components.combobox({
       values: [],
-      label: "Add callback of type",
+      label: "Add hook of type",
       onChange: (type) => {
-        this.addNewCallback(type);
+        this.addNewHook(type);
       }
     });
 
     this.list = Components.list();
     this.list.id = "cb_list_" + this.id;
-    this.list.classList.add("callbacks-list-view");
+    this.list.classList.add("hooks-list-view");
     
     div.append(this.comboboxTemplates , this.list);
 
@@ -229,18 +229,18 @@ export class CallbacksView {
     return div;
   }
   update() {
-    this.loadCallbacks();
+    this.loadHooks();
   }
   async firstLoad() {
     await this.loadTemplates();
-    this.loadCallbacks();
+    this.loadHooks();
   }
   async loadTemplates() {
-    this.templates = await DeviceApi.getCallbacksTemplates();
+    this.templates = await DeviceApi.getHooksTemplates();
     if (!this.templates) {
       toast.error({
         caption: "Something gone wrong",
-        description: "Failed to fetch callbacks templates",
+        description: "Failed to fetch hooks templates",
       });
       return;
     }
@@ -254,37 +254,37 @@ export class CallbacksView {
         }), {})
     );
   }
-  async loadCallbacks() {
+  async loadHooks() {
     if (!this.templates) {
       return;
     }
     this.list.innerHTML = "";
-    this.callbacks = undefined;
-    this.callbacks = await DeviceApi.getCallbacks({ observable: this.observable });
-    if (!this.callbacks) {
+    this.hooks = undefined;
+    this.hooks = await DeviceApi.getHooks({ observable: this.observable });
+    if (!this.hooks) {
       toast.error({
         caption: "Something gone wrong",
-        description: `Failed to fetch callbacks for [${this.observable.type}]${this.observable.name}`,
+        description: `Failed to fetch hooks for [${this.observable.type}]${this.observable.name}`,
       });
       return;
     }
 
-    if (!this.callbacks || this.callbacks.length === 0) {
-      this.list.innerHTML = "<h3 class='title'>No callbacks added yet</h3>";
+    if (!this.hooks || this.hooks.length === 0) {
+      this.list.innerHTML = "<h3 class='title'>No hooks added yet</h3>";
       return;
     }
 
-    this.callbacks.forEach((callback) => this.list.appendChild(
-      new CallbackView({
-        id: "cb_" + callback.id,
-        callback,
-        template: {...this.templates[callback.type], ...this.templates["default"] },
+    this.hooks.forEach((hook) => this.list.appendChild(
+      new HookView({
+        id: "cb_" + hook.id,
+        hook,
+        template: {...this.templates[hook.type], ...this.templates["default"] },
         observable: this.observable,
         parent: this,
       }).create()
     ));
   }
-  addNewCallback(type) {
+  addNewHook(type) {
     const existing = document.getElementById("cb_new");
     if (existing) {
       existing.remove();
@@ -293,14 +293,14 @@ export class CallbacksView {
       return;
     }
     const template = { ...this.templates[type], ...this.templates["default"] };
-    const callbackFromTemplate = Object.entries(template)
+    const hookFromTemplate = Object.entries(template)
                 .reduce((acc, [key, info]) => {
                     acc[key] = info["default"] || ""
                     return acc
                 }, {id: "New", type})
-    const view = new CallbackView({
+    const view = new HookView({
       id: "cb_new",
-      callback: callbackFromTemplate,
+      hook: hookFromTemplate,
       template,
       observable: this.observable,
       parent: this,

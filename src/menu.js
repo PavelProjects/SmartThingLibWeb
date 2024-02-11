@@ -1,5 +1,5 @@
 import { DeviceApi } from "./api";
-import { CallbackView, CallbacksView } from "./callbacks";
+import { HookView, HooksView } from "./hooks";
 import { Components, Icons } from "./components";
 import { toast } from "./toast";
 
@@ -300,9 +300,9 @@ export const MENU_MAIN = {
       const menuItems = Object.entries(sensors).reduce((acc, [sensor, { value, type }]) => {
         acc["sensors-menu-" + sensor] = {
           name: `${sensor} (${type}): ${value}`,
-          title: "Callbacks",
+          title: "Hooks",
           content: async () => {
-            return new CallbacksView({
+            return new HooksView({
               id: "cb_view_" + sensor,
               observable: {
                 type: "sensor",
@@ -332,9 +332,9 @@ export const MENU_MAIN = {
       const menuItems = Object.entries(states).reduce((acc, [state, value]) => {
         acc["state-menu-" + state] = {
           name: `${state}: ${value}`,
-          title: "Callbacks",
+          title: "Hooks",
           content: async () => {
-            return new CallbacksView({
+            return new HooksView({
               id: "cb_view_" + state,
               observable: {
                 type: "state",

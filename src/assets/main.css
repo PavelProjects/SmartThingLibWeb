@@ -162,22 +162,22 @@ input, select {
   width: 100%;
 }
 
-.callback-title {
+.hook-title {
   flex: 1 1 auto;
   text-align: start;
 }
-.callback-header {
+.hook-header {
     display: flex;
     flex-direction: row;
     gap: var(--default-gap);
     position: relative;
 }
-.callbacks-list-view {
+.hooks-list-view {
     max-height: 80vh;
     overflow-y: auto;
     margin-top: var(--default-gap);
 }
-.callback-view-controls {
+.hook-view-controls {
     display: flex;
     flex-direction: row-reverse;
     column-gap: var(--default-gap);
