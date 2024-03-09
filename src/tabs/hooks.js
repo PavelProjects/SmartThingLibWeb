@@ -235,7 +235,7 @@ export class HooksView {
     this.loadHooks();
   }
   async loadTemplates() {
-    this.templates = await DeviceApi.getHooksTemplates();
+    this.templates = await DeviceApi.hooksTemplates();
     if (!this.templates) {
       toast.error({
         caption: "Something gone wrong",
@@ -259,7 +259,7 @@ export class HooksView {
     }
     this.list.innerHTML = "";
     this.hooks = undefined;
-    this.hooks = await DeviceApi.getHooks({ observable: this.observable });
+    this.hooks = await DeviceApi.hooks({ observable: this.observable });
     if (!this.hooks) {
       toast.error({
         caption: "Something gone wrong",

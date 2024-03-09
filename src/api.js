@@ -5,7 +5,7 @@ if (hostname === "localhost") {
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
 export const DeviceApi = {
-  getSystemInfo: async () => {
+  info: async () => {
     try {
       const { data } = await restRequest({ path: "/info/system" });
       return data || {};
@@ -13,7 +13,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getActions: async () => {
+  actions: async () => {
     try {
       const { data } = await restRequest({ path: "/info/actions" });
       return data || {};
@@ -21,7 +21,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getConfigInfo: async () => {
+  configInfo: async () => {
     try {
       const { data } = await restRequest({ path: "/info/config" });
       return data || {};
@@ -29,7 +29,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getWifiSettings: async () => {
+  getWifi: async () => {
     try {
       const { data } = await restRequest({ path: "/wifi" });
       return data;
@@ -37,7 +37,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  saveWifiSettings: async ({ ssid, password, mode }) => {
+  saveWifi: async ({ ssid, password, mode }) => {
     try {
       const { status } = await restRequest({ 
         path: "/wifi",
@@ -65,7 +65,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  performAction: async (action) => {
+  execAction: async (action) => {
     try {
       const { status } = await restRequest({
         method: "PUT",
@@ -77,7 +77,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getSensors: async () => {
+  sensors: async () => {
     try {
       const { data } = await restRequest({ path: "/sensors" });
       return data || {};
@@ -85,7 +85,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getStates: async () => {
+  states: async () => {
     try {
       const { data } = await restRequest({ path: "/states" });
       return data || {};
@@ -93,7 +93,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getConfigValues: async () => {
+  config: async () => {
     try {
       const { data } = await restRequest({ path: "/config" });
       return data || {};
@@ -101,7 +101,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  deleteAllConfigValues: async () => {
+  dropConfig: async () => {
     try {
       const { status } = await restRequest({ 
         method: "DELETE",
@@ -112,7 +112,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  saveConfigValues: async (values) => {
+  saveConfig: async (values) => {
     try {
       const { status } = await restRequest({
         method: "POST",
@@ -124,7 +124,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getHooks: async ({ observable:{name, type} }) => {
+  hooks: async ({ observable:{name, type} }) => {
     try {
       const { data } = await restRequest({
         path: "/hooks/by/observable",
@@ -135,7 +135,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getHooksTemplates: async () => {
+  hooksTemplates: async () => {
     try {
       const { data } = await restRequest({
         path: "/hooks/templates",
@@ -187,7 +187,7 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  getMetrics: async () => {
+  metrics: async () => {
     try {
       const { data } = await restRequest({ path: "/metrics" });
       return data || {};

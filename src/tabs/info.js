@@ -6,7 +6,7 @@ export const InfoTab = {
   name: "Information",
   title: "Device information",
   content: async () => {
-    const info = await DeviceApi.getSystemInfo();
+    const info = await DeviceApi.info();
     if (!info) {
       toast.error({ 
         caption: FETCH_FAILED_CATION,

@@ -6,7 +6,7 @@ export const WifiTab = {
   name: "WiFi",
   title: "WiFi settings",
   content: async () => {
-    const { settings, modes } = await DeviceApi.getWifiSettings();
+    const { settings, modes } = await DeviceApi.getWifi();
     if (!settings) {
       toast.error({ 
         caption: FETCH_FAILED_CATION,
@@ -37,7 +37,7 @@ export const WifiTab = {
     controls.appendChild(Components.button({
       label: "Save and reconnect",
       onClick: async () => {
-          const result = await DeviceApi.saveWifiSettings({
+          const result = await DeviceApi.saveWifi({
           ssid: document.getElementById("ssid").value || "",
           password: document.getElementById("password").value || "",
           mode: document.getElementById("mode").value || "",

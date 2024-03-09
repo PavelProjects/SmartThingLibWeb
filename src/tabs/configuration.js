@@ -6,7 +6,7 @@ export const ConfigTab = {
   name: "Configuration",
   title: "Configuration values",
   content: async () => {
-    const values = await DeviceApi.getConfigValues();
+    const values = await DeviceApi.config();
     if (!values) {
       toast.error({
         caption: FETCH_FAILED_CATION,
@@ -14,7 +14,7 @@ export const ConfigTab = {
       });
       return;
     }
-    const info = await DeviceApi.getConfigInfo();
+    const info = await DeviceApi.configInfo();
     if (!info) {
       toast.error({
         caption: FETCH_FAILED_CATION,
@@ -42,7 +42,7 @@ export const ConfigTab = {
         danger: true,
         onClick: async () => {
           if (confirm("Are you sure you want to delete all configuration values?")) {
-            const result = await DeviceApi.deleteAllConfigValues();
+            const result = await DeviceApi.dropConfig();
             if (result) {
               toast.success({ caption: "All values removed" });
             } else {
@@ -59,7 +59,7 @@ export const ConfigTab = {
         onClick: async () => {
           const values = {};
           Object.keys(info).forEach((key) => values[key] = document.getElementById(key).value);
-          const results = await DeviceApi.saveConfigValues(values);
+          const results = await DeviceApi.saveConfig(values);
           if (results) {
             toast.success({ caption: "Configuration updated" });
           } else {

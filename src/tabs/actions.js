@@ -6,7 +6,7 @@ export const ActionsTab = {
   name: "Actions",
   title: "Actions list",
   content: async () => {
-    const actions = await DeviceApi.getActions();
+    const actions = await DeviceApi.actions();
     if (!actions) {
       toast.error({
         caption: FETCH_FAILED_CATION,
@@ -21,7 +21,7 @@ export const ActionsTab = {
         label: caption,
         labelElement: "h1",
         onClick: async () => {
-          const result = await DeviceApi.performAction(action);
+          const result = await DeviceApi.execAction(action);
           if (result) {
             toast.success({
               caption: "Done",

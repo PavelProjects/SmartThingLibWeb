@@ -7,7 +7,7 @@ export const StatesTab = {
   name: "States",
   title: "Device states values",
   content: async () => {
-    const states = await DeviceApi.getStates();
+    const states = await DeviceApi.states();
     if (!states) {
       toast.error({
         caption: FETCH_FAILED_CATION,

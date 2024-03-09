@@ -7,7 +7,7 @@ export const SensorsTab = {
   name: "Sensors",
   title: "Sensors values",
   content: async () => {
-    const sensors = await DeviceApi.getSensors();
+    const sensors = await DeviceApi.sensors();
     if (!sensors) {
       toast.error({
         caption: FETCH_FAILED_CATION,

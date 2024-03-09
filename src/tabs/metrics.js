@@ -6,7 +6,7 @@ export const MetricsTab = {
   name: "Metrics",
   title: "Device metrics",
   content: async () => {
-    const metrics = await DeviceApi.getMetrics();
+    const metrics = await DeviceApi.metrics();
     if (!metrics) {
       toast.error({
         caption: FETCH_FAILED_CATION,
