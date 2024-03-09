@@ -1,6 +1,6 @@
-import { DeviceApi } from "./api";
-import { Components, Icons, fillCombobox } from "./components";
-import { toast } from "./toast";
+import { DeviceApi } from "../api";
+import { Components, Icons, fillCombobox } from "../components";
+import { toast } from "../toast";
 
 function normalizeSystemName(value) {
   if (typeof value != "string" || value.length == 0) {
@@ -68,10 +68,9 @@ export class HookView {
     const header = document.createElement("div");
     header.classList.add("hook-header");
 
-    const title = document.createElement("h3");
     const { id, caption, type } = this.hook;
-    title.innerHTML = `[${id}] ${caption || normalizeSystemName(type)}`
-    title.classList.add("title", "hook-title");
+    const title = Components.title(`[${id}] ${caption || normalizeSystemName(type)}`, 'h2');
+    title.classList.add("hook-title");
 
     const controls = document.createElement("div");
     controls.classList.add("hook-view-controls");
@@ -270,7 +269,7 @@ export class HooksView {
     }
 
     if (!this.hooks || this.hooks.length === 0) {
-      this.list.innerHTML = "<h3 class='title'>No hooks added yet</h3>";
+      this.list.appendChild(Components.title('No hooks added yet', 'h3'));
       return;
     }
 

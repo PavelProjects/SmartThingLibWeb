@@ -1,7 +1,8 @@
-let { host } = window.location;
-if (host === "localhost:5173") {
-  host = "192.168.2.2";
+let { hostname } = window.location;
+if (hostname === "localhost") {
+  hostname = "192.168.2.106";
 }
+export const FETCH_FAILED_CATION = "Something gone wrong";
 
 export const DeviceApi = {
   getSystemInfo: async () => {
@@ -206,7 +207,7 @@ function joinRequestParams(requestParams) {
 
 function restRequest({method="GET", path, payload, params}) {
   let xhr = new XMLHttpRequest();
-  xhr.open(method, `http://${host}${path[0] != '/' ? '/' : ''}${path}${joinRequestParams(params)}`);
+  xhr.open(method, `http://${hostname}${path[0] != '/' ? '/' : ''}${path}${joinRequestParams(params)}`);
   xhr.setRequestHeader("Accept", "application/json");
   if (payload) {
     xhr.setRequestHeader("Content-Type", "application/json");

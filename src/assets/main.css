@@ -78,6 +78,12 @@ input, select {
   transform: translateX(-200px);
   opacity: 0;
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--default-gap);
+  height: 100%;
+}
 .field-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -149,11 +155,8 @@ input, select {
   top: 0px;
   right: 0px;
 }
-
 .controls-holder {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
+  margin-top: auto;
   display: flex;
   flex-direction: row;
   gap: var(--default-gap);

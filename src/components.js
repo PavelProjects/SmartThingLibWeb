@@ -1,8 +1,15 @@
 
 export const Components = {
-  container: ({ bordered=false }) => {
+  title: (value, tag = 'h1') => {
+    const title = document.createElement(tag)
+    title.classList.add('title')
+    title.innerHTML = value
+    return title
+  },
+  container: (props = {bordered: false}) => {
     const div = document.createElement("div");
-    if (bordered) {
+    div.classList.add('container')
+    if (props.bordered) {
       div.classList.add("bordered");
     }
     return div;
@@ -12,7 +19,7 @@ export const Components = {
     div.classList.add("list");
     return div;
   },
-  button: ({ id, label, labelElement="h3", onClick, danger=false, visible=true }) => {
+  button: ({ id, label, labelElement="h2", onClick, danger=false, visible=true }) => {
     const btn = document.createElement("button");
     if (id) {
       btn.id = id;
