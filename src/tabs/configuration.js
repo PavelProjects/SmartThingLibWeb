@@ -6,14 +6,6 @@ export const ConfigTab = {
   name: "Configuration",
   title: "Configuration values",
   content: async () => {
-    const values = await DeviceApi.config();
-    if (!values) {
-      toast.error({
-        caption: FETCH_FAILED_CATION,
-        description: "Failed to fetch configuration values",
-      });
-      return;
-    }
     const info = await DeviceApi.configInfo();
     if (!info) {
       toast.error({
@@ -22,8 +14,16 @@ export const ConfigTab = {
       });
       return;
     }
-    if (Object.keys(values).length === 0 || Object.keys(info).length === 0) {
-      return Components.title('No config values', 'h2')
+    if (Object.keys(info).length === 0) {
+      return Components.title('No config entries', 'h2')
+    }
+    const values = await DeviceApi.config();
+    if (!values) {
+      toast.error({
+        caption: FETCH_FAILED_CATION,
+        description: "Failed to fetch configuration values",
+      });
+      return;
     }
     const inputsList = Components.list();
     Object.entries(info).forEach(([name, { caption, type}]) => {
