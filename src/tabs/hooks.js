@@ -113,11 +113,11 @@ export class HookView {
     if (value) {
       this.controls["cancel"].style.display = "";
       this.controls["save"].style.display = "";
-      this.controls["delete"].style.display = "None";
-      this.controls["edit"].style.display = "None";
+      this.controls["delete"].style.display = "none";
+      this.controls["edit"].style.display = "none";
     } else {
-      this.controls["cancel"].style.display = "None";
-      this.controls["save"].style.display = "None";
+      this.controls["cancel"].style.display = "none";
+      this.controls["save"].style.display = "none";
       this.controls["delete"].style.display = "";
       this.controls["edit"].style.display = "";
     }

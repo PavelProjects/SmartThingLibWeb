@@ -1,6 +1,6 @@
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.2.106";
+  hostname = "192.168.2.2";
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
@@ -8,7 +8,7 @@ export const DeviceApi = {
   info: async () => {
     try {
       const { data } = await restRequest({ path: "/info/system" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }
@@ -16,7 +16,7 @@ export const DeviceApi = {
   actions: async () => {
     try {
       const { data } = await restRequest({ path: "/info/actions" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }
@@ -24,7 +24,7 @@ export const DeviceApi = {
   configInfo: async () => {
     try {
       const { data } = await restRequest({ path: "/info/config" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +80,7 @@ export const DeviceApi = {
   sensors: async () => {
     try {
       const { data } = await restRequest({ path: "/sensors" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }
@@ -88,7 +88,7 @@ export const DeviceApi = {
   states: async () => {
     try {
       const { data } = await restRequest({ path: "/states" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }
@@ -96,7 +96,7 @@ export const DeviceApi = {
   config: async () => {
     try {
       const { data } = await restRequest({ path: "/config" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }
@@ -190,7 +190,7 @@ export const DeviceApi = {
   metrics: async () => {
     try {
       const { data } = await restRequest({ path: "/metrics" });
-      return data || {};
+      return data ?? {};
     } catch (error) {
       console.error(error);
     }

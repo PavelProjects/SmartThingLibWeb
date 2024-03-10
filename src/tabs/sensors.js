@@ -1,4 +1,5 @@
 import { DeviceApi, FETCH_FAILED_CATION } from "../api";
+import { Components } from "../components";
 import { Menu } from "../menu";
 import { toast } from "../toast";
 import { HooksView } from "./hooks"
@@ -14,6 +15,9 @@ export const SensorsTab = {
         description: "Failed to fetch sensors"
       })
       return;
+    }
+    if (Object.keys(sensors).length === 0) {
+      return Components.title("No sensors configured", "h2")
     }
     const menuItems = Object.entries(sensors).reduce((acc, [sensor, { value, type }]) => {
       acc["sensors-menu-" + sensor] = {

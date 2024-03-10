@@ -31,7 +31,7 @@ export class Menu {
     this.contentDiv.id = this.id + "-content";
 
     this.loadingTitle = Components.title('Loading...', 'h2');
-    this.loadingTitle.style.display = "None";
+    this.loadingTitle.style.display = "none";
     this.contentDiv.appendChild(this.loadingTitle);
 
     const updateIcon = Components.icon({
@@ -53,7 +53,7 @@ export class Menu {
     }
     if (this.selected.item) {
       this.selected.item.classList.remove("menu-selected");
-      this.selected.content.style.display = "None";
+      this.selected.content.style.display = "none";
     }
     let content = document.getElementById(menuItemName + "-content");
     if (!content) {
@@ -68,6 +68,7 @@ export class Menu {
     this.selected.name = menuItemName;
     this.selected.item = menuItem;
     this.selected.content = content;
+    document.getElementById(this.id + "-update").style.display = "unset"
   }
   updateContent() {
     if (!this.selected) {
@@ -98,6 +99,6 @@ export class Menu {
     }
   }
   loading(value) {
-    this.loadingTitle.style.display = value ? "" : "None";
+    this.loadingTitle.style.display = value ? "" : "none";
   }
 }

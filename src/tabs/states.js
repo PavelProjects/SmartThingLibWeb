@@ -2,6 +2,7 @@ import { DeviceApi, FETCH_FAILED_CATION } from "../api";
 import { toast } from "../toast";
 import { Menu } from "../menu";
 import { HooksView } from "./hooks"
+import { Components } from "../components";
 
 export const StatesTab = {
   name: "States",
@@ -14,6 +15,9 @@ export const StatesTab = {
         description: "Failed to fetch device states"
       })
       return;
+    }
+    if (Object.keys(states).length === 0) {
+      return Components.title("No states configured", "h2")
     }
     const menuItems = Object.entries(states).reduce((acc, [state, value]) => {
       acc["state-menu-" + state] = {
