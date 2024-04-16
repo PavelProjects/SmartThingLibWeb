@@ -235,7 +235,7 @@ export class HooksView {
     this.loadHooks();
   }
   async loadTemplates() {
-    this.templates = await DeviceApi.hooksTemplates();
+    this.templates = await DeviceApi.hooksTemplates(this.observable.type);
     if (!this.templates) {
       toast.error({
         caption: "Something gone wrong",

@@ -37,14 +37,12 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  saveWifi: async ({ ssid, password, mode }) => {
+  saveWifi: async (payload) => {
     try {
       const { status } = await restRequest({ 
         path: "/wifi",
         method: "POST",
-        payload: {
-          ssid, password, mode
-        }
+        payload
       });
       return status === 200;
     } catch (error) {
@@ -135,10 +133,11 @@ export const DeviceApi = {
       console.error(error);
     }
   },
-  hooksTemplates: async () => {
+  hooksTemplates: async (type) => {
     try {
       const { data } = await restRequest({
         path: "/hooks/templates",
+        params: { type }
       })
       return data || [];
     } catch (error) {

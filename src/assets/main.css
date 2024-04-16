@@ -14,19 +14,6 @@
   z-index: 999;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: var(--color-positive);
-  transition: 0.4s;
-}
-
-.red {
-  text-decoration: none;
-  color: var(--color-danger);
-  transition: 0.4s;
-}
-
 .title {
   text-align: center;
   text-decoration: none;
@@ -61,22 +48,6 @@ input, select {
   border: solid 2px var(--color-border);
   border-radius: var(--border-radius);;
   padding: 2px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-    cursor: pointer;
-  }
-}
-
-/* animations */
-.slide-left-enter-active {
-  transition: all 0.5s ease;
-}
-.slide-left-enter-from{
-  transform: translateX(-200px);
-  opacity: 0;
 }
 .container {
   display: flex;
@@ -117,9 +88,6 @@ input, select {
 .required {
   background-color: hsla(3, 100%, 37%, 0.2);
   color: black;
-}
-.loading-spinner {
-  text-align: center;
 }
 .menu-panel {
   display: flex;
