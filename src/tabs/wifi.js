@@ -37,16 +37,16 @@ export const WifiTab = {
     controls.appendChild(Components.button({
       label: "Save and reconnect",
       onClick: async () => {
-          const result = await DeviceApi.saveWifi({
-          ssid: document.getElementById("ssid").value || "",
-          password: document.getElementById("password").value || "",
-          mode: document.getElementById("mode").value || "",
-        });
-        if (result) {
+        try {
+          await DeviceApi.saveWifi({
+            ssid: document.getElementById("ssid").value || "",
+            password: document.getElementById("password").value || "",
+            mode: document.getElementById("mode").value || "",
+          })
           toast.success({
             caption: "WiFi settings updated"
           });
-        } else {
+        } catch(error) {
           toast.error({
             caption: "Failed to update WiFi settings",
             description: "Check device logs for additional information",

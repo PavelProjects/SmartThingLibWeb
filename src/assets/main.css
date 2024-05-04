@@ -92,11 +92,10 @@ input, select {
 .menu-panel {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  flex: 1 0 auto;
 }
 .menu-items {
   width: var(--menu-item-width);
-  height: fit-content;
   padding: 2px;
 }
 .menu-items h2 {
@@ -107,6 +106,10 @@ input, select {
   text-align: center;
   word-wrap: break-word;
 }
+.menu-items h2:hover {
+  transition: background-color 0.5s;
+  background-color: var(--color-background-mute);
+}
 
 .menu-item-content {
   position: relative;
@@ -115,7 +118,7 @@ input, select {
 }
 
 .menu-selected {
-  background-color: var(--vt-c-black-mute);
+  background-color: var(--vt-c-black-soft);
 }
 
 .update-button {
@@ -149,6 +152,9 @@ input, select {
     overflow-y: auto;
     margin-top: var(--default-gap);
 }
+.hooks-list-view .container {
+  border-top: 1px solid var(--color-border);
+}
 .hook-view-controls {
     display: flex;
     flex-direction: row-reverse;
@@ -177,4 +183,10 @@ input, select {
 }
 .toast h2, h3 {
   text-align: center;
+}
+.br {
+  border-right: 2px solid var(--color-border);
+}
+.bt {
+  border-top: 2px solid var(--color-border);
 }

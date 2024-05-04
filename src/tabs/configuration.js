@@ -42,10 +42,10 @@ export const ConfigTab = {
         danger: true,
         onClick: async () => {
           if (confirm("Are you sure you want to delete all configuration values?")) {
-            const result = await DeviceApi.dropConfig();
-            if (result) {
+            try {
+              await DeviceApi.dropConfig()
               toast.success({ caption: "All values removed" });
-            } else {
+            } catch(error) {
               toast.error({
                 caption: "Failed to delete configuration values"
               });
@@ -59,10 +59,10 @@ export const ConfigTab = {
         onClick: async () => {
           const values = {};
           Object.keys(info).forEach((key) => values[key] = document.getElementById(key).value);
-          const results = await DeviceApi.saveConfig(values);
-          if (results) {
+          try {
+            await DeviceApi.saveConfig(values)
             toast.success({ caption: "Configuration updated" });
-          } else {
+          } catch(error) {
             toast.error({
               caption: "Failed to save configuration values"
             });

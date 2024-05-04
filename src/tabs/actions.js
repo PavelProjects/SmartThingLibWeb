@@ -8,11 +8,7 @@ export const ActionsTab = {
   content: async () => {
     const actions = await DeviceApi.actions();
     if (!actions) {
-      toast.error({
-        caption: FETCH_FAILED_CATION,
-        description: "Failed to fetch device actions"
-      });
-      return;
+      return Components.title("No actions configured");
     }
     const div = Components.list();
     Object.entries(actions).forEach(([action, caption]) => {
@@ -21,13 +17,13 @@ export const ActionsTab = {
         label: caption,
         labelElement: "h1",
         onClick: async () => {
-          const result = await DeviceApi.execAction(action);
-          if (result) {
+          try {
+            await DeviceApi.execAction(action);
             toast.success({
               caption: "Done",
               description: `Action "${caption}" performed successfully`
             })
-          } else {
+          } catch(error) {
             toast.error({
               caption: "Action failed",
               description: `Failed to perform action "${caption}"`

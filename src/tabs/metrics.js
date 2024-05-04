@@ -6,14 +6,14 @@ export const MetricsTab = {
   name: "Metrics",
   title: "Device metrics",
   content: async () => {
-    const metrics = await DeviceApi.metrics();
-    if (!metrics) {
+    try {
+      return Components.tree(await DeviceApi.metrics());
+    } catch (error) {
+      console.log(error)
       toast.error({
         caption: FETCH_FAILED_CATION,
         description: "Failed to fetch device metrics",
       });
-      return;
     }
-    return Components.tree(metrics);
   }
 }

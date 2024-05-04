@@ -3,9 +3,10 @@ import { Components, Icons } from "./components";
 export class Menu {
   selected = {}
 
-  constructor(id, menuItems) {
+  constructor(id, menuItems, placeholder) {
     this.id = id;
     this.menuItems = menuItems;
+    this.placeholder = placeholder;
   }
 
   create() {
@@ -13,7 +14,7 @@ export class Menu {
     panel.classList.add("menu-panel");
 
     this.viewDiv = document.createElement("div");
-    this.viewDiv.classList.add("menu-items", "list", "bordered");
+    this.viewDiv.classList.add("menu-items", "list", "br");
     this.viewDiv.id = this.id;
 
     Object.entries(this.menuItems).forEach(
@@ -91,7 +92,7 @@ export class Menu {
   async loadContent(div, menuItemName) {
     try {
       this.loading(true);
-      div.appendChild(await this.menuItems[menuItemName].content())
+      div.appendChild(await this.menuItems[menuItemName].content() ?? Components.container())
     } catch (error) {
       console.error(error);
     } finally {

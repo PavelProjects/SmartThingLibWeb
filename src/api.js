@@ -6,193 +6,106 @@ export const FETCH_FAILED_CATION = "Something gone wrong";
 
 export const DeviceApi = {
   info: async () => {
-    try {
-      const { data } = await restRequest({ path: "/info/system" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/info/system" })).data;
   },
   actions: async () => {
-    try {
-      const { data } = await restRequest({ path: "/info/actions" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/info/actions" })).data;
   },
   configInfo: async () => {
-    try {
-      const { data } = await restRequest({ path: "/info/config" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/info/config" })).data;
   },
   getWifi: async () => {
-    try {
-      const { data } = await restRequest({ path: "/wifi" });
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/wifi" })).data;
   },
   saveWifi: async (payload) => {
-    try {
-      const { status } = await restRequest({ 
-        path: "/wifi",
-        method: "POST",
-        payload
-      });
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({ 
+      path: "/wifi",
+      method: "POST",
+      payload
+    })
   },
   saveName: async (name) => {
-    try {
-      const { status } = await restRequest({
-        path: "/info/system",
-        method: "PUT",
-        payload: {
-          name
-        }
-      })
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({
+      path: "/info/system",
+      method: "PUT",
+      payload: {
+        name
+      }
+    })
   },
   execAction: async (action) => {
-    try {
-      const { status } = await restRequest({
-        method: "PUT",
-        path: "/actions",
-        params: { action }
-      });
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({
+      method: "PUT",
+      path: "/actions",
+      params: { action }
+    })
   },
   sensors: async () => {
-    try {
-      const { data } = await restRequest({ path: "/sensors" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/sensors" })).data
   },
   states: async () => {
-    try {
-      const { data } = await restRequest({ path: "/states" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/states" })).data
   },
   config: async () => {
-    try {
-      const { data } = await restRequest({ path: "/config" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/config" })).data
   },
   dropConfig: async () => {
-    try {
-      const { status } = await restRequest({ 
-        method: "DELETE",
-        path: "/config/delete/all"
-      })
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({ 
+      method: "DELETE",
+      path: "/config/delete/all"
+    })
   },
   saveConfig: async (values) => {
-    try {
-      const { status } = await restRequest({
-        method: "POST",
-        path: "/config",
-        payload: values
-      });
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({
+      method: "POST",
+      path: "/config",
+      payload: values
+    })
   },
   hooks: async ({ observable:{name, type} }) => {
-    try {
-      const { data } = await restRequest({
-        path: "/hooks/by/observable",
-        params: { name, type }
-      })
-      return data || [];
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({
+      path: "/hooks/by/observable",
+      params: { name, type }
+    })).data
   },
   hooksTemplates: async (type) => {
-    try {
-      const { data } = await restRequest({
-        path: "/hooks/templates",
-        params: { type }
-      })
-      return data || [];
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({
+      path: "/hooks/templates",
+      params: { type }
+    })).data
   },
   createHook: async ({ observable: {name, type}, hook }) => {
-    try {
-      const { status } = await restRequest({
-        path: "/hooks",
-        method: "POST",
-        payload: {
-          observable: { name, type },
-          hook
-        }
-      });
-      return status === 201;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({
+      path: "/hooks",
+      method: "POST",
+      payload: {
+        observable: { name, type },
+        hook
+      }
+    })
   },
   updateHook: async ({ observable: {name, type}, hook }) => {
-    try {
-      const { status } = await restRequest({
-        path: "/hooks",
-        method: "PUT",
-        payload: {
-          observable: { name, type },
-          hook
-        }
-      });
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({
+      path: "/hooks",
+      method: "PUT",
+      payload: {
+        observable: { name, type },
+        hook
+      }
+    })
   },
   deleteHook: async ({ observable: {name, type}, id }) => {
-    try {
-      const { status } = await restRequest({
-        path: "/hooks",
-        method: "DELETE",
-        params: { name, type, id }
-      });
-      return status === 200;
-    } catch (error) {
-      console.error(error);
-    }
+    await restRequest({
+      path: "/hooks",
+      method: "DELETE",
+      params: { name, type, id }
+    })
+  },
+  features: async () => {
+    return (await restRequest({ path: "/features"})).data
   },
   metrics: async () => {
-    try {
-      const { data } = await restRequest({ path: "/metrics" });
-      return data ?? {};
-    } catch (error) {
-      console.error(error);
-    }
+    return (await restRequest({ path: "/metrics" })).data
   }
 };
 
@@ -206,7 +119,7 @@ function joinRequestParams(requestParams) {
 
 function restRequest({method="GET", path, payload, params}) {
   let xhr = new XMLHttpRequest();
-  xhr.open(method, `http://${hostname}${path[0] != '/' ? '/' : ''}${path}${joinRequestParams(params)}`);
+  xhr.open(method, `http://${hostname}${path[0] != '/' ? '/' : ''}${path}${joinRequestParams(params)}`, true);
   xhr.setRequestHeader("Accept", "application/json");
   if (payload) {
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -214,14 +127,15 @@ function restRequest({method="GET", path, payload, params}) {
   let resolver;
   const promise = new Promise((resolve) => resolver = resolve);
 
-  xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4){
-        resolver({
-            data: xhr.response ? JSON.parse(xhr.response) : null,
-            status: xhr.status
-        });
-      }
-    };
+  xhr.onloadend = () => {
+    let data
+    try {
+      data = xhr.response ? JSON.parse(xhr.response) : null
+    } catch (error) {
+      console.log(error)
+    }
+    resolver({data, status: xhr.status});
+  };
   xhr.send(payload ? JSON.stringify(payload) : null);
   return promise;
 }

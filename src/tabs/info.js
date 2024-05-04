@@ -34,18 +34,20 @@ export const InfoTab = {
               })
               return;
             }
-            const result = await DeviceApi.saveName(name);
-            element.classList.remove("required");
-            if (result) {
+            
+            try {
+              await DeviceApi.saveName(name);
               toast.success({
                 caption: "Name updated",
                 description: "New device name: " + name,
               });
-            } else {
+            } catch(error) {
               toast.error({
                 caption: "Name update failed",
                 description: "Failed to update device name",
               });
+            } finally {
+              element.classList.remove("required");
             }
           }
         })
