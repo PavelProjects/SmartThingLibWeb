@@ -116,14 +116,14 @@ export class HookView {
       document.getElementById(`cb_${this.hook.id}_${field}`).disabled = !value;
     });
     if (value) {
-      this.setContololsVisibility(["cancel", "save"], true)
-      this.setContololsVisibility(["delete", "edit", "test"], false)
+      this.controlsVisibile(["cancel", "save"], true)
+      this.controlsVisibile(["delete", "edit", "test"], false)
     } else {
-      this.setContololsVisibility(["cancel", "save"], false)
-      this.setContololsVisibility(["delete", "edit", "test"], true)
+      this.controlsVisibile(["cancel", "save"], false)
+      this.controlsVisibile(["delete", "edit", "test"], true)
     }
   }
-  setContololsVisibility(names, visible) {
+  controlsVisibile(names, visible) {
     names.forEach((name) => this.controls[name].style.display = visible ? "" : "none")
   }
   validate() {
