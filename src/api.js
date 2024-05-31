@@ -101,6 +101,13 @@ export const DeviceApi = {
       params: { name, type, id }
     })
   },
+  testHook: async ({ observable: {name, type}, id, value}) => {
+    await restRequest({
+      path: "/hooks/test",
+      method: "GET",
+      params: { name, type, id }
+    })
+  },
   features: async () => {
     return (await restRequest({ path: "/features"})).data
   },

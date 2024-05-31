@@ -36,7 +36,12 @@ export class HookView {
       .filter(([key, _]) => !isDefaultField(key))
       .reverse();
 
-      this.controls = {
+    this.controls = {
+      "test": Components.icon({
+        icon: Icons.tube,
+        onClick: () => this.test(),
+        title: "Make a test hook call"
+      }),
       "delete": Components.icon({ 
         icon: Icons.trash,
         onClick: () => this.delete()
@@ -111,16 +116,15 @@ export class HookView {
       document.getElementById(`cb_${this.hook.id}_${field}`).disabled = !value;
     });
     if (value) {
-      this.controls["cancel"].style.display = "";
-      this.controls["save"].style.display = "";
-      this.controls["delete"].style.display = "none";
-      this.controls["edit"].style.display = "none";
+      this.setContololsVisibility(["cancel", "save"], true)
+      this.setContololsVisibility(["delete", "edit", "test"], false)
     } else {
-      this.controls["cancel"].style.display = "none";
-      this.controls["save"].style.display = "none";
-      this.controls["delete"].style.display = "";
-      this.controls["edit"].style.display = "";
+      this.setContololsVisibility(["cancel", "save"], false)
+      this.setContololsVisibility(["delete", "edit", "test"], true)
     }
+  }
+  setContololsVisibility(names, visible) {
+    names.forEach((name) => this.controls[name].style.display = visible ? "" : "none")
   }
   validate() {
     let result = true;
@@ -183,6 +187,22 @@ export class HookView {
           description: "Check device logs for additional information",
         })
       }
+    }
+  }
+  async test() {
+    try {
+      await DeviceApi.testHook({
+        observable: this.observable,
+        id: this.hook.id
+      })
+      toast.success({
+        caption: "Hook called successfully!"
+      })
+    } catch (error) {
+      console.error(error)
+      toast.error({
+        caption: "Failed to call hook"
+      })
     }
   }
   cancel() {
@@ -248,6 +268,7 @@ export class HooksView {
         }), {})
     );
   }
+  // todo список хуков не обновляется после сохранения хука
   async loadHooks() {
     this.list.innerHTML = "";
     this.hooks = await DeviceApi.hooks({ observable: this.observable });

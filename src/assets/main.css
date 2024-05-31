@@ -159,7 +159,7 @@ input, select {
     display: flex;
     flex-direction: row-reverse;
     column-gap: var(--default-gap);
-    margin-bottom: 5px;
+    align-items: center;
 }
 
 .toast {
