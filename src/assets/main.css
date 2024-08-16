@@ -1,9 +1,9 @@
-@import './base.css';
+@import "./base.css";
 
 #control-panel {
   display: flex;
   flex-direction: row;
-  column-gap: var(--default-gap);
+  column-gap: var(--dg);
   margin: 0 auto;
   width: 1000px;
 }
@@ -17,73 +17,66 @@
 .title {
   text-align: center;
   text-decoration: none;
-  color: var(--color-positive);
+  color: hsla(160, 100%, 37%, 1);
 }
 
 .btn {
   background-color: hsla(160, 100%, 37%, 0.2);
   border-color: transparent;
-  border-radius: var(--border-radius);
+  border-radius: var(--rbo);
   min-width: 90px;
   min-height: 40px;
   color: black;
 }
 
 .btn:hover {
-  opacity: 0.50;
+  opacity: 0.5;
   cursor: pointer;
 }
 
-input, select {
+input,
+select {
   min-height: 40px;
   font-size: 18px;
-  background-color: var(--color-background);
-  color: var(--color-text);
+  background-color: var(--cb);
+  color: var(--ct);
   outline: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  border: 1px solid var(--cbo);
+  border-radius: var(--rbo);
 }
-
 .bordered {
-  border: solid 2px var(--color-border);
-  border-radius: var(--border-radius);;
+  border: solid 2px var(--cbo);
+  border-radius: var(--rbo);
   padding: 2px;
 }
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--default-gap);
+  gap: var(--dg);
   height: 100%;
 }
 .field-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-radius: var(--border-radius);
+  border-radius: var(--rbo);
 }
-input, select {
-  background-color: var(--color-background);
-  color: var(--color-text);
-  outline: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+.field-container {
+  text-align: center;
 }
 .field-container .input-with-slot {
-  display:flex;
-  flex-direction:row;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--cbo);
+  border-radius: var(--rbo);
 }
 .input-with-slot input {
   width: 100%;
   border: none;
 }
-.field-label {
-  text-align: center;
-}
 .list {
   display: flex;
   flex-direction: column;
-  row-gap: var(--default-gap);
+  row-gap: var(--dg);
 }
 .required {
   background-color: hsla(3, 100%, 37%, 0.2);
@@ -95,43 +88,36 @@ input, select {
   flex: 1 0 auto;
 }
 .menu-items {
-  width: var(--menu-item-width);
+  width: var(--miw);
   padding: 2px;
 }
 .menu-items h2 {
   transition: 0.5s;
   cursor: pointer;
-  border-radius: var(--border-radius);
+  border-radius: var(--rbo);
   padding: 5px;
   text-align: center;
   word-wrap: break-word;
 }
 .menu-items h2:hover {
   transition: background-color 0.5s;
-  background-color: var(--color-background-mute);
+  background-color: var(--cb-m);
 }
 
 .menu-item-content {
   position: relative;
-  width: calc(100% - var(--menu-item-width));
+  width: calc(100% - var(--miw));
   margin-left: 5px;
 }
 
 .menu-selected {
-  background-color: var(--vt-c-black-soft);
-}
-
-.update-button {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  display: none;
+  background-color: var(--cb-s);
 }
 .controls-holder {
   margin-top: auto;
   display: flex;
   flex-direction: row;
-  gap: var(--default-gap);
+  gap: var(--dg);
 }
 .controls-holder button {
   width: 100%;
@@ -142,51 +128,39 @@ input, select {
   text-align: start;
 }
 .hook-header {
-    display: flex;
-    flex-direction: row;
-    gap: var(--default-gap);
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--dg);
+  position: relative;
 }
 .hooks-list-view {
-    max-height: 80vh;
-    overflow-y: auto;
-    margin-top: var(--default-gap);
+  max-height: 80vh;
+  overflow-y: auto;
+  margin-top: var(--dg);
 }
 .hooks-list-view .container {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--cbo);
 }
 .hook-view-controls {
-    display: flex;
-    flex-direction: row-reverse;
-    column-gap: var(--default-gap);
-    align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  column-gap: var(--dg);
+  align-items: center;
 }
 
 .toast {
   position: relative;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  width: var(--toast-width);
-  min-height: var(--toast-min-height);
+  border: 1px solid var(--cbo);
+  border-radius: var(--rbo);
+  width: 300px;
+  min-height: 50px;
   padding: 10px 5px 5px 5px;
   z-index: 1000;
   transition: 0.4s;
-}
-.toast button {
-  background-color: transparent;
-  border-color: transparent;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  outline: none;
-  user-select: none;
 }
 .toast h2, h3 {
   text-align: center;
 }
 .br {
-  border-right: 2px solid var(--color-border);
-}
-.bt {
-  border-top: 2px solid var(--color-border);
+  border-right: 2px solid var(--cbo);
 }

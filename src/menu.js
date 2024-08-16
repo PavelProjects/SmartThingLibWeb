@@ -1,7 +1,7 @@
 import { Components, Icons } from "./components";
 
 export class Menu {
-  selected = {}
+  selected = {};
 
   constructor(id, menuItems, placeholder) {
     this.id = id;
@@ -17,39 +17,35 @@ export class Menu {
     this.viewDiv.classList.add("menu-items", "list", "br");
     this.viewDiv.id = this.id;
 
-    Object.entries(this.menuItems).forEach(
-      ([menuItem, {name}]) => {
-        const h2 = document.createElement("h2");
-        h2.id = menuItem;
-        h2.innerHTML = name;
-        h2.onclick = () => this.open(menuItem);
-        this.viewDiv.appendChild(h2);
-      }
-    );
-    
+    Object.entries(this.menuItems).forEach(([menuItem, { name }]) => {
+      const h2 = document.createElement("h2");
+      h2.id = menuItem;
+      h2.innerHTML = name;
+      h2.onclick = () => this.open(menuItem);
+      this.viewDiv.appendChild(h2);
+    });
+
     this.contentDiv = document.createElement("div");
     this.contentDiv.classList.add("menu-item-content");
     this.contentDiv.id = this.id + "-content";
 
-    this.loadingTitle = Components.title('Loading...', 'h2');
+    this.loadingTitle = Components.title("Loading...", "h2");
     this.loadingTitle.style.display = "none";
     this.contentDiv.appendChild(this.loadingTitle);
-
-    const updateIcon = Components.icon({
-      id: this.id + "-update",
-      icon: Icons.update,
-      onClick: () => this.updateContent()
-    });
-    updateIcon.classList.add("update-button");
-    this.contentDiv.appendChild(updateIcon);
 
     panel.append(this.viewDiv, this.contentDiv);
     return panel;
   }
   open(menuItemName) {
+    if (this.selected?.name === menuItemName) {
+      this.updateContent();
+      return;
+    }
     const menuItem = document.getElementById(menuItemName);
     if (!menuItem) {
-      console.error("Failed to open menuItem id=" + menuItemName + ": element not found");
+      console.error(
+        "Failed to open menuItem id=" + menuItemName + ": element not found",
+      );
       return;
     }
     if (this.selected.item) {
@@ -63,13 +59,12 @@ export class Menu {
     } else {
       content.style.display = "";
     }
-  
+
     menuItem.classList.add("menu-selected");
-    
+
     this.selected.name = menuItemName;
     this.selected.item = menuItem;
     this.selected.content = content;
-    document.getElementById(this.id + "-update").style.display = "unset"
   }
   updateContent() {
     if (!this.selected) {
@@ -84,7 +79,9 @@ export class Menu {
     const container = Components.container();
     container.id = id;
     if (this.menuItems[menuItemName].title) {
-      container.appendChild(Components.title(this.menuItems[menuItemName].title));
+      container.appendChild(
+        Components.title(this.menuItems[menuItemName].title),
+      );
     }
     this.loadContent(container, menuItemName);
     return container;
@@ -92,7 +89,10 @@ export class Menu {
   async loadContent(div, menuItemName) {
     try {
       this.loading(true);
-      div.appendChild(await this.menuItems[menuItemName].content() ?? Components.container())
+      div.appendChild(
+        (await this.menuItems[menuItemName].content()) ??
+          Components.container(),
+      );
     } catch (error) {
       console.error(error);
     } finally {

@@ -4,11 +4,10 @@ import { toast } from "../toast";
 
 export const InfoTab = {
   name: "Information",
-  title: "Device information",
   content: async () => {
     const info = await DeviceApi.info();
     if (!info) {
-      toast.error({ 
+      toast.error({
         caption: FETCH_FAILED_CATION,
         description: "Failed to fetch system information",
       });
@@ -26,22 +25,22 @@ export const InfoTab = {
           label: "save",
           onClick: async () => {
             const element = document.getElementById("device-name");
-            const name =element.value;
+            const name = element.value;
             if (!name || name.length === 0) {
               element.classList.add("required");
               toast.error({
                 caption: "Device name can't be empty!",
-              })
+              });
               return;
             }
-            
+
             try {
               await DeviceApi.saveName(name);
               toast.success({
                 caption: "Name updated",
                 description: "New device name: " + name,
               });
-            } catch(error) {
+            } catch (error) {
               toast.error({
                 caption: "Name update failed",
                 description: "Failed to update device name",
@@ -49,31 +48,31 @@ export const InfoTab = {
             } finally {
               element.classList.remove("required");
             }
-          }
-        })
+          },
+        }),
       }),
       Components.input({
         label: "Device type",
         value: info.type,
-        disabled: true
+        disabled: true,
       }),
       Components.input({
         label: "Firmware version",
         value: info.version,
         disabled: true,
-        type: "number"
+        type: "number",
       }),
       Components.input({
         label: "Chip model",
         value: info.chip_model,
-        disabled: true
+        disabled: true,
       }),
       Components.input({
         label: "Chip revision",
         value: info.chip_revision,
-        disabled: true
-      })
+        disabled: true,
+      }),
     );
     return div;
-  }
-}
+  },
+};

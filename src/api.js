@@ -1,6 +1,6 @@
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.2.2";
+  hostname = "192.168.1.13";
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
@@ -18,130 +18,142 @@ export const DeviceApi = {
     return (await restRequest({ path: "/wifi" })).data;
   },
   saveWifi: async (payload) => {
-    await restRequest({ 
+    await restRequest({
       path: "/wifi",
       method: "POST",
-      payload
-    })
+      payload,
+    });
   },
   saveName: async (name) => {
     await restRequest({
       path: "/info/system",
       method: "PUT",
       payload: {
-        name
-      }
-    })
+        name,
+      },
+    });
   },
   execAction: async (action) => {
     await restRequest({
       method: "PUT",
       path: "/actions",
-      params: { action }
-    })
+      params: { action },
+    });
   },
   sensors: async () => {
-    return (await restRequest({ path: "/sensors" })).data
+    return (await restRequest({ path: "/sensors" })).data;
   },
   states: async () => {
-    return (await restRequest({ path: "/states" })).data
+    return (await restRequest({ path: "/states" })).data;
   },
   config: async () => {
-    return (await restRequest({ path: "/config" })).data
+    return (await restRequest({ path: "/config" })).data;
   },
   dropConfig: async () => {
-    await restRequest({ 
+    await restRequest({
       method: "DELETE",
-      path: "/config/delete/all"
-    })
+      path: "/config/delete/all",
+    });
   },
   saveConfig: async (values) => {
     await restRequest({
       method: "POST",
       path: "/config",
-      payload: values
-    })
+      payload: values,
+    });
   },
-  hooks: async ({ observable:{name, type} }) => {
-    return (await restRequest({
-      path: "/hooks/by/observable",
-      params: { name, type }
-    })).data
+  hooks: async ({ observable: { name, type } }) => {
+    return (
+      await restRequest({
+        path: "/hooks/by/observable",
+        params: { name, type },
+      })
+    ).data;
   },
   hooksTemplates: async (type) => {
-    return (await restRequest({
-      path: "/hooks/templates",
-      params: { type }
-    })).data
+    return (
+      await restRequest({
+        path: "/hooks/templates",
+        params: { type },
+      })
+    ).data;
   },
-  createHook: async ({ observable: {name, type}, hook }) => {
+  createHook: async ({ observable: { name, type }, hook }) => {
     await restRequest({
       path: "/hooks",
       method: "POST",
       payload: {
         observable: { name, type },
-        hook
-      }
-    })
+        hook,
+      },
+    });
   },
-  updateHook: async ({ observable: {name, type}, hook }) => {
+  updateHook: async ({ observable: { name, type }, hook }) => {
     await restRequest({
       path: "/hooks",
       method: "PUT",
       payload: {
         observable: { name, type },
-        hook
-      }
-    })
+        hook,
+      },
+    });
   },
-  deleteHook: async ({ observable: {name, type}, id }) => {
+  deleteHook: async ({ observable: { name, type }, id }) => {
     await restRequest({
       path: "/hooks",
       method: "DELETE",
-      params: { name, type, id }
-    })
+      params: { name, type, id },
+    });
   },
-  testHook: async ({ observable: {name, type}, id, value}) => {
+  testHook: async ({ observable: { name, type }, id, value }) => {
     await restRequest({
       path: "/hooks/test",
       method: "GET",
-      params: { name, type, id }
-    })
+      params: { name, type, id },
+    });
   },
   features: async () => {
-    return (await restRequest({ path: "/features"})).data
+    return (await restRequest({ path: "/features" })).data;
   },
   metrics: async () => {
-    return (await restRequest({ path: "/metrics" })).data
-  }
+    return (await restRequest({ path: "/metrics" })).data;
+  },
 };
 
 function joinRequestParams(requestParams) {
   if (!requestParams || !Object.keys(requestParams)) {
     return "";
   }
-  const params = Object.entries(requestParams).map(([key, value]) => `${key}=${value}`)
-  return params.length > 0 ? "?" + params.join("&") : ""
+  const params = Object.entries(requestParams).map(
+    ([key, value]) => `${key}=${value}`,
+  );
+  return params.length > 0 ? "?" + params.join("&") : "";
 }
 
-function restRequest({method="GET", path, payload, params}) {
+function restRequest({ method = "GET", path, payload, params }) {
   let xhr = new XMLHttpRequest();
-  xhr.open(method, `http://${hostname}${path[0] != '/' ? '/' : ''}${path}${joinRequestParams(params)}`, true);
+  xhr.open(
+    method,
+    `http://${hostname}${path[0] != "/" ? "/" : ""}${path}${joinRequestParams(
+      params,
+    )}`,
+    true,
+  );
   xhr.setRequestHeader("Accept", "application/json");
   if (payload) {
     xhr.setRequestHeader("Content-Type", "application/json");
   }
   let resolver;
-  const promise = new Promise((resolve) => resolver = resolve);
+  const promise = new Promise((resolve) => (resolver = resolve));
 
   xhr.onloadend = () => {
-    let data
+    let data;
     try {
-      data = xhr.response ? JSON.parse(xhr.response) : null
+      data = xhr.response ? JSON.parse(xhr.response) : null;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    resolver({data, status: xhr.status});
+    resolver({ data, status: xhr.status });
   };
   xhr.send(payload ? JSON.stringify(payload) : null);
   return promise;

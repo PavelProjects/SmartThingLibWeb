@@ -4,28 +4,27 @@ import { toast } from "../toast";
 
 function normalizeSystemName(value) {
   if (typeof value != "string" || value.length == 0) {
-    return '';
+    return "";
   }
-  return value.split('').reduce(
-      (acc, ch) => {
-          if (ch === '_') {
-              acc += ' ';
-          } else if (ch === ch.toUpperCase()) {
-              acc += " " + ch.toLowerCase();
-          } else {
-              acc += ch;
-          }
-          return acc;
-      }, "");
+  return value.split("").reduce((acc, ch) => {
+    if (ch === "_") {
+      acc += " ";
+    } else if (ch === ch.toUpperCase()) {
+      acc += " " + ch.toLowerCase();
+    } else {
+      acc += ch;
+    }
+    return acc;
+  }, "");
 }
 
-const SYSTEM_FIELDS = ["id", "type", "readonly"]
+const SYSTEM_FIELDS = ["id", "type", "readonly"];
 function isDefaultField(key) {
   return SYSTEM_FIELDS.includes(key);
 }
 
 export class HookView {
-  constructor({id="", hook, template, observable, parent}) {
+  constructor({ id = "", hook, template, observable, parent }) {
     this.id = id;
     this.hook = hook;
     this.template = template;
@@ -37,25 +36,25 @@ export class HookView {
       .reverse();
 
     this.controls = {
-      "test": Components.icon({
+      test: Components.icon({
         icon: Icons.tube,
         onClick: () => this.test(),
-        title: "Make a test hook call"
+        title: "Make a test hook call",
       }),
-      "delete": Components.icon({ 
+      delete: Components.icon({
         icon: Icons.trash,
-        onClick: () => this.delete()
+        onClick: () => this.delete(),
       }),
-      "edit": Components.icon({
+      edit: Components.icon({
         icon: Icons.pencil,
-        onClick: () => this.edit()
+        onClick: () => this.edit(),
       }),
-      "cancel": Components.icon({ 
+      cancel: Components.icon({
         icon: Icons.cross,
         onClick: () => this.cancel(),
         visible: false,
       }),
-      "save": Components.icon({ 
+      save: Components.icon({
         icon: Icons.save,
         onClick: () => this.save(),
         visible: false,
@@ -74,7 +73,10 @@ export class HookView {
     header.classList.add("hook-header");
 
     const { id, caption, type } = this.hook;
-    const title = Components.title(`[${id}] ${caption || normalizeSystemName(type)}`, 'h2');
+    const title = Components.title(
+      `[${id}] ${caption || normalizeSystemName(type)}`,
+      "h2",
+    );
     title.classList.add("hook-title");
 
     const controls = document.createElement("div");
@@ -93,14 +95,14 @@ export class HookView {
         disabled: true,
         props: {
           required,
-        }
+        },
       };
 
       let element;
       if (this.template[field] && this.template[field]["values"]) {
         element = Components.combobox({
           ...props,
-          values: this.template[field]["values"]
+          values: this.template[field]["values"],
         });
       } else {
         element = Components.input(props);
@@ -111,20 +113,22 @@ export class HookView {
     container.append(header, list);
     return container;
   }
-  edit(value=true) {
+  edit(value = true) {
     this.fields.forEach(([field, _]) => {
       document.getElementById(`cb_${this.hook.id}_${field}`).disabled = !value;
     });
     if (value) {
-      this.controlsVisibile(["cancel", "save"], true)
-      this.controlsVisibile(["delete", "edit", "test"], false)
+      this.controlsVisibile(["cancel", "save"], true);
+      this.controlsVisibile(["delete", "edit", "test"], false);
     } else {
-      this.controlsVisibile(["cancel", "save"], false)
-      this.controlsVisibile(["delete", "edit", "test"], true)
+      this.controlsVisibile(["cancel", "save"], false);
+      this.controlsVisibile(["delete", "edit", "test"], true);
     }
   }
   controlsVisibile(names, visible) {
-    names.forEach((name) => this.controls[name].style.display = visible ? "" : "none")
+    names.forEach(
+      (name) => (this.controls[name].style.display = visible ? "" : "none"),
+    );
   }
   validate() {
     let result = true;
@@ -141,29 +145,31 @@ export class HookView {
     if (!this.validate()) {
       return;
     }
-    
+
     this.fields.forEach(([field, _]) => {
-      this.hook[field] = document.getElementById(`cb_${this.hook.id}_${field}`).value;
+      this.hook[field] = document.getElementById(
+        `cb_${this.hook.id}_${field}`,
+      ).value;
     });
     try {
       if (this.hook.id === "New") {
-        delete this.hook.id
-        await DeviceApi.createHook({ 
+        delete this.hook.id;
+        await DeviceApi.createHook({
           observable: this.observable,
           hook: this.hook,
         });
       } else {
-        await DeviceApi.updateHook({ 
+        await DeviceApi.updateHook({
           observable: this.observable,
           hook: this.hook,
         });
       }
       toast.success({
-        caption: `Hook ${this.hook.id === "New" ? "created" : "updated"}!`
+        caption: `Hook ${this.hook.id === "New" ? "created" : "updated"}!`,
       });
       document.getElementById(this.id).remove();
       this.parent.update();
-    } catch(error) {
+    } catch (error) {
       toast.error({
         caption: "Failed to save toast",
         description: "Check device logs for additional information",
@@ -173,19 +179,19 @@ export class HookView {
   async delete() {
     if (confirm("Are you sure you wan to delete hook " + this.hook.id + "?")) {
       try {
-        await DeviceApi.deleteHook({ 
+        await DeviceApi.deleteHook({
           observable: this.observable,
           id: this.hook.id,
-        })
+        });
         toast.success({
-          caption: "Hook deleted"
+          caption: "Hook deleted",
         });
         this.parent.update();
-      } catch(error) {
+      } catch (error) {
         toast.error({
           caption: "Failed to delete hook",
           description: "Check device logs for additional information",
-        })
+        });
       }
     }
   }
@@ -193,20 +199,20 @@ export class HookView {
     try {
       await DeviceApi.testHook({
         observable: this.observable,
-        id: this.hook.id
-      })
+        id: this.hook.id,
+      });
       toast.success({
-        caption: "Hook called successfully!"
-      })
+        caption: "Hook called successfully!",
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast.error({
-        caption: "Failed to call hook"
-      })
+        caption: "Failed to call hook",
+      });
     }
   }
   cancel() {
-    if(this.hook.id === "New") {
+    if (this.hook.id === "New") {
       document.getElementById(this.id).remove();
       this.parent.update();
     } else {
@@ -216,7 +222,7 @@ export class HookView {
 }
 
 export class HooksView {
-  constructor({ id="", observable }) {
+  constructor({ id = "", observable }) {
     this.id = id;
     this.observable = observable;
   }
@@ -233,14 +239,14 @@ export class HooksView {
       label: "Add hook of type",
       onChange: (type) => {
         this.addNewHook(type);
-      }
+      },
     });
 
     this.list = Components.list();
     this.list.id = "cb_list_" + this.id;
     this.list.classList.add("hooks-list-view");
-    
-    div.append(this.comboboxTemplates , this.list);
+
+    div.append(this.comboboxTemplates, this.list);
 
     this.firstLoad();
 
@@ -259,13 +265,13 @@ export class HooksView {
       return;
     }
     fillCombobox(
-      this.comboboxTemplates, 
+      this.comboboxTemplates,
       Object.keys(this.templates)
         .filter((value) => value !== "default")
-        .reduce(((acc, key) => {
+        .reduce((acc, key) => {
           acc[key] = normalizeSystemName(key);
           return acc;
-        }), {})
+        }, {}),
     );
   }
   // todo список хуков не обновляется после сохранения хука
@@ -273,19 +279,24 @@ export class HooksView {
     this.list.innerHTML = "";
     this.hooks = await DeviceApi.hooks({ observable: this.observable });
     if (!this.hooks || this.hooks.length === 0) {
-      this.list.appendChild(Components.title('No hooks added yet', 'h3'));
+      this.list.appendChild(Components.title("No hooks added yet", "h3"));
       return;
     }
 
-    this.hooks.forEach((hook) => this.list.appendChild(
-      new HookView({
-        id: "cb_" + hook.id,
-        hook,
-        template: {...this.templates[hook.type], ...this.templates["default"] },
-        observable: this.observable,
-        parent: this,
-      }).create()
-    ));
+    this.hooks.forEach((hook) =>
+      this.list.appendChild(
+        new HookView({
+          id: "cb_" + hook.id,
+          hook,
+          template: {
+            ...this.templates[hook.type],
+            ...this.templates["default"],
+          },
+          observable: this.observable,
+          parent: this,
+        }).create(),
+      ),
+    );
   }
   addNewHook(type) {
     const existing = document.getElementById("cb_new");
@@ -296,11 +307,13 @@ export class HooksView {
       return;
     }
     const template = { ...this.templates[type], ...this.templates["default"] };
-    const hookFromTemplate = Object.entries(template)
-                .reduce((acc, [key, info]) => {
-                    acc[key] = info["default"] || ""
-                    return acc
-                }, {id: "New", type})
+    const hookFromTemplate = Object.entries(template).reduce(
+      (acc, [key, info]) => {
+        acc[key] = info["default"] || "";
+        return acc;
+      },
+      { id: "New", type },
+    );
     const view = new HookView({
       id: "cb_new",
       hook: hookFromTemplate,

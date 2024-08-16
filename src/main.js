@@ -11,27 +11,31 @@ import { DeviceApi } from "./api";
 import { toast } from "./toast";
 
 const defaultTabs = {
-  "info": InfoTab,
-  "wifi": WifiTab,
-  "actions": ActionsTab,
-  "sensors": SensorsTab,
-  "states": StatesTab,
-  "configuration": ConfigTab,
-  "metrics": MetricsTab,
-}
+  info: InfoTab,
+  wifi: WifiTab,
+  actions: ActionsTab,
+  sensors: SensorsTab,
+  states: StatesTab,
+  configuration: ConfigTab,
+  metrics: MetricsTab,
+};
 
 window.onload = async () => {
-  const features = await DeviceApi.features().catch((e) => {
-    console.log("Failed to load features", e);
-    toast.error({ caption: "Failed to load device features" })
-  }) ?? {};
-  const mainTabs = new Menu("menu-main", Object.entries(defaultTabs).reduce((acc, [key, value]) => {
-    if (features[key] === undefined || features[key] === true) {
-      acc[key] = value;
-    }
-    return acc;
-  }, {}));
-  window.features = features
+  const features =
+    (await DeviceApi.features().catch((e) => {
+      console.log("Failed to load features", e);
+      toast.error({ caption: "Failed to load device features" });
+    })) ?? {};
+  const mainTabs = new Menu(
+    "menu-main",
+    Object.entries(defaultTabs).reduce((acc, [key, value]) => {
+      if (features[key] === undefined || features[key] === true) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {}),
+  );
+  window.features = features;
   document.getElementById("control-panel").appendChild(mainTabs.create());
   mainTabs.open("info");
-}
+};
