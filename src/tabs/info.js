@@ -57,8 +57,8 @@ export const InfoTab = {
         disabled: true,
       }),
       Components.input({
-        label: "Board",
-        value: info.board,
+        label: "Platform",
+        value: info.platform,
         disabled: true,
       }),
       Components.input({
