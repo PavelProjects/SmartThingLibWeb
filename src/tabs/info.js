@@ -57,6 +57,11 @@ export const InfoTab = {
         disabled: true,
       }),
       Components.input({
+        label: "Board",
+        value: info.board,
+        disabled: true,
+      }),
+      Components.input({
         label: "Firmware version",
         value: info.version,
         disabled: true,
