@@ -1,6 +1,6 @@
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.1.13";
+  hostname = "192.168.1.14";
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
@@ -105,7 +105,7 @@ export const DeviceApi = {
       params: { name, type, id },
     });
   },
-  testHook: async ({ observable: { name, type }, id, value }) => {
+  testHook: async ({ observable: { name, type }, id }) => {
     await restRequest({
       path: "/hooks/test",
       method: "GET",
@@ -118,6 +118,12 @@ export const DeviceApi = {
   metrics: async () => {
     return (await restRequest({ path: "/metrics" })).data;
   },
+  restart: async () => {
+    await restRequest({ path: "/danger/restart", method: "POST" });
+  },
+  wipe: async () => {
+    await restRequest({ path: "/danger/wipe", method: "POST"});
+  }
 };
 
 function joinRequestParams(requestParams) {

@@ -1,7 +1,6 @@
-import { DeviceApi, FETCH_FAILED_CATION } from "../api";
+import { DeviceApi } from "../api";
 import { Components } from "../components";
 import { Menu } from "../menu";
-import { toast } from "../toast";
 import { HooksView } from "./hooks";
 
 export const SensorsTab = {

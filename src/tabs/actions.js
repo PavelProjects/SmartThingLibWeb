@@ -1,4 +1,4 @@
-import { DeviceApi, FETCH_FAILED_CATION } from "../api";
+import { DeviceApi } from "../api";
 import { Components } from "../components";
 import { toast } from "../toast";
 

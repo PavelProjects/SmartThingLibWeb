@@ -9,6 +9,7 @@ import { ConfigTab } from "./tabs/configuration";
 import { MetricsTab } from "./tabs/metrics";
 import { DeviceApi } from "./api";
 import { toast } from "./toast";
+import { DangerTab } from "./tabs/danger";
 
 const defaultTabs = {
   info: InfoTab,
@@ -18,6 +19,7 @@ const defaultTabs = {
   states: StatesTab,
   configuration: ConfigTab,
   metrics: MetricsTab,
+  danger: DangerTab,
 };
 
 window.onload = async () => {
