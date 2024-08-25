@@ -122,8 +122,8 @@ export const DeviceApi = {
     await restRequest({ path: "/danger/restart", method: "POST" });
   },
   wipe: async () => {
-    await restRequest({ path: "/danger/wipe", method: "POST"});
-  }
+    await restRequest({ path: "/danger/wipe", method: "POST" });
+  },
 };
 
 function joinRequestParams(requestParams) {

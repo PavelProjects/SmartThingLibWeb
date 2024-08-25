@@ -6,11 +6,11 @@
   --dg: 2px;
 
   --miw: 250px;
-/* background */
+  /* background */
   --cb: #181818;
   --cb-m: #282828;
   --cb-s: #484848;
-/* border */
+  /* border */
   --cbo: rgba(84, 84, 84, 0.48);
   --rbo: 10px;
   /* text */

@@ -158,7 +158,8 @@ select {
   z-index: 1000;
   transition: 0.4s;
 }
-.toast h2, h3 {
+.toast h2,
+h3 {
   text-align: center;
 }
 .br {
