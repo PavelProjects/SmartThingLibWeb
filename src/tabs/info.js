@@ -67,16 +67,6 @@ export const InfoTab = {
         disabled: true,
         type: "number",
       }),
-      Components.input({
-        label: "Chip model",
-        value: info.chip_model,
-        disabled: true,
-      }),
-      Components.input({
-        label: "Chip revision",
-        value: info.chip_revision,
-        disabled: true,
-      }),
     );
     return div;
   },

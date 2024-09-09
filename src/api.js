@@ -9,10 +9,10 @@ export const DeviceApi = {
     return (await restRequest({ path: "/info/system" })).data;
   },
   actions: async () => {
-    return (await restRequest({ path: "/info/actions" })).data;
+    return (await restRequest({ path: "/actions/info" })).data;
   },
   configInfo: async () => {
-    return (await restRequest({ path: "/info/config" })).data;
+    return (await restRequest({ path: "/config/info" })).data;
   },
   getWifi: async () => {
     return (await restRequest({ path: "/wifi" })).data;
@@ -47,7 +47,7 @@ export const DeviceApi = {
     return (await restRequest({ path: "/states" })).data;
   },
   config: async () => {
-    return (await restRequest({ path: "/config" })).data;
+    return (await restRequest({ path: "/config/values" })).data;
   },
   dropConfig: async () => {
     await restRequest({
@@ -58,7 +58,7 @@ export const DeviceApi = {
   saveConfig: async (values) => {
     await restRequest({
       method: "POST",
-      path: "/config",
+      path: "/config/values",
       payload: values,
     });
   },
