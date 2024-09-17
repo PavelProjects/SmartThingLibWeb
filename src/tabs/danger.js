@@ -6,7 +6,7 @@ export const DangerTab = {
   name: "Danger zone",
   content: async () => {
     const div = Components.list();
-    div.appendChild(Components.title("Please, be careful with this actions!"));
+    div.appendChild(Components.header("Please, be careful with this actions!"));
     div.append(
       Components.button({
         id: "restart",

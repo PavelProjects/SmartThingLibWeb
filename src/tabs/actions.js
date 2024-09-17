@@ -7,7 +7,7 @@ export const ActionsTab = {
   content: async () => {
     const actions = await DeviceApi.actions();
     if (!actions) {
-      return Components.title("No actions configured");
+      return Components.header("No actions configured");
     }
     const div = Components.list();
     Object.entries(actions).forEach(([action, caption]) => {

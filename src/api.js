@@ -1,6 +1,6 @@
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.1.14";
+  hostname = "192.168.1.13";
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
@@ -42,6 +42,9 @@ export const DeviceApi = {
   },
   sensors: async () => {
     return (await restRequest({ path: "/sensors" })).data;
+  },
+  sensorsTypes: async () => {
+    return (await restRequest({ path: "/sensors/types" })).data;
   },
   states: async () => {
     return (await restRequest({ path: "/states" })).data;

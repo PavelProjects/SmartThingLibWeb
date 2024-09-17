@@ -1,9 +1,9 @@
 export const Components = {
-  title: (value, tag = "h1") => {
-    const title = document.createElement(tag);
-    title.classList.add("title");
-    title.innerHTML = value;
-    return title;
+  header: (value, tag = "h1") => {
+    const header = document.createElement(tag);
+    header.classList.add("header");
+    header.innerHTML = value;
+    return header;
   },
   container: (props = { bordered: false }) => {
     const div = document.createElement("div");

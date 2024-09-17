@@ -8,12 +8,12 @@ export const StatesTab = {
   content: async () => {
     const states = await DeviceApi.states();
     if (!states || Object.keys(states).length === 0) {
-      return Components.title("No states configured", "h2");
+      return Components.header("No states configured", "h2");
     }
     const menuItems = Object.entries(states).reduce((acc, [state, value]) => {
       acc["state-menu-" + state] = {
         name: `${state}: ${value}`,
-        title: "Hooks",
+        header: "Hooks",
         content: async () => {
           if (
             window.features?.hooks === undefined ||
@@ -27,7 +27,7 @@ export const StatesTab = {
               },
             }).create();
           } else {
-            return Components.title(
+            return Components.header(
               "Hooks feature disabled in this build",
               "h2",
             );

@@ -8,13 +8,15 @@ export const SensorsTab = {
   content: async () => {
     const sensors = await DeviceApi.sensors();
     if (!sensors || Object.keys(sensors).length === 0) {
-      return Components.title("No sensors configured", "h2");
+      return Components.header("No sensors configured", "h2");
     }
+    const types = await DeviceApi.sensorsTypes() ?? {};
     const menuItems = Object.entries(sensors).reduce(
-      (acc, [sensor, { value, type }]) => {
+      (acc, [sensor, value]) => {
         acc["sensors-menu-" + sensor] = {
-          name: `${sensor} (${type}): ${value}`,
-          title: "Hooks",
+          name: `${sensor}: ${value}`,
+          header: "Hooks",
+          title: types[sensor],
           content: async () => {
             if (
               window.features?.hooks === undefined ||
@@ -28,7 +30,7 @@ export const SensorsTab = {
                 },
               }).create();
             } else {
-              return Components.title(
+              return Components.header(
                 "Hooks feature disabled in this build",
                 "h2",
               );

@@ -14,7 +14,7 @@ export const ConfigTab = {
       return;
     }
     if (Object.keys(info).length === 0) {
-      return Components.title("No config entries", "h2");
+      return Components.header("No config entries", "h2");
     }
     const values = await DeviceApi.config();
     if (!values) {

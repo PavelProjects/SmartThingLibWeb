@@ -17,11 +17,14 @@ export class Menu {
     this.viewDiv.classList.add("menu-items", "list", "br");
     this.viewDiv.id = this.id;
 
-    Object.entries(this.menuItems).forEach(([menuItem, { name }]) => {
+    Object.entries(this.menuItems).forEach(([item, { name, title }]) => {
       const h2 = document.createElement("h2");
-      h2.id = menuItem;
+      h2.id = item;
       h2.innerHTML = name;
-      h2.onclick = () => this.open(menuItem);
+      if (title) {
+        h2.title = title;
+      }
+      h2.onclick = () => this.open(item);
       this.viewDiv.appendChild(h2);
     });
 
@@ -29,7 +32,7 @@ export class Menu {
     this.contentDiv.classList.add("menu-item-content");
     this.contentDiv.id = this.id + "-content";
 
-    this.loadingTitle = Components.title("Loading...", "h2");
+    this.loadingTitle = Components.header("Loading...", "h2");
     this.loadingTitle.style.display = "none";
     this.contentDiv.appendChild(this.loadingTitle);
 
@@ -78,9 +81,9 @@ export class Menu {
     const id = menuItemName + "-content";
     const container = Components.container();
     container.id = id;
-    if (this.menuItems[menuItemName].title) {
+    if (this.menuItems[menuItemName].header) {
       container.appendChild(
-        Components.title(this.menuItems[menuItemName].title),
+        Components.header(this.menuItems[menuItemName].header),
       );
     }
     this.loadContent(container, menuItemName);

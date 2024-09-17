@@ -69,21 +69,21 @@ export class HookView {
     const container = Components.container();
     container.id = this.id;
 
-    const header = document.createElement("div");
-    header.classList.add("hook-header");
+    const headerBlock = document.createElement("div");
+    headerBlock.classList.add("hook-header");
 
     const { id, caption, type } = this.hook;
-    const title = Components.title(
+    const header = Components.header(
       `[${id}] ${caption || normalizeSystemName(type)}`,
       "h2",
     );
-    title.classList.add("hook-title");
+    header.classList.add("hook-header");
 
     const controls = document.createElement("div");
     controls.classList.add("hook-view-controls");
     Object.values(this.controls).forEach((v) => controls.appendChild(v));
 
-    header.append(title, controls);
+    headerBlock.append(header, controls);
 
     const list = Components.list();
     this.fields.forEach(([field, value]) => {
@@ -279,7 +279,7 @@ export class HooksView {
     this.list.innerHTML = "";
     this.hooks = await DeviceApi.hooks({ observable: this.observable });
     if (!this.hooks || this.hooks.length === 0) {
-      this.list.appendChild(Components.title("No hooks added yet", "h3"));
+      this.list.appendChild(Components.header("No hooks added yet", "h3"));
       return;
     }
 

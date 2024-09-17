@@ -14,7 +14,7 @@
   z-index: 999;
 }
 
-.title {
+.header {
   text-align: center;
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
@@ -123,7 +123,7 @@ select {
   width: 100%;
 }
 
-.hook-title {
+.hook-header {
   flex: 1 1 auto;
   text-align: start;
 }
