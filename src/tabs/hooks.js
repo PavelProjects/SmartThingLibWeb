@@ -110,7 +110,7 @@ export class HookView {
       list.appendChild(element);
     });
 
-    container.append(header, list);
+    container.append(headerBlock, list);
     return container;
   }
   edit(value = true) {
