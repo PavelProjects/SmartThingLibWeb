@@ -15,6 +15,7 @@ export const ActionsTab = {
         Components.button({
           id: "action_" + action,
           label: caption,
+          title: `System name: ${action}`,
           labelElement: "h1",
           onClick: async () => {
             try {
@@ -33,6 +34,7 @@ export const ActionsTab = {
         }),
       );
     });
+    div.style.padding = "2px";
     return div;
   },
 };

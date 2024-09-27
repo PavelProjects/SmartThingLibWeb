@@ -57,6 +57,7 @@ export const WifiTab = {
     );
     const container = Components.container();
     container.append(list, controls);
+    container.style.padding = "2px";
     return container;
   },
 };

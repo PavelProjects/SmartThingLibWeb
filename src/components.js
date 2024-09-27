@@ -21,6 +21,7 @@ export const Components = {
   button: ({
     id,
     label,
+    title,
     labelElement = "h2",
     onClick,
     danger = false,
@@ -33,6 +34,9 @@ export const Components = {
     btn.classList.add("btn");
     const btnLbl = `<${labelElement}>${label}</${labelElement}>`;
     btn.innerHTML = btnLbl;
+    if (title) {
+      btn.title = title;
+    }
     if (onClick) {
       btn.onclick = async () => {
         btn.disabled = true;
@@ -77,6 +81,7 @@ export const Components = {
     id,
     label,
     value,
+    title,
     disabled = false,
     type = "text",
     slot,
@@ -87,6 +92,9 @@ export const Components = {
 
     const labelH = document.createElement("h2");
     labelH.innerHTML = label;
+    if (title) {
+      labelH.title = title;
+    }
 
     const inputContainer = document.createElement("div");
     inputContainer.classList.add("input-with-slot");

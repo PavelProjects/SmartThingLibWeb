@@ -1,6 +1,6 @@
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.1.13";
+  hostname = "192.168.182.249";
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 

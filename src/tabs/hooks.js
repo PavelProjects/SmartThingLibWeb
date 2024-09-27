@@ -233,6 +233,7 @@ export class HooksView {
     }
     const div = document.createElement("div");
     div.id = this.id;
+    div.style.padding = "2px";
 
     this.comboboxTemplates = Components.combobox({
       values: [],

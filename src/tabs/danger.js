@@ -45,6 +45,7 @@ export const DangerTab = {
         },
       }),
     );
+    div.style.padding = "2px";
     return div;
   },
 };

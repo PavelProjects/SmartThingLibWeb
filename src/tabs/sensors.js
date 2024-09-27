@@ -15,8 +15,7 @@ export const SensorsTab = {
       (acc, [sensor, value]) => {
         acc["sensors-menu-" + sensor] = {
           name: `${sensor}: ${value}`,
-          header: "Hooks",
-          title: types[sensor],
+          title: `Sensor type: ${types[sensor]}`,
           content: async () => {
             if (
               window.features?.hooks === undefined ||

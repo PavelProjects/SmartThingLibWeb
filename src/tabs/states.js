@@ -13,7 +13,6 @@ export const StatesTab = {
     const menuItems = Object.entries(states).reduce((acc, [state, value]) => {
       acc["state-menu-" + state] = {
         name: `${state}: ${value}`,
-        header: "Hooks",
         content: async () => {
           if (
             window.features?.hooks === undefined ||

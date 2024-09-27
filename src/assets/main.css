@@ -47,7 +47,6 @@ select {
 .bordered {
   border: solid 2px var(--cbo);
   border-radius: var(--rbo);
-  padding: 2px;
 }
 .container {
   display: flex;
@@ -107,7 +106,6 @@ select {
 .menu-item-content {
   position: relative;
   width: calc(100% - var(--miw));
-  margin-left: 5px;
 }
 
 .menu-selected {

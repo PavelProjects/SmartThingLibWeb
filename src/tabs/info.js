@@ -68,6 +68,7 @@ export const InfoTab = {
         type: "number",
       }),
     );
+    div.style.padding = "2px";
     return div;
   },
 };

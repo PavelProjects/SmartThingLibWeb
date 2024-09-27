@@ -29,7 +29,8 @@ export const ConfigTab = {
       inputsList.appendChild(
         Components.input({
           id: name,
-          label: caption,
+          label: `${caption} [${name}]`,
+          title: `System name: ${name}\nValue type: ${type}`,
           type: type,
           value: values[name] || "",
         }),
@@ -77,6 +78,7 @@ export const ConfigTab = {
     );
     const container = Components.container();
     container.append(inputsList, controls);
+    container.style.padding = "2px";
     return container;
   },
 };
