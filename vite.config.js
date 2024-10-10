@@ -16,7 +16,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {}
+        manualChunks: {},
+        entryFileNames: 'assets/script.js',
+        assetFileNames: 'assets/styles.css',
       }
     },
     minify: 'terser',

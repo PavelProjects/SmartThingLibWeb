@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-header": "npm run build && node ./scripts/buildHeader.js",
+    "deploy-header": "npm run build-header && ./scripts/platformio.sh",
     "preview": "vite preview",
     "format": "prettier --write src/"
   },
