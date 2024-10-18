@@ -67,12 +67,20 @@ export const InfoTab = {
         disabled: true,
       }),
       Components.input({
-        label: "Firmware version",
-        value: info.version,
+        label: "SmartThing version",
+        value: info.smtVersion,
         disabled: true,
-        type: "number",
       }),
     );
+    if (!!info.version) {
+      div.append(
+        Components.input({
+          label: "Firmware version",
+          value: info.version,
+          disabled: true,
+        })
+      )
+    }
     div.style.padding = "2px";
     return div;
   },
