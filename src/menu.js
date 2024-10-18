@@ -1,4 +1,4 @@
-import { Components, Icons } from "./components";
+import { Components } from "./components";
 
 export class Menu {
   selected = {};

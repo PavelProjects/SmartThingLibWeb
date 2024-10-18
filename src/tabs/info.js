@@ -72,7 +72,7 @@ export const InfoTab = {
         disabled: true,
       }),
     );
-    if (!!info.version) {
+    if (info.version) {
       div.append(
         Components.input({
           label: "Firmware version",

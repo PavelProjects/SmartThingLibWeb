@@ -32,7 +32,7 @@ export class HookView {
     this.parent = parent;
 
     this.fields = Object.entries(this.hook)
-      .filter(([key, _]) => !isDefaultField(key))
+      .filter(([key, ]) => !isDefaultField(key))
       .reverse();
 
     this.controls = {
@@ -114,7 +114,7 @@ export class HookView {
     return container;
   }
   edit(value = true) {
-    this.fields.forEach(([field, _]) => {
+    this.fields.forEach(([field, ]) => {
       document.getElementById(`cb_${this.hook.id}_${field}`).disabled = !value;
     });
     if (value) {
@@ -132,7 +132,7 @@ export class HookView {
   }
   validate() {
     let result = true;
-    this.fields.forEach(([field, _]) => {
+    this.fields.forEach(([field, ]) => {
       const element = document.getElementById(`cb_${this.hook.id}_${field}`);
       if (element.getAttribute("required") == "true" && !element.value) {
         result = false;
@@ -146,7 +146,7 @@ export class HookView {
       return;
     }
 
-    this.fields.forEach(([field, _]) => {
+    this.fields.forEach(([field, ]) => {
       this.hook[field] = document.getElementById(
         `cb_${this.hook.id}_${field}`,
       ).value;

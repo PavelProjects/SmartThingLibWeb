@@ -2,12 +2,15 @@
   "name": "smart_thing_web",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "build-header": "npm run build && node ./scripts/buildHeader.js",
     "deploy-header": "npm run build-header && ./scripts/platformio.sh",
-    "preview": "vite preview",
+    "lint-fix": "eslint ./src --fix",
+    "lint-check": "eslint ./src",
     "format": "prettier --write src/"
   },
   "devDependencies": {
@@ -17,5 +20,8 @@
     "prettier": "^3.0.0",
     "terser": "^5.31.6",
     "vite": "^4.4.9"
+  },
+  "dependencies": {
+    "globals": "^15.11.0"
   }
 }
