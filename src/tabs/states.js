@@ -1,6 +1,5 @@
 import { DeviceApi } from "../api";
 import { Menu } from "../menu";
-import { HooksView } from "./hooks";
 import { Components } from "../components";
 
 export const StatesTab = {
@@ -18,6 +17,7 @@ export const StatesTab = {
             window.features?.hooks === undefined ||
             window.features?.hooks == true
           ) {
+            const { HooksView } = await import('./hooks.js')
             return new HooksView({
               id: "cb_view_" + state,
               observable: {

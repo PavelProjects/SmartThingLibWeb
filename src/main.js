@@ -2,9 +2,6 @@ import { Menu } from "./menu";
 
 import { InfoTab } from "./tabs/info";
 import { WifiTab } from "./tabs/wifi";
-import { ActionsTab } from "./tabs/actions";
-import { SensorsTab } from "./tabs/sensors";
-import { StatesTab } from "./tabs/states";
 import { ConfigTab } from "./tabs/configuration";
 import { MetricsTab } from "./tabs/metrics";
 import { DeviceApi } from "./api";
@@ -14,9 +11,18 @@ import { DangerTab } from "./tabs/danger";
 const defaultTabs = {
   info: InfoTab,
   wifi: WifiTab,
-  actions: ActionsTab,
-  sensors: SensorsTab,
-  states: StatesTab,
+  actions: async () => {
+    const { ActionsTab } = await import( "./tabs/actions.js")
+    return ActionsTab
+  },
+  sensors: async () => {
+    const { SensorsTab } = await import( "./tabs/sensors.js")
+    return SensorsTab
+  },
+  states: async () => {
+    const { StatesTab } = await import( "./tabs/states.js")
+    return StatesTab
+  },
   configuration: ConfigTab,
   metrics: MetricsTab,
   danger: DangerTab,
@@ -24,19 +30,23 @@ const defaultTabs = {
 
 window.onload = async () => {
   const features =
-    (await DeviceApi.features().catch((e) => {
-      console.log("Failed to load features", e);
+    (await DeviceApi.features().catch(() => {
       toast.error({ caption: "Failed to load device features" });
     })) ?? {};
-  const mainTabs = new Menu(
-    "menu-main",
-    Object.entries(defaultTabs).reduce((acc, [key, value]) => {
-      if (features[key] === undefined || features[key] === true) {
-        acc[key] = value;
+
+  const tabs = {}
+  for (const [key, value] of Object.entries(defaultTabs)) {
+    if (features[key] === undefined || features[key] === true) {
+      if (typeof value === 'function') {
+        tabs[key] = await value()
+      } else {
+        tabs[key] = value
       }
-      return acc;
-    }, {}),
-  );
+    }
+  }
+    
+  const mainTabs = new Menu("menu-main", tabs);
+  console.log(Object.entries(mainTabs.menuItems))
   window.features = features;
   document.getElementById("control-panel").appendChild(mainTabs.create());
   mainTabs.open("info");

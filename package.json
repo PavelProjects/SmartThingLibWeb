@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build-header": "npm run build && node ./scripts/buildHeader.js",
+    "build-header": "npm run build && node ./scripts/buildHeader.cjs",
     "deploy-header": "npm run build-header && ./scripts/platformio.sh",
     "lint-fix": "eslint ./src --fix",
     "lint-check": "eslint ./src",

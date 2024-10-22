@@ -19,6 +19,7 @@ export default defineConfig({
         manualChunks: {},
         entryFileNames: 'assets/script.js',
         assetFileNames: 'assets/styles.css',
+        chunkFileNames: '[name]/script.js'
       }
     },
     minify: 'terser',

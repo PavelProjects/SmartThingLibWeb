@@ -1,7 +1,6 @@
 import { DeviceApi } from "../api";
 import { Components } from "../components";
 import { Menu } from "../menu";
-import { HooksView } from "./hooks";
 
 export const SensorsTab = {
   name: "Sensors",
@@ -21,6 +20,7 @@ export const SensorsTab = {
               window.features?.hooks === undefined ||
               window.features?.hooks == true
             ) {
+              const { HooksView } = await import('./hooks.js')
               return new HooksView({
                 id: "cb_view_" + sensor,
                 observable: {
