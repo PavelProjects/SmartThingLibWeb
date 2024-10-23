@@ -5,12 +5,15 @@ import { toast } from "../toast";
 export const WifiTab = {
   name: "WiFi",
   content: async () => {
-    const { settings, modes } = await DeviceApi.getWifi();
-    if (!settings) {
-      toast.error({
-        caption: FETCH_FAILED_CATION,
-        description: "Failed to fetch WiFi settings",
-      });
+    const { settings, modes } = await DeviceApi.getWifi()
+      .then(({ data }) => data)
+      .catch(() => 
+        toast.error({
+          caption: FETCH_FAILED_CATION,
+          description: "Failed to fetch WiFi settings",
+        }));
+
+    if (!settings) {;
       return;
     }
     const list = Components.list();
@@ -37,21 +40,16 @@ export const WifiTab = {
       Components.button({
         label: "Save and reconnect",
         onClick: async () => {
-          try {
-            await DeviceApi.saveWifi({
-              ssid: document.getElementById("ssid").value || "",
-              password: document.getElementById("password").value || "",
-              mode: document.getElementById("mode").value || "",
-            });
-            toast.success({
-              caption: "WiFi settings updated",
-            });
-          } catch (error) {
-            toast.error({
-              caption: "Failed to update WiFi settings",
-              description: "Check device logs for additional information",
-            });
-          }
+          DeviceApi.saveWifi({
+            ssid: document.getElementById("ssid").value || "",
+            password: document.getElementById("password").value || "",
+            mode: document.getElementById("mode").value || "",
+          }).then(() => toast.success({
+            caption: "WiFi settings updated",
+          })).catch(() => toast.error({
+            caption: "Failed to update WiFi settings",
+            description: "Check device logs for additional information",
+          }))
         },
       }),
     );

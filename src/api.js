@@ -4,129 +4,93 @@ if (hostname === "localhost") {
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
+const METHODS = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE'
+}
+
 export const DeviceApi = {
-  info: async () => {
-    return (await restRequest({ path: "/info/system" })).data;
+  features: () => restRequest({ path: "/features" }),
+  info: () => restRequest({ path: "/info/system" }),
+  actions: () => restRequest({ path: "/actions/info" }),
+  configInfo: () => restRequest({ path: "/config/info" }),
+  getWifi: () => restRequest({ path: "/wifi" }),
+  saveWifi: (payload) => restRequest({
+    path: "/wifi",
+    method: METHODS.POST,
+    payload,
+  }),
+  saveName: (name) => restRequest({
+    path: "/info/system",
+    method: METHODS.PUT,
+    payload: {
+      name,
+    },
+  }),
+  callAction: (action) => restRequest({
+    method: METHODS.GET,
+    path: "/actions/call",
+    params: { action },
+  }),
+  updateActionDelay: (name, delay) => {
+    return restRequest({
+      method: METHODS.PUT,
+      path: "/actions/delay",
+      payload: { name, callDelay: delay },
+    })
   },
-  actions: async () => {
-    return (await restRequest({ path: "/actions/info" })).data;
-  },
-  configInfo: async () => {
-    return (await restRequest({ path: "/config/info" })).data;
-  },
-  getWifi: async () => {
-    return (await restRequest({ path: "/wifi" })).data;
-  },
-  saveWifi: async (payload) => {
-    await restRequest({
-      path: "/wifi",
-      method: "POST",
-      payload,
-    });
-  },
-  saveName: async (name) => {
-    await restRequest({
-      path: "/info/system",
-      method: "PUT",
-      payload: {
-        name,
-      },
-    });
-  },
-  execAction: async (action) => {
-    await restRequest({
-      method: "PUT",
-      path: "/actions",
-      params: { action },
-    });
-  },
-  sensors: async () => {
-    return (await restRequest({ path: "/sensors" })).data;
-  },
-  sensorsTypes: async () => {
-    return (await restRequest({ path: "/sensors/types" })).data;
-  },
-  states: async () => {
-    return (await restRequest({ path: "/states" })).data;
-  },
-  config: async () => {
-    return (await restRequest({ path: "/config/values" })).data;
-  },
-  dropConfig: async () => {
-    await restRequest({
-      method: "DELETE",
-      path: "/config/delete/all",
-    });
-  },
-  saveConfig: async (values) => {
-    await restRequest({
-      method: "POST",
-      path: "/config/values",
-      payload: values,
-    });
-  },
-  hooks: async ({ observable: { name, type } }) => {
-    return (
-      await restRequest({
-        path: "/hooks/by/observable",
-        params: { name, type },
-      })
-    ).data;
-  },
-  hooksTemplates: async (type) => {
-    return (
-      await restRequest({
-        path: "/hooks/templates",
-        params: { type },
-      })
-    ).data;
-  },
-  createHook: async ({ observable: { name, type }, hook }) => {
-    await restRequest({
-      path: "/hooks",
-      method: "POST",
-      payload: {
-        observable: { name, type },
-        hook,
-      },
-    });
-  },
-  updateHook: async ({ observable: { name, type }, hook }) => {
-    await restRequest({
-      path: "/hooks",
-      method: "PUT",
-      payload: {
-        observable: { name, type },
-        hook,
-      },
-    });
-  },
-  deleteHook: async ({ observable: { name, type }, id }) => {
-    await restRequest({
-      path: "/hooks",
-      method: "DELETE",
-      params: { name, type, id },
-    });
-  },
-  testHook: async ({ observable: { name, type }, id }) => {
-    await restRequest({
-      path: "/hooks/test",
-      method: "GET",
-      params: { name, type, id },
-    });
-  },
-  features: async () => {
-    return (await restRequest({ path: "/features" })).data;
-  },
-  metrics: async () => {
-    return (await restRequest({ path: "/metrics" })).data;
-  },
-  restart: async () => {
-    await restRequest({ path: "/danger/restart", method: "POST" });
-  },
-  wipe: async () => {
-    await restRequest({ path: "/danger/wipe", method: "POST" });
-  },
+  sensors: () => restRequest({ path: "/sensors" }),
+  sensorsTypes: () => restRequest({ path: "/sensors/types" }),
+  states: () => restRequest({ path: "/states" }),
+  config: () => restRequest({ path: "/config/values" }),
+  dropConfig: () => restRequest({
+    method: METHODS.DELETE,
+    path: "/config/delete/all",
+  }),
+  saveConfig: (values) => restRequest({
+    method: METHODS.POST,
+    path: "/config/values",
+    payload: values,
+  }),
+  hooks: ({ observable: { name, type } }) => restRequest({
+    path: "/hooks/by/observable",
+    params: { name, type },
+  }),
+  hooksTemplates: (type) => restRequest({
+    path: "/hooks/templates",
+    params: { type },
+  }),
+  createHook: ({ observable: { name, type }, hook }) => restRequest({
+    path: "/hooks",
+    method: METHODS.POST,
+    payload: {
+      observable: { name, type },
+      hook,
+    },
+  }),
+  updateHook: ({ observable: { name, type }, hook }) => restRequest({
+    path: "/hooks",
+    method: METHODS.PUT,
+    payload: {
+      observable: { name, type },
+      hook,
+    },
+  }),
+  deleteHook: ({ observable: { name, type }, id }) => restRequest({
+    path: "/hooks",
+    method: METHODS.DELETE,
+    params: { name, type, id },
+  }),
+  testHook: ({ observable: { name, type }, id }) => restRequest({
+    path: "/hooks/test",
+    method: METHODS.GET,
+    params: { name, type, id },
+  }),
+  metrics: () => restRequest({ path: "/metrics" }),
+  restart: () => restRequest({ path: "/danger/restart", method: METHODS.POST }),
+  wipe: () => restRequest({ path: "/danger/wipe", method: METHODS.POST }),
 };
 
 function joinRequestParams(requestParams) {
@@ -139,31 +103,36 @@ function joinRequestParams(requestParams) {
   return params.length > 0 ? "?" + params.join("&") : "";
 }
 
-function restRequest({ method = "GET", path, payload, params }) {
+function restRequest({ method = METHODS.GET, path, payload, params }) {
   let xhr = new XMLHttpRequest();
+
+  let resolver, rejector;
+  const promise = new Promise((resolve, reject) => {resolver = resolve;  rejector = reject;});
+  xhr.onloadend = () => {
+    const result = {
+      data: xhr.response ? JSON.parse(xhr.response) : null,
+      status: xhr.status
+    }
+
+    if (xhr.status < 200 || xhr.status > 299) {
+      rejector(result)
+    } else {
+      resolver(result);
+    }
+  };
+
   xhr.open(
     method,
     `http://${hostname}${path[0] != "/" ? "/" : ""}${path}${joinRequestParams(
       params,
     )}`,
     true,
-  );
+  );``
   xhr.setRequestHeader("Accept", "application/json");
   if (payload) {
     xhr.setRequestHeader("Content-Type", "application/json");
   }
-  let resolver;
-  const promise = new Promise((resolve) => (resolver = resolve));
-
-  xhr.onloadend = () => {
-    let data;
-    try {
-      data = xhr.response ? JSON.parse(xhr.response) : null;
-    } catch (error) {
-      console.log(error);
-    }
-    resolver({ data, status: xhr.status });
-  };
   xhr.send(payload ? JSON.stringify(payload) : null);
+
   return promise;
 }

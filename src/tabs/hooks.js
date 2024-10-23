@@ -1,4 +1,4 @@
-import { DeviceApi } from "../api";
+import { DeviceApi, FETCH_FAILED_CATION } from "../api";
 import { Components, Icons, fillCombobox } from "../components";
 import { toast } from "../toast";
 
@@ -151,65 +151,55 @@ export class HookView {
         `cb_${this.hook.id}_${field}`,
       ).value;
     });
-    try {
-      if (this.hook.id === "New") {
-        delete this.hook.id;
-        await DeviceApi.createHook({
-          observable: this.observable,
-          hook: this.hook,
-        });
-      } else {
-        await DeviceApi.updateHook({
-          observable: this.observable,
-          hook: this.hook,
-        });
-      }
+    
+    let saveFunc
+    if (this.hook.id === "New") {
+      delete this.hook.id;
+      saveFunc = DeviceApi.createHook
+    } else {
+      saveFunc = DeviceApi.updateHook
+    }
+    await saveFunc({
+      observable: this.observable,
+      hook: this.hook,
+    }).then(() => {
       toast.success({
         caption: `Hook ${this.hook.id === "New" ? "created" : "updated"}!`,
-      });
+      })
       document.getElementById(this.id).remove();
       this.parent.update();
-    } catch (error) {
+    }).catch(() => 
       toast.error({
-        caption: "Failed to save toast",
+        caption: "Failed to save hook",
         description: "Check device logs for additional information",
-      });
-    }
+      })
+    )
   }
   async delete() {
     if (confirm("Are you sure you wan to delete hook " + this.hook.id + "?")) {
-      try {
-        await DeviceApi.deleteHook({
-          observable: this.observable,
-          id: this.hook.id,
-        });
-        toast.success({
-          caption: "Hook deleted",
-        });
-        this.parent.update();
-      } catch (error) {
+      await DeviceApi.deleteHook({
+        observable: this.observable,
+        id: this.hook.id,
+      }).then(() => {
+        toast.success({ caption: "Hook deleted" })
+        this.parent.update()
+      }).catch(() => 
         toast.error({
           caption: "Failed to delete hook",
           description: "Check device logs for additional information",
-        });
-      }
+        })
+      )
     }
   }
   async test() {
-    try {
-      await DeviceApi.testHook({
-        observable: this.observable,
-        id: this.hook.id,
-      });
-      toast.success({
-        caption: "Hook called successfully!",
-      });
-    } catch (error) {
-      console.error(error);
-      toast.error({
-        caption: "Failed to call hook",
-      });
-    }
+    await DeviceApi.testHook({
+      observable: this.observable,
+      id: this.hook.id,
+    }).then(() => toast.success({
+      caption: "Hook called successfully!",
+    })).catch(() => toast.error({
+      caption: "Failed to call hook",
+    }))
   }
   cancel() {
     if (this.hook.id === "New") {
@@ -261,7 +251,9 @@ export class HooksView {
     this.loadHooks();
   }
   async loadTemplates() {
-    this.templates = await DeviceApi.hooksTemplates(this.observable.type);
+    this.templates = await DeviceApi.hooksTemplates(this.observable.type)
+      .then(({ data }) => data)
+      .catch(() => toast.error({ caption: FETCH_FAILED_CATION }));
     if (!this.templates) {
       return;
     }
@@ -278,7 +270,9 @@ export class HooksView {
   // todo список хуков не обновляется после сохранения хука
   async loadHooks() {
     this.list.innerHTML = "";
-    this.hooks = await DeviceApi.hooks({ observable: this.observable });
+    this.hooks = await DeviceApi.hooks({ observable: this.observable })
+      .then(({ data }) => data)
+      .catch(() => toast.error({ caption: FETCH_FAILED_CATION }));
     if (!this.hooks || this.hooks.length === 0) {
       this.list.appendChild(Components.header("No hooks added yet", "h3"));
       return;

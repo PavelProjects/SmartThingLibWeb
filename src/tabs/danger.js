@@ -1,4 +1,4 @@
-import { DeviceApi } from "../api";
+import { DeviceApi, FETCH_FAILED_CATION } from "../api";
 import { Components } from "../components";
 import { toast } from "../toast";
 
@@ -17,11 +17,14 @@ export const DangerTab = {
           if (!confirm("Are you sure you want to restart device right now?")) {
             return;
           }
-          DeviceApi.restart();
-          toast.success({
-            caption: "Restarting",
-            description: "Device is restarting, please wait",
-          });
+          DeviceApi.restart()
+            .then(() =>
+              toast.success({
+                caption: "Restarting",
+                description: "Device is restarting, please wait",
+              })
+            )
+            .catch(() => toast.error({ caption: FETCH_FAILED_CATION }));
         },
       }),
       Components.button({
@@ -37,11 +40,14 @@ export const DangerTab = {
           ) {
             return;
           }
-          DeviceApi.wipe();
-          toast.success({
-            caption: "Settings wiped",
-            description: "Device is gonna restart now, please wait",
-          });
+          DeviceApi.wipe()
+            .then(() =>
+              toast.success({
+                caption: "Settings wiped",
+                description: "Device is gonna restart now, please wait",
+              })
+            )
+            .catch(() => toast.error({ caption: FETCH_FAILED_CATION }));
         },
       }),
     );

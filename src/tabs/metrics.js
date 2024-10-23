@@ -5,14 +5,10 @@ import { toast } from "../toast";
 export const MetricsTab = {
   name: "Metrics",
   content: async () => {
-    try {
-      return Components.tree(await DeviceApi.metrics());
-    } catch (error) {
-      console.log(error);
-      toast.error({
-        caption: FETCH_FAILED_CATION,
-        description: "Failed to fetch device metrics",
-      });
-    }
+    const { data } = await DeviceApi.metrics().catch(() => toast.error({
+      caption: FETCH_FAILED_CATION,
+      description: "Failed to fetch device metrics",
+    }))
+    return Components.tree(data);
   },
 };

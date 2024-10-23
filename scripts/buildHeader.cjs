@@ -14,6 +14,9 @@ const PLACEHOLDERS = {
 }
 
 const HEADER_TEMPLATE = `
+#ifndef  WEB_ASSETS_H
+#define WEB_ASSETS_H
+
 #include "Features.h"
 #if ENABLE_WEB_PAGE 
 const char* WEB_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.INDEX[1]})=====";
@@ -30,7 +33,8 @@ const char* SCRIPT_STATES_TAB = R"=====(${PLACEHOLDERS.STATES[1]})=====";
 
 const char* SCRIPT_HOOKS_TAB = R"=====(${PLACEHOLDERS.HOOKS[1]})=====";
 #endif
-`;
+
+#endif`;
 
 function generateHeader() {
   let result = HEADER_TEMPLATE;

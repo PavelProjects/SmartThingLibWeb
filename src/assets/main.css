@@ -3,7 +3,7 @@
 #control-panel {
   display: flex;
   flex-direction: row;
-  column-gap: var(--dg);
+  column-gap: var(--dp);
   margin: 0 auto;
   width: 1000px;
 }
@@ -12,6 +12,25 @@
   bottom: 5px;
   right: 5px;
   z-index: 999;
+}
+
+dialog {
+  color: var(--ct);
+  padding: 0;
+  margin: auto;
+  background-color: var(--cb);
+  border: 1px solid var(--cbo);
+  border-radius: var(--rbo);
+}
+
+dialog > div {
+  width: 100%;
+  height: 100%;
+  padding: var(--dp);
+}
+
+::backdrop {
+  background-color: var(--cb-t);
 }
 
 .header {
@@ -24,8 +43,6 @@
   background-color: hsla(160, 100%, 37%, 0.2);
   border-color: transparent;
   border-radius: var(--rbo);
-  min-width: 90px;
-  min-height: 40px;
   color: black;
 }
 
@@ -51,7 +68,7 @@ select {
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--dg);
+  gap: var(--dp);
   height: 100%;
 }
 .field-container {
@@ -75,7 +92,7 @@ select {
 .list {
   display: flex;
   flex-direction: column;
-  row-gap: var(--dg);
+  row-gap: var(--dp);
 }
 .required {
   background-color: hsla(3, 100%, 37%, 0.2);
@@ -115,7 +132,7 @@ select {
   margin-top: auto;
   display: flex;
   flex-direction: row;
-  gap: var(--dg);
+  gap: var(--dp);
 }
 .controls-holder button {
   width: 100%;
@@ -128,13 +145,13 @@ select {
 .hook-header {
   display: flex;
   flex-direction: row;
-  gap: var(--dg);
+  gap: var(--dp);
   position: relative;
 }
 .hooks-list-view {
   max-height: 80vh;
   overflow-y: auto;
-  margin-top: var(--dg);
+  margin-top: var(--dp);
 }
 .hooks-list-view .container {
   border-top: 1px solid var(--cbo);
@@ -142,7 +159,7 @@ select {
 .hook-view-controls {
   display: flex;
   flex-direction: row-reverse;
-  column-gap: var(--dg);
+  column-gap: var(--dp);
   align-items: center;
 }
 
@@ -154,12 +171,17 @@ select {
   min-height: 50px;
   padding: 10px 5px 5px 5px;
   z-index: 1000;
-  transition: 0.4s;
 }
-.toast h2,
-h3 {
+.toast h2, h3 {
   text-align: center;
 }
 .br {
   border-right: 2px solid var(--cbo);
+}
+.action-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--dp);
+  align-items: center;
 }

@@ -5,12 +5,13 @@ import { toast } from "../toast";
 export const InfoTab = {
   name: "Information",
   content: async () => {
-    const info = await DeviceApi.info();
-    if (!info) {
-      toast.error({
+    const info = await DeviceApi.info()
+      .then(({ data }) => data)
+      .catch(() => toast.error({ 
         caption: FETCH_FAILED_CATION,
-        description: "Failed to fetch system information",
-      });
+        description: "Failed to fetch system information"
+      }));
+    if (!info) {
       return;
     }
     document.title = `SmartThing ${info.name}(${info.type})`;
@@ -34,20 +35,16 @@ export const InfoTab = {
               return;
             }
 
-            try {
-              await DeviceApi.saveName(name);
-              toast.success({
+            await DeviceApi.saveName(name)
+              .then(() => toast.success({
                 caption: "Name updated",
                 description: "New device name: " + name,
-              });
-            } catch (error) {
-              toast.error({
+              }))
+              .catch(() => toast.error({
                 caption: "Name update failed",
                 description: "Failed to update device name",
-              });
-            } finally {
-              element.classList.remove("required");
-            }
+              }))
+              .finally(() => element.classList.remove("required"));
           },
         }),
       }),

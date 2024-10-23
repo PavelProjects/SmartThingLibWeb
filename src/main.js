@@ -4,9 +4,9 @@ import { InfoTab } from "./tabs/info";
 import { WifiTab } from "./tabs/wifi";
 import { ConfigTab } from "./tabs/configuration";
 import { MetricsTab } from "./tabs/metrics";
-import { DeviceApi } from "./api";
 import { toast } from "./toast";
 import { DangerTab } from "./tabs/danger";
+import { DeviceApi } from "./api.js";
 
 const defaultTabs = {
   info: InfoTab,
@@ -32,7 +32,7 @@ window.onload = async () => {
   const features =
     (await DeviceApi.features().catch(() => {
       toast.error({ caption: "Failed to load device features" });
-    })) ?? {};
+    }).then(({ data }) => data)) ?? {};
 
   const tabs = {}
   for (const [key, value] of Object.entries(defaultTabs)) {
@@ -46,7 +46,6 @@ window.onload = async () => {
   }
     
   const mainTabs = new Menu("menu-main", tabs);
-  console.log(Object.entries(mainTabs.menuItems))
   window.features = features;
   document.getElementById("control-panel").appendChild(mainTabs.create());
   mainTabs.open("info");
