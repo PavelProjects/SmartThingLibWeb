@@ -34,10 +34,10 @@ export const DeviceApi = {
     path: "/actions/call",
     params: { action },
   }),
-  updateActionDelay: (name, delay) => {
+  updateActionSchedule: (name, delay) => {
     return restRequest({
       method: METHODS.PUT,
-      path: "/actions/delay",
+      path: "/actions/schedule",
       payload: { name, callDelay: delay },
     })
   },

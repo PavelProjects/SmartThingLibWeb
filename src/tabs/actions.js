@@ -11,7 +11,7 @@ const createDialogContent = (name, callDelay, closeDialog) => {
       input.classList.add("required")
       toast.error({ caption: "Delay can't be negative" })
     } else {
-      DeviceApi.updateActionDelay(name, value)
+      DeviceApi.updateActionSchedule(name, value)
         .then(() => {
           toast.success({ caption: value === 0 ? "Delay disabled" : "Delay updated" })
           closeDialog()
