@@ -29,10 +29,10 @@ export const DeviceApi = {
       name,
     },
   }),
-  callAction: (action) => restRequest({
+  callAction: (name) => restRequest({
     method: METHODS.GET,
     path: "/actions/call",
-    params: { action },
+    params: { name },
   }),
   updateActionSchedule: (name, delay) => {
     return restRequest({
