@@ -21,18 +21,18 @@ export const WifiTab = {
       Components.input({
         id: "ssid",
         label: "SSID",
-        value: settings.ss || "",
+        value: settings.ssid || "",
       }),
       Components.input({
         id: "password",
         label: "password",
-        value: settings.ps || "",
+        value: settings.password || "",
       }),
       Components.combobox({
         id: "mode",
         label: "mode",
         values: modes,
-        value: settings.md,
+        value: settings.mode,
       }),
     );
     const controls = Components.controlsHolder();
