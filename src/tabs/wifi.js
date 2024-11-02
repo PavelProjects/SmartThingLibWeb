@@ -13,7 +13,7 @@ export const WifiTab = {
           description: "Failed to fetch WiFi settings",
         }));
 
-    if (!settings) {;
+    if (!settings) {
       return;
     }
     const list = Components.list();
@@ -38,7 +38,7 @@ export const WifiTab = {
     const controls = Components.controlsHolder();
     controls.appendChild(
       Components.button({
-        label: "Save and reconnect",
+        label: "Save",
         onClick: async () => {
           DeviceApi.saveWifi({
             ssid: document.getElementById("ssid").value || "",
@@ -46,6 +46,7 @@ export const WifiTab = {
             mode: document.getElementById("mode").value || "",
           }).then(() => toast.success({
             caption: "WiFi settings updated",
+            description: "Restart device to apply new settings"
           })).catch(() => toast.error({
             caption: "Failed to update WiFi settings",
             description: "Check device logs for additional information",

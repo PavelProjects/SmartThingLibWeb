@@ -15,11 +15,9 @@ export const ConfigTab = {
       return Components.header("No config entries", "h2");
     }
     const values = await DeviceApi.config()
-      .then(({ data }) => data)
+      .then(({ data }) => data ?? {})
       .catch(() => toast.error({ caption: "Failed to fetch configuration values" }));
-    if (!values) {
-      return;
-    }
+    
     const inputsList = Components.list();
     Object.entries(info).forEach(([name, { caption, type }]) => {
       inputsList.appendChild(
