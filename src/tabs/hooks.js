@@ -87,7 +87,7 @@ export class HookView {
 
     const list = Components.list();
     this.fields.forEach(([field, value]) => {
-      const { required } = this.template[field] || false;
+      const { required } = this.template[field] ?? false;
       const props = {
         id: `cb_${id}_${field}`,
         label: normalizeSystemName(field),
@@ -105,6 +105,9 @@ export class HookView {
           values: this.template[field]["values"],
         });
       } else {
+        if (field === 'triggerEnabled') {
+          props.type = 'checkbox'
+        }
         element = Components.input(props);
       }
       list.appendChild(element);
@@ -147,9 +150,10 @@ export class HookView {
     }
 
     this.fields.forEach(([field, ]) => {
-      this.hook[field] = document.getElementById(
+      const { checked, value } = document.getElementById(
         `cb_${this.hook.id}_${field}`,
-      ).value;
+      );
+      this.hook[field] = field === 'triggerEnabled' ? checked : value
     });
     
     let saveFunc

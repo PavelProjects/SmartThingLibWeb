@@ -25,7 +25,7 @@ export const ConfigTab = {
           id: name,
           label: `${caption} [${name}]`,
           title: `System name: ${name}\nValue type: ${type}`,
-          type: type,
+          type: type === 'boolean' ? 'checkbox' : type,
           value: values[name] || "",
         }),
       );
@@ -50,10 +50,11 @@ export const ConfigTab = {
         id: "config-save",
         label: "Save",
         onClick: async () => {
-          const values = {};
-          Object.keys(info).forEach(
-            (key) => (values[key] = document.getElementById(key).value),
-          );
+          const values = Object.keys(info).reduce((acc, key) => {
+            const { type, value, checked } = document.getElementById(key)
+            acc[key] = type === 'checkbox' ? checked : value
+            return acc
+          }, {});
           await DeviceApi.saveConfig(values)
             .then(() => toast.success({ caption: "Configuration updated" }))
             .catch(() => toast.error({ caption: "Failed to save configuration values" }));

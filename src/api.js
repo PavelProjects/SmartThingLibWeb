@@ -1,6 +1,6 @@
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.1.13";
+  hostname = "192.168.1.11";
 }
 export const FETCH_FAILED_CATION = "Something gone wrong";
 
@@ -30,7 +30,6 @@ export const DeviceApi = {
     },
   }),
   callAction: (name) => restRequest({
-    method: METHODS.GET,
     path: "/actions/call",
     params: { name },
   }),
@@ -85,7 +84,6 @@ export const DeviceApi = {
   }),
   testHook: ({ observable: { name, type }, id }) => restRequest({
     path: "/hooks/test",
-    method: METHODS.GET,
     params: { name, type, id },
   }),
   metrics: () => restRequest({ path: "/metrics" }),

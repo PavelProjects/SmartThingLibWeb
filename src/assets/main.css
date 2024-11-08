@@ -61,6 +61,7 @@ select {
   border: 1px solid var(--cbo);
   border-radius: var(--rbo);
 }
+
 .bordered {
   border: solid 2px var(--cbo);
   border-radius: var(--rbo);
@@ -88,6 +89,10 @@ select {
 .input-with-slot input {
   width: 100%;
   border: none;
+}
+.input-checkbox input[type='checkbox'] { 
+  height: 15px;
+  width: 15px;
 }
 .list {
   display: flex;

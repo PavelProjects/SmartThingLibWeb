@@ -98,15 +98,20 @@ export const Components = {
     }
 
     const inputContainer = document.createElement("div");
-    inputContainer.classList.add("input-with-slot");
 
     const input = document.createElement("input");
     if (id) {
       input.id = id;
     }
     input.disabled = disabled;
-    input.value = value;
     input.type = type;
+    if (input.type == "checkbox") {
+      inputContainer.classList.add("input-checkbox");
+      input.checked = value;
+    } else {
+      inputContainer.classList.add("input-with-slot");
+      input.value = value;
+    }
 
     if (min !== undefined) {
       input.min = min

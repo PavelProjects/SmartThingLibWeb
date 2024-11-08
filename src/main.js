@@ -28,7 +28,7 @@ const defaultTabs = {
   danger: DangerTab,
 };
 
-window.onload = async () => {
+window.addEventListener('DOMContentLoaded', async () => {
   const features =
     (await DeviceApi.features().catch(() => {
       toast.error({ caption: "Failed to load device features" });
@@ -49,4 +49,4 @@ window.onload = async () => {
   window.features = features;
   document.getElementById("control-panel").appendChild(mainTabs.create());
   mainTabs.open("info");
-};
+})
