@@ -65,7 +65,7 @@ export const InfoTab = {
       }),
       Components.input({
         label: "SmartThing version",
-        value: info.smtVersion,
+        value: info.stVersion,
         disabled: true,
       }),
     );
