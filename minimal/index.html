@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>ST device</title>
+  </head>
+  <body>
+    <ul id="tst"></ul>
+    <h2>Device info</h2>
+    <div id="info" class="grid">
+      <label>Name</label>
+      <div>
+        <input id="name" type="text">
+        <button id="sname">Save</button>
+      </div>
+    </div>
+    <h2>WiFi settings</h2>
+    <div class="grid">
+      <label>SSID</label>
+      <input id="ssid" type="text"/>
+      <label>Password</label>
+      <input id="password" type="text"/>
+      <label>Mode</label>
+      <select id="mode"></select>
+    </div>
+    <button id="swifi">Save</button>
+  </body>
+  <script type="module" src="/minimal/script.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+    }
+    #tst {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      row-gap: 2px;
+      width: 354px;
+    }
+  </style>
+</html>

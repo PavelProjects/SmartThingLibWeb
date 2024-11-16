@@ -11,10 +11,12 @@ const PLACEHOLDERS = {
   SENSORS: ["sensors/script.js", "{SENSORS}"],
   STATES: ["states/script.js", "{STATES}"],
   HOOKS: ["hooks/script.js", "{HOOKS}"],
+  MINIMAL_INDEX: ["minimal/index.html", "{MINIMAL_INDEX}"],
+  MINIMAL_SCRIPT: ["minimal/script.js", "{MINIMAL_SCRIPT}"],
 }
 
 const HEADER_TEMPLATE = `
-#ifndef  WEB_ASSETS_H
+#ifndef WEB_ASSETS_H
 #define WEB_ASSETS_H
 
 #include "Features.h"
@@ -32,6 +34,10 @@ const char* SCRIPT_SENSORS_TAB = R"=====(${PLACEHOLDERS.SENSORS[1]})=====";
 const char* SCRIPT_STATES_TAB = R"=====(${PLACEHOLDERS.STATES[1]})=====";
 
 const char* SCRIPT_HOOKS_TAB = R"=====(${PLACEHOLDERS.HOOKS[1]})=====";
+#else
+const char* WEB_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.MINIMAL_INDEX[1]})=====";
+
+const char* SCRIPT_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.MINIMAL_SCRIPT[1]})=====";
 #endif
 
 #endif`;
@@ -40,7 +46,7 @@ function generateHeader() {
   let result = HEADER_TEMPLATE;
   for (const [filePath, placeholder] of Object.values(PLACEHOLDERS)) {
     const data = fs.readFileSync(DIST_FOLDER + filePath).toString();
-    result = result.replace(placeholder, data)
+    result = result.replace(placeholder, data.trim())
   }
   fs.writeFileSync(RESULT_PATH, result)
   console.info("Created header file with web assets: " + RESULT_PATH)

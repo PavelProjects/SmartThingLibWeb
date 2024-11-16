@@ -102,7 +102,7 @@ function joinRequestParams(requestParams) {
 }
 
 function restRequest({ method = METHODS.GET, path, payload, params }) {
-  let xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
 
   let resolver, rejector;
   const promise = new Promise((resolve, reject) => {resolver = resolve;  rejector = reject;});
