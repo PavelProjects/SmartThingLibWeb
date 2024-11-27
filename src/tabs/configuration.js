@@ -18,18 +18,15 @@ export const ConfigTab = {
       .then(({ data }) => data ?? {})
       .catch(() => toast.error({ caption: "Failed to fetch configuration values" }));
     
-    const inputsList = Components.list();
-    Object.entries(info).forEach(([name, { caption, type }]) => {
-      inputsList.appendChild(
-        Components.input({
-          id: name,
-          label: `${caption} [${name}]`,
-          title: `System name: ${name}\nValue type: ${type}`,
-          type: type === 'boolean' ? 'checkbox' : type,
-          value: values[name] || "",
-        }),
-      );
-    });
+    const inputsList = Object.entries(info).map(([name, { caption, type }]) => 
+      Components.input({
+        id: name,
+        label: `${caption} [${name}]`,
+        title: `System name: ${name}\nValue type: ${type}`,
+        type: type === 'boolean' ? 'checkbox' : type,
+        value: values[name] || "",
+      })
+    );
     const controls = Components.controlsHolder();
     controls.append(
       Components.button({
@@ -41,7 +38,16 @@ export const ConfigTab = {
             confirm("Are you sure you want to delete all configuration values?")
           ) {
             await DeviceApi.dropConfig()
-              .then(() => toast.success({ caption: "All values removed" }))
+              .then(() => {
+                toast.success({ caption: "All values removed" })
+                Object.keys(info).forEach((name) => {
+                  const input = document.getElementById(name)
+                  if (input) {
+                    input.value = ""
+                    input.checked = false
+                  }
+                })
+              })
               .catch(() => toast.error({ caption: "Failed to delete configuration values" }));
           }
         },
@@ -62,7 +68,9 @@ export const ConfigTab = {
       }),
     );
     const container = Components.container();
-    container.append(inputsList, controls);
+    const inputsContainer = Components.list();
+    inputsContainer.append(...inputsList);
+    container.append(inputsContainer, controls);
     container.style.padding = "2px";
     return container;
   },
