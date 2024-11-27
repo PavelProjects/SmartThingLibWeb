@@ -89,7 +89,7 @@ export class HookView {
     this.fields.forEach(([field, value]) => {
       const { required } = this.template[field] ?? false;
       const props = {
-        id: `cb_${id}_${field}`,
+        id: `${this.id}_${field}`,
         label: normalizeSystemName(field),
         value,
         disabled: true,
@@ -105,7 +105,9 @@ export class HookView {
           values: this.template[field]["values"],
         });
       } else {
-        if (field === 'triggerEnabled') {
+        if (["trigger", "threshold"].includes(field) && this.observable.type === 'sensor') {
+          props.type = "number"
+        } else if (field === 'triggerEnabled') {
           props.type = 'checkbox'
         }
         element = Components.input(props);
@@ -118,7 +120,7 @@ export class HookView {
   }
   edit(value = true) {
     this.fields.forEach(([field, ]) => {
-      document.getElementById(`cb_${this.hook.id}_${field}`).disabled = !value;
+      document.getElementById(`${this.id}_${field}`).disabled = !value;
     });
     if (value) {
       this.controlsVisibile(["cancel", "save"], true);
@@ -136,7 +138,7 @@ export class HookView {
   validate() {
     let result = true;
     this.fields.forEach(([field, ]) => {
-      const element = document.getElementById(`cb_${this.hook.id}_${field}`);
+      const element = document.getElementById(`${this.id}_${field}`);
       if (element.getAttribute("required") == "true" && !element.value) {
         result = false;
         element.classList.add("required");
@@ -151,7 +153,7 @@ export class HookView {
 
     this.fields.forEach(([field, ]) => {
       const { checked, value } = document.getElementById(
-        `cb_${this.hook.id}_${field}`,
+        `${this.id}_${field}`,
       );
       this.hook[field] = field === 'triggerEnabled' ? checked : value
     });
@@ -285,7 +287,7 @@ export class HooksView {
     this.hooks.forEach((hook) =>
       this.list.appendChild(
         new HookView({
-          id: "cb_" + hook.id,
+          id: `${this.observable.type}_${this.observable.name}_hook_${hook.id}`,
           hook,
           template: {
             ...this.templates[hook.type],
