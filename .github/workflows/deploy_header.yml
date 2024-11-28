@@ -1,0 +1,19 @@
+name: Build and deploy header file
+
+on:
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  #   types: [ closed ]
+  workflow_run:
+    workflows: [ "validate" ]
+    types: [ completed ]
+    branches: [ "feature/*" ]
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - echo "Sup dawg"
