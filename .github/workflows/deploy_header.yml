@@ -11,7 +11,7 @@ jobs:
   deploy:
     permissions:
       contents: write
-      
+
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
@@ -19,7 +19,6 @@ jobs:
       matrix:
         node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v4
       - run: ls -l
@@ -32,13 +31,11 @@ jobs:
       - name: Checkout lib repository
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.LIB_REPO_TOKEN }}
           repository: PavelProjects/SmartThingLib
           path: ./SmartThingLib
           ref: develop
       - run: npm run deploy-header --dest="$(pwd)/SmartThingLib"
-      - run: ls -l
-      - run: pwd
-      - run: ls -l ./SmartThingLib
       - run: |
           cd ./SmartThingLib
           git config --global user.email "<>"
