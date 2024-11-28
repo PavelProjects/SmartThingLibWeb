@@ -21,6 +21,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      - uses: actions/checkout@v4
       - name: Checkout test firmware repo
         uses: actions/checkout@master
         with:
