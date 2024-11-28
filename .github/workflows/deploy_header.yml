@@ -2,8 +2,8 @@ name: Build and deploy header file
 
 on:
   workflow_run:
-    workflows: [ validate ]
-    branches: [ main ]
+    workflows: [ Validate ]
+    branches: [ "main" ]
     types:
       - completed
 
