@@ -1,13 +1,14 @@
 on:
-  push:
-    branches: [ "develop", "feature/*" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["validate"]
+    types:
+      - completed
 
 jobs:
-  lint-check:
+  build:
     runs-on: ubuntu-latest
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
     strategy:
       matrix:
         node-version: [22.x]
@@ -21,4 +22,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run lint-check
+    - run: npm run build --if-present
