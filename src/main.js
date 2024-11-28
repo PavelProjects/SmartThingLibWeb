@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   }
     
-  const mainTabs = new Menu("menu-main", tabs);
+  const mainTabs = new Menu("main-menu", tabs);
   window.features = features;
   document.getElementById("control-panel").appendChild(mainTabs.create());
   mainTabs.open("info");
