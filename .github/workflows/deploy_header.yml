@@ -31,7 +31,7 @@ jobs:
       - run: ls -l
       - run: pwd
       - run: npm ci
-      - run: npm run deploy-header --dest=./SmartThingLib
+      - run: npm run build-header --dest=./SmartThingLib
       - name: Checkout lib repository
         uses: actions/checkout@v4
         with:
