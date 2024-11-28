@@ -13,7 +13,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.AUTO_DEPLOY_TOKEN }}
 
     strategy:
       matrix:
@@ -27,7 +27,6 @@ jobs:
           repository: PavelProjects/SmartThingLibTest
           path: ./SmartThingLibTest
           ref: develop
-          token: ${{ secrets.AUTO_DEPLOY_TOKEN }}
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
