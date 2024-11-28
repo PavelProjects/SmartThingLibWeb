@@ -24,7 +24,6 @@ jobs:
       - run: npm run lint-check
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     
     strategy:
       matrix:
