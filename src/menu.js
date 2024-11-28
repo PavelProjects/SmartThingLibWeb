@@ -1,7 +1,5 @@
 import { Components } from "./components";
 
-const errorHeere = "";
-
 export class Menu {
   selected = {};
 
