@@ -12,12 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     strategy:
       matrix:
         node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      - name: Checkout test firmware repo
+        uses: actions/checkout@master
+        with:
+          repository: PavelProjects/SmartThingLibTest
+          path: ./SmartThingLibTest
+          ref: develop
+          token: ${{ secrets.AUTO_DEPLOY_TOKEN }}
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -25,4 +35,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - run: npm run build-header
+      - run: npm run deploy-header --dest=/SmartThingLibTest
+      - run: |
+          cd /SmartThingLibTest
+          git checkout develop
+          git add /SmartThingLibTest/src/net/rest
+          git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
+          git push origin develop
