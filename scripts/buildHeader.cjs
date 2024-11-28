@@ -21,11 +21,11 @@ const HEADER_TEMPLATE = `
 
 #include "Features.h"
 #if ENABLE_WEB_PAGE 
-const char* WEB_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.INDEX[1]})=====";
+const char* WEB_PAGE_MAIN = R"=====(${PLACEHOLDERS.INDEX[1]})=====";
 
-const char* STYLE_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.STYLES[1]})=====";
+const char* STYLE_PAGE_MAIN = R"=====(${PLACEHOLDERS.STYLES[1]})=====";
 
-const char* SCRIPT_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.SCRIPT[1]})=====";
+const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.SCRIPT[1]})=====";
 
 const char* SCRIPT_ACTIONS_TAB = R"=====(${PLACEHOLDERS.ACTIONS[1]})=====";
 
@@ -35,9 +35,9 @@ const char* SCRIPT_STATES_TAB = R"=====(${PLACEHOLDERS.STATES[1]})=====";
 
 const char* SCRIPT_HOOKS_TAB = R"=====(${PLACEHOLDERS.HOOKS[1]})=====";
 #else
-const char* WEB_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.MINIMAL_INDEX[1]})=====";
+const char* WEB_PAGE_MAIN = R"=====(${PLACEHOLDERS.MINIMAL_INDEX[1]})=====";
 
-const char* SCRIPT_PAGE_MAIN PROGMEM = R"=====(${PLACEHOLDERS.MINIMAL_SCRIPT[1]})=====";
+const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.MINIMAL_SCRIPT[1]})=====";
 #endif
 
 #endif`;
