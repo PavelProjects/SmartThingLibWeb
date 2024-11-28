@@ -24,8 +24,8 @@ jobs:
       - name: Checkout test firmware repo
         uses: actions/checkout@master
         with:
-          repository: PavelProjects/SmartThingLibTest
-          path: ./SmartThingLibTest
+          repository: PavelProjects/SmartThingLib
+          path: ./SmartThingLib
           ref: develop
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -34,10 +34,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - run: npm run deploy-header --dest=/SmartThingLibTest
+      - run: npm run deploy-header --dest=/SmartThingLib
       - run: |
-          cd /SmartThingLibTest
+          cd /SmartThingLib
           git checkout develop
-          git add /SmartThingLibTest/src/net/rest
+          git add /SmartThingLib/src/net/rest
           git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
           git push origin develop
