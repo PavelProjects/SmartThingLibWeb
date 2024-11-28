@@ -34,7 +34,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - run: npm run deploy-header --dest=/SmartThingLib
+      - run: npm run deploy-header --dest=./SmartThingLib
       - run: |
           cd /SmartThingLib
           git checkout develop
