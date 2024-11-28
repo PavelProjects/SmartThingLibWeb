@@ -21,12 +21,6 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Checkout lib repository
-        uses: actions/checkout@v4
-        with:
-          repository: PavelProjects/SmartThingLib
-          path: ./SmartThingLib
-          ref: develop
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -34,9 +28,17 @@ jobs:
           cache: 'npm'
       - run: ls -l
       - run: pwd
-      - run: ls -l ./SmartThingLib
       - run: npm ci
       - run: npm run deploy-header --dest=./SmartThingLib
+      - name: Checkout lib repository
+        uses: actions/checkout@v4
+        with:
+          repository: PavelProjects/SmartThingLib
+          path: ./SmartThingLib
+          ref: develop
+      - run: ls -l
+      - run: pwd
+      - run: ls -l ./SmartThingLib
       - run: |
           cd ./SmartThingLib
           git checkout develop
