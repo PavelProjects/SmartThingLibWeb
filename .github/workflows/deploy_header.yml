@@ -44,7 +44,7 @@ jobs:
           git config --global user.name "$USERNAME"
           git add -A
           git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
-          git push --set-upstream origin develop https://$USERNAME:$LIB_REPO_TOKEN@github.com/PavelProjects/SmartThingLib.git
+          git push --set-upstream origin develop https://PavelProjects:$LIB_REPO_TOKEN@github.com/PavelProjects/SmartThingLib.git
         env:
           LIB_REPO_TOKEN: ${{ secrets.LIB_REPO_TOKEN }}
           USERNAME: GuthubActions[bot]
