@@ -7,6 +7,9 @@ on:
     types:
       - completed
 
+env:
+  LIB_REPO_TOKEN: ${{ secrets.LIB_REPO_TOKEN }}
+
 jobs:
   deploy:
     permissions:
@@ -31,15 +34,17 @@ jobs:
       - name: Checkout lib repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.LIB_REPO_TOKEN }}
           repository: PavelProjects/SmartThingLib
           path: ./SmartThingLib
           ref: develop
-      - run: npm run deploy-header --dest="$(pwd)/SmartThingLib"
-      - run: |
+      - name: Build header
+        run: npm run deploy-header --dest="$(pwd)/SmartThingLib"
+      - name: Commit and push changes
+        run: |
           cd ./SmartThingLib
           git config --global user.email "<>"
           git config --global user.name "Github actions deploy bot"
+          git remote set-url origin https://PavelProjects:$LIB_REPO_TOKEN@github.com/PavelProjects/SmartThingLib.git
           git add ./
           git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
           git push origin develop
