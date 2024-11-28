@@ -7,13 +7,11 @@ on:
     types:
       - completed
 
-env:
-  LIB_REPO_TOKEN: ${{ secrets.LIB_REPO_TOKEN }}
+permissions:
+  contents: write
 
 jobs:
   deploy:
-    permissions:
-      contents: write
 
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -43,8 +41,11 @@ jobs:
         run: |
           cd ./SmartThingLib
           git config --global user.email "<>"
-          git config --global user.name "Github actions deploy bot"
-          git remote set-url origin https://PavelProjects:$LIB_REPO_TOKEN@github.com/PavelProjects/SmartThingLib.git
-          git add ./
+          git config --global user.name "$USERNAME"
+          git add -A
           git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
-          git push origin develop
+          git remote set-url origin https://$USERNAME:$LIB_REPO_TOKEN@github.com/PavelProjects/SmartThingLib.git
+          git push --set-upstream origin develop
+        env:
+          LIB_REPO_TOKEN: ${{ secrets.LIB_REPO_TOKEN }}
+          USERNAME: GuthubActions[bot]
