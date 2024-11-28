@@ -33,11 +33,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - run: ls -l
+      - run: pwd
+      - run: ls -l ./SmartThingLib
       - run: npm ci
       - run: npm run deploy-header --dest=./SmartThingLib
       - run: |
-          cd /SmartThingLib
+          cd ./SmartThingLib
           git checkout develop
-          git add /SmartThingLib/src/net/rest
+          git add src/net/rest
           git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
           git push origin develop
