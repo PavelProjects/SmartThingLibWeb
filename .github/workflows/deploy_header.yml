@@ -41,8 +41,8 @@ jobs:
       - run: ls -l ./SmartThingLib
       - run: |
           cd ./SmartThingLib
-          git config --global auto@deploy.bot
-          git config --global deploy_bot
+          git config --global user.email "auto@deploy.bot"
+          git config --global user.name "deploy_bot"
           git checkout develop
           git add ./
           git commit -m "Auto web update - ${{ github.event.workflow_run.head_commit.message }}"
