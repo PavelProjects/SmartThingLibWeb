@@ -21,14 +21,12 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Checkout test firmware repo
-        uses: actions/checkout@master
+      - name: Checkout lib repository
+        uses: actions/checkout@v4
         with:
           repository: PavelProjects/SmartThingLib
           path: ./SmartThingLib
           ref: develop
-      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
