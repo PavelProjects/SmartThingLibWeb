@@ -3,9 +3,9 @@ name: Build and deploy header file
 on:
   workflow_run:
     workflows: [ validate ]
-    types: [ completed ]
     branches: [ main ]
-
+    types:
+      - completed
 
 jobs:
   deploy:
