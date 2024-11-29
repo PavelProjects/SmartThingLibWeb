@@ -8,6 +8,8 @@ import { toast } from "./toast";
 import { DangerTab } from "./tabs/danger";
 import { DeviceApi } from "./api.js";
 
+console.log("Version: alpha")
+
 const defaultTabs = {
   info: InfoTab,
   wifi: WifiTab,
