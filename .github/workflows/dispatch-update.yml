@@ -30,4 +30,4 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $ACTIONS_SECRET" \
             https://api.github.com/repos/PavelProjects/SmartThingLib/dispatches \
-            -d '{"event_type": "ui_update", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'",  "message": "$COMMIT_MESSAGE" }}'
+            -d '{"event_type": "ui_update", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'",  "message": "'"$COMMIT_MESSAGE"'" }}'
