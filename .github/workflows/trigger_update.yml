@@ -7,6 +7,8 @@ on:
     types:
       - completed
 
+env:
+  ACTIONS_KEY: ${{ secrets.ACTIONS_KEY }}
 
 jobs:
   trigger:
@@ -18,6 +20,6 @@ jobs:
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" \
+            -H "Authorization: Bearer $ACTIONS_KEY" \
             https://api.github.com/repos/PavelProjects/SmartThingLib/dispatches \
             -d '{"event_type": "ui_update", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'",  "message": "${{ github.event.workflow_run.head_commit.message }}" }}'
