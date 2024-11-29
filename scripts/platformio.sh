@@ -1,4 +1,4 @@
-if [ -z ${npm_config_dest} ];
+if [ -z $npm_config_dest ];
 then
   LIB_DIR="$HOME/projects/smart_thing/smart_thing_lib/lib/smartthing"
 else
