@@ -1,6 +1,12 @@
 name: Trigger lib web header update
 
 on:
+  workflow_run:
+    workflows:
+      - Validate
+    types:
+      - completed
+    branches: main
   workflow_dispatch:
     inputs:
       commitMessage:
