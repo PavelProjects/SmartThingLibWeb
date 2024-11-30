@@ -1,4 +1,5 @@
 const fs = require("fs")
+const pakage = require("../package.json")
 
 const DIST_FOLDER = "./dist/"
 const RESULT_PATH = DIST_FOLDER + "WebPageAssets.h"
@@ -18,6 +19,11 @@ const PLACEHOLDERS = {
 const HEADER_TEMPLATE = `
 #ifndef WEB_ASSETS_H
 #define WEB_ASSETS_H
+
+/*
+  Build version: ${pakage.version}
+  Build date: ${new Date().toISOString()}
+*/
 
 #include "Features.h"
 #if ENABLE_WEB_PAGE 
