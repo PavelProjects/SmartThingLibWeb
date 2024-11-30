@@ -1,9 +1,13 @@
 const WIFI_PATH = '/wifi'
 const INFO_PATH = '/info/system'
+const DANGER_PATH = '/danger'
+
+const GET_METHOD = 'GET'
+const POST_METHOD = 'POST'
 
 let { hostname } = window.location;
 if (hostname === "localhost") {
-  hostname = "192.168.0.108";
+  hostname = "192.168.1.9";
 }
 
 const getElement = (id) => document.getElementById(id)
@@ -49,7 +53,7 @@ const saveName = () => {
 }
 
 const saveWifi = () => {
-  request("POST", WIFI_PATH, {
+  request(POST_METHOD, WIFI_PATH, {
     ssid: getElement("ssid").value,
     password: getElement("password").value,
     mode: getElement("mode").value
@@ -62,11 +66,34 @@ const saveWifi = () => {
   })
 }
 
+const restartDevice = () => {
+  if (confirm("Are you sure you want to restart device right now?")) {
+    request(POST_METHOD, DANGER_PATH + '/restart', null, () => {
+      toast("Device should restart")
+    })
+  }
+}
+
+const factoryReset = () => {
+  if (!confirm("Are you sure you want to make FACTORY RESET?")) {
+    return
+  }
+  if (!confirm("Factory reset will wipe ALL settings. This can't be undone! Are you sure?")) {
+    return
+  }
+  request(POST_METHOD, DANGER_PATH + '/wipe', null, () => {
+    toast("Settings wiped")
+    toast("Device should restart")
+  })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   getElement("sname").onclick = saveName
   getElement("swifi").onclick = saveWifi
+  getElement("restart").onclick = restartDevice
+  getElement("factoryReset").onclick = factoryReset
 
-  request('GET', INFO_PATH, null, (data, status) => {
+  request(GET_METHOD, INFO_PATH, null, (data, status) => {
     if (status !== 200) {
       toast("Failed to load device info")
       return
@@ -81,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
   })
-  request('GET', WIFI_PATH, null, (data, status) => {
+  request(GET_METHOD, WIFI_PATH, null, (data, status) => {
     if (status !== 200) {
       toast("Failed to load wifi info")
       return
