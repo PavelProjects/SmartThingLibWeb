@@ -12,15 +12,12 @@ export const SensorsTab = {
     if (!data || Object.keys(data).length === 0) {
       return Components.header("No sensors configured", "h2");
     }
-    const types = await DeviceApi.sensorsTypes()
-      .then(({ data }) => data ?? {})
-      .catch(() => toast.error({ caption: "Failed to fetch types" }));
 
-    const menuItems = Object.entries(data).reduce(
-      (acc, [sensor, value]) => {
-        acc["sensors-menu-" + sensor] = {
-          name: `${sensor}: ${value}`,
-          title: `Sensor type: ${types[sensor]}`,
+    const menuItems = data.reduce(
+      (acc, { name, value, type }) => {
+        acc["sensors-menu-" + name] = {
+          name: `${name}: ${value}`,
+          title: `Type: ${type}`,
           content: async () => {
             if (
               window.features?.hooks === undefined ||
@@ -28,11 +25,8 @@ export const SensorsTab = {
             ) {
               const { HooksView } = await import('./hooks.js')
               return new HooksView({
-                id: "cb_view_" + sensor,
-                observable: {
-                  type: "sensor",
-                  name: sensor,
-                },
+                id: "cb_view_" + name,
+                observable: { type, name },
               }).create();
             } else {
               return Components.header(

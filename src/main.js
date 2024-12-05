@@ -21,10 +21,6 @@ const defaultTabs = {
     const { SensorsTab } = await import( "./tabs/sensors.js")
     return SensorsTab
   },
-  states: async () => {
-    const { StatesTab } = await import( "./tabs/states.js")
-    return StatesTab
-  },
   configuration: ConfigTab,
   metrics: MetricsTab,
   danger: DangerTab,

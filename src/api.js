@@ -40,9 +40,7 @@ export const DeviceApi = {
       payload: { name, callDelay: delay },
     })
   },
-  sensors: () => restRequest({ path: "/sensors" }),
-  sensorsTypes: () => restRequest({ path: "/sensors/types" }),
-  states: () => restRequest({ path: "/states" }),
+  sensors: () => restRequest({ path: `/sensors/full` }),
   config: () => restRequest({ path: "/config/values" }),
   dropConfig: () => restRequest({
     method: METHODS.DELETE,

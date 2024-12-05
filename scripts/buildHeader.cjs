@@ -10,7 +10,6 @@ const PLACEHOLDERS = {
   SCRIPT: ["assets/script.js", "{SCRIPT}"],
   ACTIONS: ["actions/script.js", "{ACTIONS}"],
   SENSORS: ["sensors/script.js", "{SENSORS}"],
-  STATES: ["states/script.js", "{STATES}"],
   HOOKS: ["hooks/script.js", "{HOOKS}"],
   MINIMAL_INDEX: ["minimal/index.html", "{MINIMAL_INDEX}"],
   MINIMAL_SCRIPT: ["minimal/script.js", "{MINIMAL_SCRIPT}"],
@@ -36,8 +35,6 @@ const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.SCRIPT[1]})=====";
 const char* SCRIPT_ACTIONS_TAB = R"=====(${PLACEHOLDERS.ACTIONS[1]})=====";
 
 const char* SCRIPT_SENSORS_TAB = R"=====(${PLACEHOLDERS.SENSORS[1]})=====";
-
-const char* SCRIPT_STATES_TAB = R"=====(${PLACEHOLDERS.STATES[1]})=====";
 
 const char* SCRIPT_HOOKS_TAB = R"=====(${PLACEHOLDERS.HOOKS[1]})=====";
 #else
