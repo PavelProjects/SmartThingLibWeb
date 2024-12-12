@@ -40,7 +40,7 @@ export const DeviceApi = {
       payload: { name, callDelay: delay },
     })
   },
-  sensors: () => restRequest({ path: `/sensors/full` }),
+  sensors: () => restRequest({ path: `/sensors` }),
   config: () => restRequest({ path: "/config/values" }),
   dropConfig: () => restRequest({
     method: METHODS.DELETE,
@@ -51,38 +51,38 @@ export const DeviceApi = {
     path: "/config/values",
     payload: values,
   }),
-  hooks: ({ observable: { name, type } }) => restRequest({
-    path: "/hooks/by/observable",
-    params: { name, type },
+  hooks: ({ sensor }) => restRequest({
+    path: "/hooks/by/sensor",
+    params: { sensor },
   }),
-  hooksTemplates: (type) => restRequest({
+  hooksTemplates: (sensor) => restRequest({
     path: "/hooks/templates",
-    params: { type },
+    params: { sensor },
   }),
-  createHook: ({ observable: { name, type }, hook }) => restRequest({
+  createHook: ({ sensor, hook }) => restRequest({
     path: "/hooks",
     method: METHODS.POST,
     payload: {
-      observable: { name, type },
+      sensor,
       hook,
     },
   }),
-  updateHook: ({ observable: { name, type }, hook }) => restRequest({
+  updateHook: ({ sensor, hook }) => restRequest({
     path: "/hooks",
     method: METHODS.PUT,
     payload: {
-      observable: { name, type },
+      sensor,
       hook,
     },
   }),
-  deleteHook: ({ observable: { name, type }, id }) => restRequest({
+  deleteHook: ({ sensor, id }) => restRequest({
     path: "/hooks",
     method: METHODS.DELETE,
-    params: { name, type, id },
+    params: { sensor, id },
   }),
-  testHook: ({ observable: { name, type }, id }) => restRequest({
+  testHook: ({ sensor, id }) => restRequest({
     path: "/hooks/test",
-    params: { name, type, id },
+    params: { sensor, id },
   }),
   metrics: () => restRequest({ path: "/metrics" }),
   restart: () => restRequest({ path: "/danger/restart", method: METHODS.POST }),

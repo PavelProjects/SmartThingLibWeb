@@ -13,11 +13,11 @@ export const SensorsTab = {
       return Components.header("No sensors configured", "h2");
     }
 
-    const menuItems = data.reduce(
-      (acc, { name, value, type }) => {
+    const menuItems = Object.entries(data).reduce(
+      (acc, [ name, value ]) => {
         acc["sensors-menu-" + name] = {
           name: `${name}: ${value}`,
-          title: `Type: ${type}`,
+          title: "Click to open hooks",
           content: async () => {
             if (
               window.features?.hooks === undefined ||
@@ -26,7 +26,7 @@ export const SensorsTab = {
               const { HooksView } = await import('./hooks.js')
               return new HooksView({
                 id: "cb_view_" + name,
-                observable: { type, name },
+                sensor: name,
               }).create();
             } else {
               return Components.header(

@@ -24,11 +24,11 @@ function isDefaultField(key) {
 }
 
 export class HookView {
-  constructor({ id = "", hook, template, observable, parent }) {
+  constructor({ id = "", hook, template, sensor, parent }) {
     this.id = id;
     this.hook = hook;
     this.template = template;
-    this.observable = observable;
+    this.sensor = sensor;
     this.parent = parent;
 
     this.fields = Object.entries(this.hook)
@@ -86,6 +86,7 @@ export class HookView {
     headerBlock.append(header, controls);
 
     const list = Components.list();
+    const isNumberType = this.fields.find(([name]) => name === 'threshold')
     this.fields.forEach(([field, value]) => {
       const { required } = this.template[field] ?? false;
       const props = {
@@ -105,7 +106,7 @@ export class HookView {
           values: this.template[field]["values"],
         });
       } else {
-        if (["trigger", "threshold"].includes(field) && this.observable.type === 'sensor') {
+        if (["trigger", "threshold"].includes(field) && isNumberType) {
           props.type = "number"
         } else if (field === 'triggerEnabled') {
           props.type = 'checkbox'
@@ -166,7 +167,7 @@ export class HookView {
       saveFunc = DeviceApi.updateHook
     }
     await saveFunc({
-      observable: this.observable,
+      sensor: this.sensor,
       hook: this.hook,
     }).then(() => {
       toast.success({
@@ -184,7 +185,7 @@ export class HookView {
   async delete() {
     if (confirm("Are you sure you wan to delete hook " + this.hook.id + "?")) {
       await DeviceApi.deleteHook({
-        observable: this.observable,
+        sensor: this.sensor,
         id: this.hook.id,
       }).then(() => {
         toast.success({ caption: "Hook deleted" })
@@ -199,7 +200,7 @@ export class HookView {
   }
   async test() {
     await DeviceApi.testHook({
-      observable: this.observable,
+      sensor: this.sensor,
       id: this.hook.id,
     }).then(() => toast.success({
       caption: "Hook called successfully!",
@@ -218,9 +219,9 @@ export class HookView {
 }
 
 export class HooksView {
-  constructor({ id = "", observable }) {
+  constructor({ id = "", sensor }) {
     this.id = id;
-    this.observable = observable;
+    this.sensor = sensor;
   }
   create() {
     const exists = document.getElementById(this.id);
@@ -257,7 +258,7 @@ export class HooksView {
     this.loadHooks();
   }
   async loadTemplates() {
-    this.templates = await DeviceApi.hooksTemplates(this.observable.type)
+    this.templates = await DeviceApi.hooksTemplates(this.sensor)
       .then(({ data }) => data)
       .catch(() => toast.error({ caption: FETCH_FAILED_CATION }));
     if (!this.templates) {
@@ -276,7 +277,7 @@ export class HooksView {
   // todo список хуков не обновляется после сохранения хука
   async loadHooks() {
     this.list.innerHTML = "";
-    this.hooks = await DeviceApi.hooks({ observable: this.observable })
+    this.hooks = await DeviceApi.hooks({ sensor: this.sensor })
       .then(({ data }) => data)
       .catch(() => toast.error({ caption: FETCH_FAILED_CATION }));
     if (!this.hooks || this.hooks.length === 0) {
@@ -287,13 +288,13 @@ export class HooksView {
     this.hooks.forEach((hook) =>
       this.list.appendChild(
         new HookView({
-          id: `${this.observable.type}_${this.observable.name}_hook_${hook.id}`,
+          id: `${this.sensor}_hook_${hook.id}`,
           hook,
           template: {
             ...this.templates[hook.type],
             ...this.templates["default"],
           },
-          observable: this.observable,
+          sensor: this.sensor,
           parent: this,
         }).create(),
       ),
@@ -319,7 +320,7 @@ export class HooksView {
       id: "cb_new",
       hook: hookFromTemplate,
       template,
-      observable: this.observable,
+      sensor: this.sensor,
       parent: this,
     });
     this.list.prepend(view.create());
