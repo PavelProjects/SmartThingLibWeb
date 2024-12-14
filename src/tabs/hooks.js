@@ -86,31 +86,26 @@ export class HookView {
     headerBlock.append(header, controls);
 
     const list = Components.list();
-    const isNumberType = this.fields.find(([name]) => name === 'threshold')
     this.fields.forEach(([field, value]) => {
-      const { required } = this.template[field] ?? false;
+      const { required, type, values } = this.template[field];
       const props = {
         id: `${this.id}_${field}`,
         label: normalizeSystemName(field),
         value,
         disabled: true,
+        type: type ?? "text",
         props: {
-          required,
+          required: required ?? false,
         },
       };
 
       let element;
-      if (this.template[field] && this.template[field]["values"]) {
+      if (values) {
         element = Components.combobox({
           ...props,
           values: this.template[field]["values"],
         });
       } else {
-        if (["trigger", "threshold"].includes(field) && isNumberType) {
-          props.type = "number"
-        } else if (field === 'triggerEnabled') {
-          props.type = 'checkbox'
-        }
         element = Components.input(props);
       }
       list.appendChild(element);
