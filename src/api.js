@@ -52,7 +52,7 @@ export const DeviceApi = {
     payload: values,
   }),
   hooks: ({ sensor }) => restRequest({
-    path: "/hooks/by/sensor",
+    path: "/hooks",
     params: { sensor },
   }),
   hooksTemplates: (sensor) => restRequest({
