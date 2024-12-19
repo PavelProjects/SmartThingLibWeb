@@ -2,29 +2,25 @@ import { DeviceApi } from "../api";
 import { Components } from "../components";
 import { toast } from "../toast";
 
+const getFieldId = (name) => `config_${name}`
+
 export const ConfigTab = {
   name: "Configuration",
   content: async () => {
-    const info = await DeviceApi.configInfo()
-      .then(({ data }) => data)
-      .catch(() => toast.error({ caption: "Failed to fetch configuration information" }));
-    if (!info) {
-      return;
-    }
-    if (Object.keys(info).length === 0) {
-      return Components.header("No config entries", "h2");
-    }
-    const values = await DeviceApi.config()
+    const configValues = await DeviceApi.config()
       .then(({ data }) => data ?? {})
       .catch(() => toast.error({ caption: "Failed to fetch configuration values" }));
     
-    const inputsList = Object.entries(info).map(([name, { caption, type }]) => 
+    if (Object.keys(configValues).length === 0) {
+      return Components.header("No config entries", "h2");
+    }
+
+    const inputsList = Object.entries(configValues).map(([name, value]) => 
       Components.input({
-        id: name,
-        label: `${caption} [${name}]`,
-        title: `System name: ${name}\nValue type: ${type}`,
-        type: type === 'boolean' ? 'checkbox' : type,
-        value: values[name] || "",
+        id: getFieldId(name),
+        label: name,
+        title: `System name: ${name}`,
+        value: value ?? "",
       })
     );
     const controls = Components.controlsHolder();
@@ -40,8 +36,8 @@ export const ConfigTab = {
             await DeviceApi.dropConfig()
               .then(() => {
                 toast.success({ caption: "All values removed" })
-                Object.keys(info).forEach((name) => {
-                  const input = document.getElementById(name)
+                Object.keys(configValues).forEach((name) => {
+                  const input = document.getElementById(getFieldId(name))
                   if (input) {
                     input.value = ""
                     input.checked = false
@@ -56,9 +52,9 @@ export const ConfigTab = {
         id: "config-save",
         label: "Save",
         onClick: async () => {
-          const values = Object.keys(info).reduce((acc, key) => {
-            const { type, value, checked } = document.getElementById(key)
-            acc[key] = type === 'checkbox' ? checked : value
+          const values = Object.keys(configValues).reduce((acc, name) => {
+            const { value } = document.getElementById(getFieldId(name)) ?? {}
+            acc[name] = value
             return acc
           }, {});
           await DeviceApi.saveConfig(values)

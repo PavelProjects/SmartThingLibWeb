@@ -15,7 +15,6 @@ export const DeviceApi = {
   features: () => restRequest({ path: "/features" }),
   info: () => restRequest({ path: "/info/system" }),
   actions: () => restRequest({ path: "/actions/info" }),
-  configInfo: () => restRequest({ path: "/config/info" }),
   getWifi: () => restRequest({ path: "/wifi" }),
   saveWifi: (payload) => restRequest({
     path: "/wifi",
@@ -41,15 +40,15 @@ export const DeviceApi = {
     })
   },
   sensors: () => restRequest({ path: `/sensors` }),
-  config: () => restRequest({ path: "/config/values" }),
+  config: () => restRequest({ path: "/config" }),
+  saveConfig: (values) => restRequest({
+    method: METHODS.POST,
+    path: "/config",
+    payload: values,
+  }),
   dropConfig: () => restRequest({
     method: METHODS.DELETE,
     path: "/config/delete/all",
-  }),
-  saveConfig: (values) => restRequest({
-    method: METHODS.POST,
-    path: "/config/values",
-    payload: values,
   }),
   hooks: ({ sensor }) => restRequest({
     path: "/hooks",
