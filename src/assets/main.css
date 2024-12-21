@@ -1,4 +1,4 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/* color palette from <https://www.nordtheme.com/> */
 :root {
   --nc0:#2e3440;
   --nc1:#3b4252;
@@ -13,7 +13,6 @@
   --cb: var(--nc0);
   --cb-m: var(--nc1);
   --cb-s: var(--nc2);
-  --cb-t: var(--nc3);
   /* border */
   --cbo: var(--nc3);
   --rbo: 0.25em;
@@ -75,7 +74,7 @@ dialog > div {
 
 ::backdrop {
   opacity: 0.7;
-  background-color: var(--cb-m);
+  background-color: var(--nc2);
 }
 
 .header {
