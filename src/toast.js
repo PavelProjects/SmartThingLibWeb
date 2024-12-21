@@ -18,13 +18,13 @@ function removeToast(id) {
 function getColor(type) {
   switch (type) {
     case TOAST_TYPE.ERROR:
-      return "rgb(171, 12, 12)";
-    case TOAST_TYPE.SUCCESS:
-      return "rgb(2, 147, 74)";
+      return "var(--nc11)";
     case TOAST_TYPE.WARNING:
-      return "rgb(147, 106, 2)";
+      return "var(--nc12)";
+    case TOAST_TYPE.SUCCESS:
+      return "var(--nc14)";
     default:
-      return "rgb(0, 112, 122)";
+      return "var(--nc9)";
   }
 }
 

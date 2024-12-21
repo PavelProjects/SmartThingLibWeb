@@ -52,7 +52,7 @@ export const Components = {
       };
     }
     if (danger) {
-      btn.style.backgroundColor = "var(--cd)";
+      btn.style.backgroundColor = "var(--nc11)";
     }
     if (!visible) {
       btn.style.display = "none";

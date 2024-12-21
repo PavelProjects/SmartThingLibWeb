@@ -1,12 +1,56 @@
-@import "./base.css";
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --nc0:#2e3440;
+  --nc1:#3b4252;
+  --nc2:#434c5e;
+  --nc3:#4c566a;
+  --nc9:#81a1c1;
+  --nc11:#bf616a;
+  --nc12:#d08770;
+  --nc14:#a3be8c;
+  
+  /* background */
+  --cb: var(--nc0);
+  --cb-m: var(--nc1);
+  --cb-s: var(--nc2);
+  --cb-t: var(--nc3);
+  /* border */
+  --cbo: var(--nc3);
+  --rbo: 0.25em;
+  /* text */
+  --ct: rgb(236, 239, 244);
+
+  --dg: 2px;
+  --miw: 250px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ct);
+  background: var(--cb);
+  line-height: 1.6;
+  font-family: Inter;
+  font-size: 15px;
+}
 
 #control-panel {
   display: flex;
   flex-direction: row;
-  column-gap: var(--dp);
+  column-gap: var(--dg);
   margin: 0 auto;
   width: 1000px;
+  opacity: 0;
+  transition: 0.5s;
 }
+
 #toasts-list {
   position: absolute;
   bottom: 5px;
@@ -15,7 +59,7 @@
 }
 
 dialog {
-  color: var(--ct);
+  color: inherit;
   padding: 0;
   margin: auto;
   background-color: var(--cb);
@@ -26,24 +70,24 @@ dialog {
 dialog > div {
   width: 100%;
   height: 100%;
-  padding: var(--dp);
+  padding: var(--dg);
 }
 
 ::backdrop {
-  background-color: var(--cb-t);
+  opacity: 0.7;
+  background-color: var(--cb-m);
 }
 
 .header {
   text-align: center;
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
 }
 
 .btn {
-  background-color: hsla(160, 100%, 37%, 0.2);
+  background-color: #88c0d0;
   border-color: transparent;
   border-radius: var(--rbo);
-  color: black;
+  color: rgb(59, 66, 82);
 }
 
 .btn:hover {
@@ -53,7 +97,6 @@ dialog > div {
 
 input,
 select {
-  min-height: 40px;
   font-size: 18px;
   background-color: var(--cb);
   color: var(--ct);
@@ -69,7 +112,7 @@ select {
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--dp);
+  gap: var(--dg);
   height: 100%;
 }
 .field-container {
@@ -97,7 +140,7 @@ select {
 .list {
   display: flex;
   flex-direction: column;
-  row-gap: var(--dp);
+  row-gap: var(--dg);
 }
 .required {
   background-color: hsla(3, 100%, 37%, 0.2);
@@ -121,7 +164,7 @@ select {
   word-wrap: break-word;
 }
 .menu-items h2:hover {
-  transition: background-color 0.5s;
+  transition: 0.5s;
   background-color: var(--cb-m);
 }
 
@@ -137,7 +180,7 @@ select {
   margin-top: auto;
   display: flex;
   flex-direction: row;
-  gap: var(--dp);
+  gap: var(--dg);
 }
 .controls-holder button {
   width: 100%;
@@ -145,18 +188,15 @@ select {
 
 .hook-header {
   flex: 1 1 auto;
-  text-align: start;
-}
-.hook-header {
   display: flex;
   flex-direction: row;
-  gap: var(--dp);
+  gap: var(--dg);
   position: relative;
 }
 .hooks-list-view {
   max-height: 80vh;
   overflow-y: auto;
-  margin-top: var(--dp);
+  margin-top: var(--dg);
 }
 .hooks-list-view .container {
   border-top: 1px solid var(--cbo);
@@ -164,20 +204,17 @@ select {
 .hook-view-controls {
   display: flex;
   flex-direction: row-reverse;
-  column-gap: var(--dp);
+  column-gap: var(--dg);
   align-items: center;
 }
-
 .toast {
   position: relative;
-  border: 1px solid var(--cbo);
+  border: 1px;
   border-radius: var(--rbo);
   width: 300px;
   min-height: 50px;
-  padding: 10px 5px 5px 5px;
+  padding: 5px;
   z-index: 1000;
-}
-.toast h2, h3 {
   text-align: center;
 }
 .br {
@@ -187,6 +224,6 @@ select {
   width: 100%;
   display: flex;
   flex-direction: row;
-  column-gap: var(--dp);
+  column-gap: var(--dg);
   align-items: center;
 }

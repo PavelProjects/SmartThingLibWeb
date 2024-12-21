@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   for (const [key, value] of Object.entries(defaultTabs)) {
     if (features[key] === undefined || features[key] === true) {
       if (typeof value === 'function') {
-        tabs[key] = await value()
+        tabs[key] = await value().catch(() => toast.error({ caption: "failed to load tab" }))
       } else {
         tabs[key] = value
       }
@@ -45,6 +45,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     
   const mainTabs = new Menu("main-menu", tabs);
   window.features = features;
-  document.getElementById("control-panel").appendChild(mainTabs.create());
+  const panel = document.getElementById("control-panel");
+  panel.appendChild(mainTabs.create());
   mainTabs.open("info");
+  panel.style.opacity = '1';
 })
