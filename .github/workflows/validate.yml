@@ -2,9 +2,9 @@ name: Validate
 
 on:
   push:
-    branches: [ "main", "develop", "feature/*" ]
+    branches: [ "feature/*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   lint-check:
