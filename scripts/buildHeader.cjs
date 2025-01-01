@@ -11,6 +11,7 @@ const PLACEHOLDERS = {
   ACTIONS: ["actions/script.js", "{ACTIONS}"],
   SENSORS: ["sensors/script.js", "{SENSORS}"],
   HOOKS: ["hooks/script.js", "{HOOKS}"],
+  CONFIG: ["config/script.js", "{CONFIG}"],
   MINIMAL_INDEX: ["minimal/index.html", "{MINIMAL_INDEX}"],
   MINIMAL_SCRIPT: ["minimal/script.js", "{MINIMAL_SCRIPT}"],
 }
@@ -25,22 +26,25 @@ const HEADER_TEMPLATE = `
 */
 
 #include "Features.h"
+
 #if ENABLE_WEB_PAGE 
-const char* WEB_PAGE_MAIN = R"=====(${PLACEHOLDERS.INDEX[1]})=====";
+  const char* WEB_PAGE_MAIN = R"=====(${PLACEHOLDERS.INDEX[1]})=====";
 
-const char* STYLE_PAGE_MAIN = R"=====(${PLACEHOLDERS.STYLES[1]})=====";
+  const char* STYLE_PAGE_MAIN = R"=====(${PLACEHOLDERS.STYLES[1]})=====";
 
-const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.SCRIPT[1]})=====";
+  const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.SCRIPT[1]})=====";
 
-const char* SCRIPT_ACTIONS_TAB = R"=====(${PLACEHOLDERS.ACTIONS[1]})=====";
+  const char* SCRIPT_ACTIONS_TAB = R"=====(${PLACEHOLDERS.ACTIONS[1]})=====";
 
-const char* SCRIPT_SENSORS_TAB = R"=====(${PLACEHOLDERS.SENSORS[1]})=====";
+  const char* SCRIPT_SENSORS_TAB = R"=====(${PLACEHOLDERS.SENSORS[1]})=====";
 
-const char* SCRIPT_HOOKS_TAB = R"=====(${PLACEHOLDERS.HOOKS[1]})=====";
+  const char* SCRIPT_HOOKS_TAB = R"=====(${PLACEHOLDERS.HOOKS[1]})=====";
+
+  const char* SCRIPT_CONFIG_TAB = R"=====(${PLACEHOLDERS.CONFIG[1]})=====";
 #else
-const char* WEB_PAGE_MAIN = R"=====(${PLACEHOLDERS.MINIMAL_INDEX[1]})=====";
+  const char* WEB_PAGE_MAIN = R"=====(${PLACEHOLDERS.MINIMAL_INDEX[1]})=====";
 
-const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.MINIMAL_SCRIPT[1]})=====";
+  const char* SCRIPT_PAGE_MAIN = R"=====(${PLACEHOLDERS.MINIMAL_SCRIPT[1]})=====";
 #endif
 
 #endif`;

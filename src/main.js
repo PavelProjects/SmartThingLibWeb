@@ -2,13 +2,10 @@ import { Menu } from "./menu";
 
 import { InfoTab } from "./tabs/info";
 import { WifiTab } from "./tabs/wifi";
-import { ConfigTab } from "./tabs/configuration";
 import { MetricsTab } from "./tabs/metrics";
 import { toast } from "./toast";
 import { DangerTab } from "./tabs/danger";
 import { DeviceApi } from "./api.js";
-
-console.log("Version: alpha")
 
 const defaultTabs = {
   info: InfoTab,
@@ -21,7 +18,10 @@ const defaultTabs = {
     const { SensorsTab } = await import( "./tabs/sensors.js")
     return SensorsTab
   },
-  configuration: ConfigTab,
+  config: async () => {
+    const { ConfigTab } = await import("./tabs/config.js");
+    return ConfigTab
+  },
   metrics: MetricsTab,
   danger: DangerTab,
 };
