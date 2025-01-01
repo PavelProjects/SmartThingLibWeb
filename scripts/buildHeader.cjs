@@ -8,12 +8,12 @@ const PLACEHOLDERS = {
   INDEX: ["index.html", "{INDEX}"],
   STYLES: ["assets/styles.css", "{STYLES}"],
   SCRIPT: ["assets/script.js", "{SCRIPT}"],
-  ACTIONS: ["actions/script.js", "{ACTIONS}"],
-  SENSORS: ["sensors/script.js", "{SENSORS}"],
-  HOOKS: ["hooks/script.js", "{HOOKS}"],
-  CONFIG: ["config/script.js", "{CONFIG}"],
+  ACTIONS: ["assets/actions.js", "{ACTIONS}"],
+  SENSORS: ["assets/sensors.js", "{SENSORS}"],
+  HOOKS: ["assets/hooks.js", "{HOOKS}"],
+  CONFIG: ["assets/config.js", "{CONFIG}"],
   MINIMAL_INDEX: ["minimal/index.html", "{MINIMAL_INDEX}"],
-  MINIMAL_SCRIPT: ["minimal/script.js", "{MINIMAL_SCRIPT}"],
+  MINIMAL_SCRIPT: ["assets/minimal-script.js", "{MINIMAL_SCRIPT}"],
 }
 
 const HEADER_TEMPLATE = `

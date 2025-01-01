@@ -26,12 +26,12 @@ export default defineConfig({
         manualChunks: {},
         entryFileNames: (data) => {
           if (data.name === 'minimalScript') {
-            return 'minimal/script.js'
+            return 'assets/minimal-script.js'
           }
           return 'assets/script.js'
         },
         assetFileNames: 'assets/styles.css',
-        chunkFileNames: '[name]/script.js'
+        chunkFileNames: 'assets/[name].js'
       }
     },
     minify: 'terser',
