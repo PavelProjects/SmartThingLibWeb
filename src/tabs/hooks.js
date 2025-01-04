@@ -87,26 +87,34 @@ export class HookView {
 
     const list = Components.list();
     this.fields.forEach(([field, value]) => {
-      const { required, type, values } = this.template[field];
-      const props = {
+      const settings = {
         id: `${this.id}_${field}`,
         label: normalizeSystemName(field),
-        value,
         disabled: true,
-        type: type ?? "text",
+        type: "text",
+        value,
         props: {
-          required: required ?? false,
-        },
-      };
+          required: false,
+        }
+      }
 
       let element;
-      if (values) {
-        element = Components.combobox({
-          ...props,
-          values: this.template[field]["values"],
-        });
+      if (this.template[field]) {
+        const { required, type, values } = this.template[field];
+        settings.required = required
+        if (type) {
+          settings.type = type
+        }
+        if (values) {
+          settings['values'] = values
+        }
+        settings.props.required = required ?? false
+      }
+
+      if (settings['values']) {
+        element = Components.combobox(settings);
       } else {
-        element = Components.input(props);
+        element = Components.input(settings);
       }
       list.appendChild(element);
     });
