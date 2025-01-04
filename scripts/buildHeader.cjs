@@ -1,9 +1,14 @@
 const fs = require("fs")
 const pakage = require("../package.json")
+const childProcess = require('child_process')
 
 const DIST_FOLDER = "./dist/"
 const RESULT_PATH = DIST_FOLDER + "WebPageAssets.h"
-
+const HEAD_BRANCH = childProcess.execSync('git rev-parse --abbrev-ref HEAD')
+  .toString().trim()
+const HEAD_HASH = childProcess.execSync('git rev-parse HEAD')
+  .toString().trim()
+  
 const PLACEHOLDERS = {
   INDEX: ["index.html", "{INDEX}"],
   STYLES: ["assets/styles.css", "{STYLES}"],
@@ -23,6 +28,8 @@ const HEADER_TEMPLATE = `
 /*
   Build version: ${pakage.version}
   Build date: ${new Date().toISOString()}
+  Build branch: ${HEAD_BRANCH}
+  Build commit: ${HEAD_HASH}
 */
 
 #include "Features.h"
