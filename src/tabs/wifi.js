@@ -27,7 +27,6 @@ export const WifiTab = {
         id: "password",
         label: "password",
         value: settings.password || "",
-        type: "password",
       }),
       Components.combobox({
         id: "mode",
